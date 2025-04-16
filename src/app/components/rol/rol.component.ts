@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RolService } from '../../services/rol/rol.service';
+import { RolPermisoService } from '../../services/rol-permiso/rol-permiso.service';
 import { Rol } from '../../models/rol/rol.model';
+import { RolPermiso } from '../../models/rol-permiso/rol-permiso.model';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FilterService } from '../../services/filter/filter.service';
@@ -13,21 +15,28 @@ import { PaginationService } from '../../services/pagination/pagination.service'
   standalone: true,
   imports: [CommonModule, HttpClientModule, FormsModule],
   templateUrl: './rol.component.html',
-  styleUrls: ['./rol.component.scss']
+  styleUrls: ['./rol.component.scss'],
 })
 export class RolComponent {
   roles: Rol[] = [];
   rolesFiltrados: Rol[] = [];
   rolesPaginados: Rol[] = [];
+  rolPermisos: RolPermiso[] = [];
   textoBusqueda: string = '';
   paginaActual: number = 1;
   elementosPorPagina: number = 5;
   totalPaginas: number = 0;
-  mostrarModal: boolean = false;
+
+  // Modal de eliminación
+  mostrarModalEliminar: boolean = false;
   rolAEliminarId: number | null = null;
+
+  // Modal de ver permisos vinculados
+  mostrarModalPermisos: boolean = false;
 
   constructor(
     private rolService: RolService,
+    private rolPermisoService: RolPermisoService,
     private router: Router,
     private filterService: FilterService,
     private paginationService: PaginationService
@@ -43,6 +52,18 @@ export class RolComponent {
       this.rolesFiltrados = data;
       this.calcularPaginacion();
     });
+  }
+
+  verPermisosPorRol(id: number): void {
+    this.rolPermisoService.obtenerRolPermisos().subscribe((data) => {
+      this.rolPermisos = data.filter(rp => rp.rol?.id === id);
+      this.mostrarModalPermisos = true;
+    });
+  }
+
+  cerrarModalPermisos(): void {
+    this.mostrarModalPermisos = false;
+    this.rolPermisos = [];
   }
 
   eliminarRol(id: number): void {
@@ -61,19 +82,18 @@ export class RolComponent {
 
   confirmarEliminarRol(id: number): void {
     this.rolAEliminarId = id;
-    this.mostrarModal = true;
+    this.mostrarModalEliminar = true;
   }
 
   eliminarRolConfirmado(): void {
     if (this.rolAEliminarId !== null) {
       this.eliminarRol(this.rolAEliminarId);
-      this.cerrarModal();
+      this.cerrarModalEliminar();
     }
   }
 
-  cerrarModal(): void {
-    this.mostrarModal = false;
-    this.rolAEliminarId = null;
+  cerrarModalEliminar(): void {
+    this.mostrarModalEliminar = false;
   }
 
   filtrarRoles(): void {

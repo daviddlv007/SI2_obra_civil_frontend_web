@@ -19,6 +19,10 @@ import { PermisoCreateComponent } from './components/administrador/permiso/permi
 import { PermisoUpdateComponent } from './components/administrador/permiso/permiso-update/permiso-update.component';
 
 import { RolComponent } from './components/rol/rol.component';
+import { RolCreateComponent } from './components/rol/rol-create/rol-create.component';
+import { RolUpdateComponent } from './components/rol/rol-update/rol-update.component';
+
+
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
 import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usuario-update.component';
@@ -48,6 +52,8 @@ export const routes: Routes = [
       { path: 'permiso-update/:id', component: PermisoUpdateComponent },
 
       { path: 'rol', component: RolComponent },
+      { path: 'rol-create', component: RolCreateComponent },
+      { path: 'rol-update/:id', component: RolUpdateComponent },
 
       { path: 'usuario', component: UsuarioComponent },
       { path: 'usuario-create', component: UsuarioCreateComponent },

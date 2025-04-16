@@ -1,60 +1,62 @@
-<div *ngIf="mostrarModal" class="modal">
-    <div class="modal-content">
-      <h3>¿Estás seguro de eliminar este rol?</h3>
-      <button (click)="eliminarRolConfirmado()">Confirmar</button>
-      <button (click)="cerrarModal()">Cancelar</button>
-    </div>
+<div>
+  <h2>Roles</h2>
+
+  <!-- Campo de búsqueda -->
+  <input type="text" [(ngModel)]="textoBusqueda" (input)="filtrarRoles()" placeholder="Buscar...">
+
+  <!-- Botón para registrar un nuevo rol -->
+  <button (click)="irACrearRol()" style="float: right; margin-bottom: 10px;">Registrar</button>
+
+  <!-- Tabla para mostrar los roles -->
+  <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; margin-top: 20px;">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Permisos Vinculados</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of rolesPaginados">
+        <td>{{ r.nombre }}</td>
+        <td>{{ r.descripcion }}</td>
+        <td>
+          <button (click)="verPermisosPorRol(r.id ?? 0)">Ver Permisos</button>
+        </td>
+        <td>
+          <button (click)="irAEditarRol(r.id ?? 0)">Editar</button>
+          <button (click)="confirmarEliminarRol(r.id ?? 0)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Controles de paginación -->
+  <div style="margin-top: 20px;">
+    <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">Anterior</button>
+    <span> Página {{ paginaActual }} </span>
+    <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">Siguiente</button>
   </div>
-  
-  <div>
-    <h2>Roles</h2>
-    <input 
-      type="text" 
-      [(ngModel)]="textoBusqueda" 
-      (input)="filtrarRoles()" 
-      placeholder="Buscar por nombre o descripción..."
-    >
-    <button (click)="irACrearRol()" class="btn-crear">
-      <i class="fas fa-plus"></i> Nuevo Rol
-    </button>
-  
-    <table>
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let r of rolesPaginados">
-          <td>{{ r.nombre }}</td>
-          <td>{{ r.descripcion }}</td>
-          <td class="acciones">
-            <button (click)="irAEditarRol(r.id ?? 0)" class="btn-editar">
-              <i class="fas fa-edit"></i> Editar
-            </button>
-            <button (click)="confirmarEliminarRol(r.id ?? 0)" class="btn-eliminar">
-              <i class="fas fa-trash"></i> Eliminar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <div class="paginacion">
-      <button 
-        (click)="cambiarPagina('previous')" 
-        [disabled]="paginaActual === 1"
-      >
-        <i class="fas fa-chevron-left"></i> Anterior
-      </button>
-      <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
-      <button 
-        (click)="cambiarPagina('next')" 
-        [disabled]="paginaActual === totalPaginas"
-      >
-        Siguiente <i class="fas fa-chevron-right"></i>
-      </button>
-    </div>
+</div>
+
+<!-- Modal de confirmación para eliminar un rol -->
+<div *ngIf="mostrarModalEliminar" class="modal-eliminar">
+  <div class="modal-content-eliminar">
+    <h3>¿Estás seguro de que deseas eliminar este rol?</h3>
+    <button (click)="eliminarRolConfirmado()">Confirmar</button>
+    <button (click)="cerrarModalEliminar()">Cancelar</button>
   </div>
+</div>
+
+<!-- Modal de permisos vinculados -->
+<div *ngIf="mostrarModalPermisos" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="cerrarModalPermisos()">&times;</span>
+    <h3>Permisos vinculados</h3>
+    <ul *ngIf="rolPermisos.length > 0">
+      <li *ngFor="let rp of rolPermisos">{{ rp.permiso?.nombre }}</li>
+    </ul>
+    <p *ngIf="rolPermisos.length === 0">No hay permisos vinculados a este rol.</p>
+  </div>
+</div>
