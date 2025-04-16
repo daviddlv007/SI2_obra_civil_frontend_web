@@ -14,7 +14,7 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { RolComponent } from './components/rol/rol.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
-
+import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usuario-update.component';
 
 export const routes: Routes = [
   { 
@@ -38,6 +38,8 @@ export const routes: Routes = [
 
       { path: 'usuario', component: UsuarioComponent },
       { path: 'usuario-create', component: UsuarioCreateComponent },
+      { path: 'usuario-update', component: UsuarioUpdateComponent },
+      { path: 'usuario-update/:id', component: UsuarioUpdateComponent },
 
       { path: '', redirectTo: 'persona', pathMatch: 'full' }
     ]
