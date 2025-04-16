@@ -60,9 +60,9 @@ export const routes: Routes = [
       { path: 'usuario-update', component: UsuarioUpdateComponent },
       { path: 'usuario-update/:id', component: UsuarioUpdateComponent },
 
-      { path: '', redirectTo: 'persona', pathMatch: 'full' },
+      { path: '', redirectTo: 'usuario', pathMatch: 'full' },
     ],
   },
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: 'persona' },
+  { path: '**', redirectTo: 'usuario' },
 ];
