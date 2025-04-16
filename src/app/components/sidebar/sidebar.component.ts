@@ -12,12 +12,20 @@ import { CommonModule } from '@angular/common';
 export class SidebarComponent {
   menus = [
     { title: 'Home', route: '/', expanded: false, children: [] },
-    { title: 'Menú 1', expanded: false, children: [
+
+    { title: 'Gestionar Usuarios', expanded: false, children: [
+      { title: 'Usuario', route: '/usuario' },
+      { title: 'Rol', route: '/rol' },
+    ]},
+    { title: 'Gestionar Inventario', expanded: false, children: [
+    ]},
+    { title: 'Gestionar Obras', expanded: false, children: [
+    ]},
+    { title: 'Modelos', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Auto', route: '/auto' },
       { title: 'Perro', route: '/perro' },
-      { title: 'Rol', route: '/rol' },
-    ]},
+    ]}/*,
     { title: 'Menú 2', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Settings', route: '/persona/settings' }
@@ -25,7 +33,7 @@ export class SidebarComponent {
     { title: 'Menú 3', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Settings', route: '/persona/settings' }
-    ]}
+    ]}*/
   ];
 
   toggleMenu(menu: any) {
