@@ -13,6 +13,7 @@ import { AuthGuard } from './guards/auth/auth.guard';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { RolComponent } from './components/rol/rol.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
+import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
 
 
 export const routes: Routes = [
@@ -36,6 +37,7 @@ export const routes: Routes = [
       { path: 'rol', component: RolComponent },
 
       { path: 'usuario', component: UsuarioComponent },
+      { path: 'usuario-create', component: UsuarioCreateComponent },
 
       { path: '', redirectTo: 'persona', pathMatch: 'full' }
     ]
