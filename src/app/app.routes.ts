@@ -23,7 +23,6 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
 import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usuario-update.component';
 
-
 export const routes: Routes = [
   {
     path: '',
@@ -42,15 +41,12 @@ export const routes: Routes = [
       { path: 'perro-create', component: PerroCreateComponent },
       { path: 'perro-update/:id', component: PerroUpdateComponent },
 
-
       //ADMINISTRADOR
       //permiso
       { path: 'permiso', component: PermisoListComponent },
       { path: 'permiso-create', component: PermisoCreateComponent },
       { path: 'permiso-update/:id', component: PermisoUpdateComponent },
 
-      { path: '', redirectTo: 'persona', pathMatch: 'full' },
-    
       { path: 'rol', component: RolComponent },
 
       { path: 'usuario', component: UsuarioComponent },
@@ -58,9 +54,8 @@ export const routes: Routes = [
       { path: 'usuario-update', component: UsuarioUpdateComponent },
       { path: 'usuario-update/:id', component: UsuarioUpdateComponent },
 
-      { path: '', redirectTo: 'persona', pathMatch: 'full' }
-    ]
-
+      { path: '', redirectTo: 'persona', pathMatch: 'full' },
+    ],
   },
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: 'persona' },
