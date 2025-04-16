@@ -1,0 +1,158 @@
+<div class="form-container">
+  <h2>Actualizar Usuario</h2>
+
+  <form (ngSubmit)="actualizarUsuario()" #usuarioForm="ngForm">
+    <!-- Nombre -->
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input 
+        id="nombre"
+        [(ngModel)]="usuario.nombre" 
+        name="nombre" 
+        placeholder="Nombre" 
+        required 
+        minlength="2"
+        #nombre="ngModel" 
+        class="form-control"
+      />
+      <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="error-message">
+        <small *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</small>
+        <small *ngIf="nombre.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Apellido -->
+    <div class="form-group">
+      <label for="apellido">Apellido:</label>
+      <input 
+        id="apellido"
+        [(ngModel)]="usuario.apellido" 
+        name="apellido" 
+        placeholder="Apellido" 
+        required 
+        minlength="2"
+        #apellido="ngModel" 
+        class="form-control"
+      />
+      <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)" class="error-message">
+        <small *ngIf="apellido.errors?.['required']">El apellido es obligatorio.</small>
+        <small *ngIf="apellido.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Correo -->
+    <div class="form-group">
+      <label for="correo">Correo:</label>
+      <input 
+        id="correo"
+        [(ngModel)]="usuario.correo" 
+        name="correo" 
+        type="email" 
+        placeholder="Correo electrónico" 
+        required 
+        #correo="ngModel" 
+        class="form-control"
+      />
+      <div *ngIf="correo.invalid && (correo.dirty || correo.touched)" class="error-message">
+        <small *ngIf="correo.errors?.['required']">El correo es obligatorio.</small>
+        <small *ngIf="correo.errors?.['email']">Ingrese un correo válido.</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="telefono">Teléfono:</label>
+      <input 
+        id="telefono"
+        [(ngModel)]="usuario.telefono" 
+        name="telefono" 
+        placeholder="Teléfono" 
+        required 
+        minlength="8"  
+        #telefono="ngModel" 
+        class="form-control"
+      />
+      <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="error-message">
+        <small *ngIf="telefono.errors?.['required']">El teléfono es obligatorio.</small>
+        <small *ngIf="telefono.errors?.['minlength']">Debe tener al menos 8 caracteres.</small> <!-- Actualizado aquí -->
+      </div>
+    </div>
+    
+    <!-- Dirección -->
+    <div class="form-group">
+      <label for="direccion">Dirección:</label>
+      <input 
+        id="direccion"
+        [(ngModel)]="usuario.direccion" 
+        name="direccion" 
+        placeholder="Dirección" 
+        required 
+        #direccion="ngModel" 
+        class="form-control"
+      />
+      <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)" class="error-message">
+        <small *ngIf="direccion.errors?.['required']">La dirección es obligatoria.</small>
+      </div>
+    </div>
+
+    <!-- Fecha de Nacimiento -->
+    <div class="form-group">
+      <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+      <input 
+        id="fechaNacimiento"
+        [(ngModel)]="usuario.fechaNacimiento" 
+        name="fechaNacimiento" 
+        type="date" 
+        required 
+        #fechaNacimiento="ngModel" 
+        class="form-control"
+      />
+      <div *ngIf="fechaNacimiento.invalid && (fechaNacimiento.dirty || fechaNacimiento.touched)" class="error-message">
+        <small *ngIf="fechaNacimiento.errors?.['required']">La fecha de nacimiento es obligatoria.</small>
+      </div>
+    </div>
+
+    <!-- Género -->
+    <div class="form-group">
+      <label for="genero">Género:</label>
+      <select id="genero" [(ngModel)]="usuario.genero" name="genero" required class="form-control">
+        <option value="">Seleccione un género</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+        <option value="Otro">Otro</option>
+      </select>
+    </div>
+
+    <!-- Número de Identificación -->
+    <div class="form-group">
+      <label for="numeroIdentificacion">Número de Identificación:</label>
+      <input 
+        id="numeroIdentificacion"
+        [(ngModel)]="usuario.numeroIdentificacion" 
+        name="numeroIdentificacion" 
+        placeholder="Número de Identificación" 
+        required 
+        #numeroIdentificacion="ngModel" 
+        class="form-control"
+      />
+      <div *ngIf="numeroIdentificacion.invalid && (numeroIdentificacion.dirty || numeroIdentificacion.touched)" class="error-message">
+        <small *ngIf="numeroIdentificacion.errors?.['required']">El número de identificación es obligatorio.</small>
+      </div>
+    </div>
+
+    <!-- Rol -->
+    <div class="form-group">
+      <label for="rol">Rol:</label>
+      <select id="rol" [(ngModel)]="usuario.rol.id" name="rol" required class="form-control">
+        <option *ngFor="let rol of roles" [value]="rol.id">
+          {{ rol.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Botones -->
+    <div class="button-container">
+      <button type="submit" [disabled]="usuarioForm.invalid" class="submit-btn">Actualizar</button>
+      <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
+    </div>
+  </form>
+</div>

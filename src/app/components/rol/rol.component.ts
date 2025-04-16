@@ -1,112 +1,112 @@
 import { Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { AutoService } from '../../services/auto/auto.service';
-import { Auto } from '../../models/auto/auto.model';
+import { RolService } from '../../services/rol/rol.service';
+import { Rol } from '../../models/rol/rol.model';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FilterService } from '../../services/filter/filter.service';
 import { PaginationService } from '../../services/pagination/pagination.service';
 
 @Component({
-  selector: 'app-auto',
+  selector: 'app-rol',
   standalone: true,
   imports: [CommonModule, HttpClientModule, FormsModule],
-  templateUrl: './auto.component.html',
-  styleUrls: ['./auto.component.scss'],
+  templateUrl: './rol.component.html',
+  styleUrls: ['./rol.component.scss']
 })
-export class AutoComponent {
-  autos: Auto[] = [];
-  autosFiltrados: Auto[] = [];
-  autosPaginados: Auto[] = [];
+export class RolComponent {
+  roles: Rol[] = [];
+  rolesFiltrados: Rol[] = [];
+  rolesPaginados: Rol[] = [];
   textoBusqueda: string = '';
   paginaActual: number = 1;
   elementosPorPagina: number = 5;
   totalPaginas: number = 0;
   mostrarModal: boolean = false;
-  autoAEliminarId: number | null = null;
+  rolAEliminarId: number | null = null;
 
   constructor(
-    private autoService: AutoService,
+    private rolService: RolService,
     private router: Router,
     private filterService: FilterService,
     private paginationService: PaginationService
   ) {}
-//1
+
   ngOnInit() {
-    this.obtenerAutos();
+    this.obtenerRoles();
   }
-//2
-  obtenerAutos(): void {
-    this.autoService.obtenerAutos().subscribe((data) => {
-      this.autos = data;
-      this.autosFiltrados = data;
+
+  obtenerRoles(): void {
+    this.rolService.obtenerRoles().subscribe((data) => {
+      this.roles = data;
+      this.rolesFiltrados = data;
       this.calcularPaginacion();
     });
   }
-//3
-  eliminarAuto(id: number): void {
-    this.autoService.eliminarAuto(id).subscribe(() => {
-      this.obtenerAutos();
+
+  eliminarRol(id: number): void {
+    this.rolService.eliminarRol(id).subscribe(() => {
+      this.obtenerRoles();
     });
   }
-//4
-  irACrearAuto(): void {
-    this.router.navigate(['/auto-create']);
+
+  irACrearRol(): void {
+    this.router.navigate(['/rol-create']);
   }
-//5
-  irAEditarAuto(id: number): void {
-    this.router.navigate([`/auto-update/${id}`]);
+
+  irAEditarRol(id: number): void {
+    this.router.navigate([`/rol-update/${id}`]);
   }
-//6
-  confirmarEliminarAuto(id: number): void {
-    this.autoAEliminarId = id;
+
+  confirmarEliminarRol(id: number): void {
+    this.rolAEliminarId = id;
     this.mostrarModal = true;
   }
-//7
-  eliminarAutoConfirmado(): void {
-    if (this.autoAEliminarId !== null) {
-      this.eliminarAuto(this.autoAEliminarId);
+
+  eliminarRolConfirmado(): void {
+    if (this.rolAEliminarId !== null) {
+      this.eliminarRol(this.rolAEliminarId);
       this.cerrarModal();
     }
   }
-//8
+
   cerrarModal(): void {
     this.mostrarModal = false;
-    this.autoAEliminarId = null;
+    this.rolAEliminarId = null;
   }
-//9
-  filtrarAutos(): void {
-    this.autosFiltrados = this.filterService.filtrar(this.autos, this.textoBusqueda);
+
+  filtrarRoles(): void {
+    this.rolesFiltrados = this.filterService.filtrar(this.roles, this.textoBusqueda);
     this.paginaActual = 1;
     this.calcularPaginacion();
   }
-//10
+
   calcularPaginacion(): void {
     const paginacion = this.paginationService.paginate(
-      this.autosFiltrados,
+      this.rolesFiltrados,
       this.paginaActual,
       this.elementosPorPagina
     );
     this.totalPaginas = paginacion.totalPages;
-    this.autosPaginados = paginacion.paginatedData;
+    this.rolesPaginados = paginacion.paginatedData;
   }
-//11
+
   cambiarPagina(direccion: string): void {
     this.paginaActual = this.paginationService.changePage(
       this.paginaActual,
       direccion as 'previous' | 'next',
       this.totalPaginas
     );
-    this.actualizarAutosPaginados();
+    this.actualizarRolesPaginados();
   }
-//12
-  actualizarAutosPaginados(): void {
+
+  actualizarRolesPaginados(): void {
     const paginacion = this.paginationService.paginate(
-      this.autosFiltrados,
+      this.rolesFiltrados,
       this.paginaActual,
       this.elementosPorPagina
     );
-    this.autosPaginados = paginacion.paginatedData;
+    this.rolesPaginados = paginacion.paginatedData;
   }
 }
