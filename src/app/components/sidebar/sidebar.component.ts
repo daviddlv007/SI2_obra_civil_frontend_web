@@ -15,7 +15,8 @@ export class SidebarComponent {
     { title: 'Menú 1', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Auto', route: '/auto' },
-      { title: 'Perro', route: '/perro' }
+      { title: 'Perro', route: '/perro' },
+      { title: 'Rol', route: '/rol' },
     ]},
     { title: 'Menú 2', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
