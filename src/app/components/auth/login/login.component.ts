@@ -32,7 +32,7 @@ export class LoginComponent {
       const { correo, contrasena } = this.loginForm.value;
       this.authService.login(correo, contrasena).subscribe({
         next: () => {
-          this.router.navigate(['/persona']);
+          this.router.navigate(['/usuario']);
         },
         error: (err) => {
           this.errorMessage = 'Credenciales incorrectas';
