@@ -13,15 +13,21 @@ export class SidebarComponent {
   menus = [
     { title: 'Home', route: '/', expanded: false, children: [] },
 
-    { title: 'Gestionar Usuarios', expanded: false, children: [
-      { title: 'Usuario', route: '/usuario' },
-      { title: 'Rol', route: '/rol' },
-      { title: 'Permiso', route: '/permiso' },
-    ]},
-    { title: 'Gestionar Inventario', expanded: false, children: [
-    ]},
-    { title: 'Gestionar Obras', expanded: false, children: [
-    ]},
+    {
+      title: 'Gestionar Usuarios',
+      expanded: false,
+      children: [
+        { title: 'Usuario', route: '/usuario' },
+        { title: 'Rol', route: '/rol' },
+        { title: 'Permiso', route: '/permiso' },
+      ],
+    },
+    {
+      title: 'Proyecto',
+      expanded: false,
+      children: [{ title: 'Obra-civil', route: '/obra-civil' }],
+    },
+    { title: 'Gestionar Obras', expanded: false, children: [] },
     /*{ title: 'Modelos', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Auto', route: '/auto' },
@@ -35,7 +41,6 @@ export class SidebarComponent {
       { title: 'Persona', route: '/persona' },
       { title: 'Settings', route: '/persona/settings' }
     ]}*/
-
   ];
 
   toggleMenu(menu: any) {

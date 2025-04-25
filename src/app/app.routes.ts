@@ -12,7 +12,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
-//ADMINISTRADOR
+//USUARIO
 //permiso
 import { PermisoListComponent } from './components/administrador/permiso/permiso-list/permiso-list.component';
 import { PermisoCreateComponent } from './components/administrador/permiso/permiso-create/permiso-create.component';
@@ -22,10 +22,15 @@ import { RolComponent } from './components/rol/rol.component';
 import { RolCreateComponent } from './components/rol/rol-create/rol-create.component';
 import { RolUpdateComponent } from './components/rol/rol-update/rol-update.component';
 
-
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
 import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usuario-update.component';
+
+//PROYECTO
+//obra civil
+import { ObracivilListComponent } from './components/proyecto/obracivil/obracivil-list/obracivil-list.component';
+import { ObracivilCreateComponent } from './components/proyecto/obracivil/obracivil-create/obracivil-create.component';
+import { ObracivilUpdateComponent } from './components/proyecto/obracivil/obracivil-update/obracivil-update.component';
 
 export const routes: Routes = [
   {
@@ -45,7 +50,7 @@ export const routes: Routes = [
       { path: 'perro-create', component: PerroCreateComponent },
       { path: 'perro-update/:id', component: PerroUpdateComponent },
 
-      //ADMINISTRADOR
+      //USUARIO
       //permiso
       { path: 'permiso', component: PermisoListComponent },
       { path: 'permiso-create', component: PermisoCreateComponent },
@@ -59,6 +64,12 @@ export const routes: Routes = [
       { path: 'usuario-create', component: UsuarioCreateComponent },
       { path: 'usuario-update', component: UsuarioUpdateComponent },
       { path: 'usuario-update/:id', component: UsuarioUpdateComponent },
+
+      //PROYECTO
+      //obra civil
+      { path: 'obra-civil', component: ObracivilListComponent },
+      { path: 'obra-civil-create', component: ObracivilCreateComponent },
+      { path: 'obra-civil-update/:id', component: ObracivilUpdateComponent },
 
       { path: '', redirectTo: 'usuario', pathMatch: 'full' },
     ],
