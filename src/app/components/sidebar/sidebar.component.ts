@@ -20,6 +20,7 @@ export class SidebarComponent {
         { title: 'Usuario', route: '/usuario' },
         { title: 'Rol', route: '/rol' },
         { title: 'Permiso', route: '/permiso' },
+        { title: 'Backup', route: '/backup-restore' },
       ],
     },
     {

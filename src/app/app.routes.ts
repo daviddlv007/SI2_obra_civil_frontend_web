@@ -26,6 +26,8 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
 import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usuario-update.component';
 
+import { BackupComponent } from './components/backup-restore/backup/backup.component';
+
 //PROYECTO
 //obra civil
 import { ObracivilListComponent } from './components/proyecto/obracivil/obracivil-list/obracivil-list.component';
@@ -51,6 +53,9 @@ export const routes: Routes = [
       { path: 'perro-update/:id', component: PerroUpdateComponent },
 
       //USUARIO
+      //Backup-Restore
+      { path: 'backup-restore', component: BackupComponent },
+
       //permiso
       { path: 'permiso', component: PermisoListComponent },
       { path: 'permiso-create', component: PermisoCreateComponent },
