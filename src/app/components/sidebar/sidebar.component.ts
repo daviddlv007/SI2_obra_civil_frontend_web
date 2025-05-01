@@ -17,6 +17,8 @@ export class SidebarComponent {
       { title: 'Usuario', route: '/usuario' },
       { title: 'Rol', route: '/rol' },
       { title: 'Permiso', route: '/permiso' },
+      { title: 'Bitacora', route: '/bitacora' },
+      { title: 'Tarea', route: '/tarea' },
     ]},
     { title: 'Gestionar Inventario', expanded: false, children: [
     ]},

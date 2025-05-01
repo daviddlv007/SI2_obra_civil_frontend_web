@@ -1,0 +1,47 @@
+<div *ngIf="mostrarModal" class="modal">
+    <div class="modal-content">
+      <h3>¿Estás seguro de que deseas eliminar esta tarea?</h3>
+      <button (click)="eliminarTareaConfirmada()">Confirmar</button>
+      <button (click)="cerrarModal()">Cancelar</button>
+    </div>
+  </div>
+  
+  <div>
+    <h2>Tareas</h2>
+    <input type="text" [(ngModel)]="textoBusqueda" (input)="filtrarTareas()" placeholder="Buscar...">
+    <button (click)="irACrearTarea()" style="float: right; margin-bottom: 10px;">Registrar</button>
+    <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; margin-top: 20px;">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Estado</th>
+          <th>Prioridad</th>
+          <th>Obra Civil</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of tareasPaginadas">
+          <td>{{ t.nombre }}</td>
+          <td>{{ t.descripcion }}</td>
+          <td>{{ t.fechaInicio | date }}</td>
+          <td>{{ t.fechaFin | date }}</td>
+          <td>{{ t.estado }}</td>
+          <td>{{ t.prioridad }}</td>
+          <td>{{ t.obraCivil.nombre }}</td>
+          <td>
+            <button (click)="irAEditarTarea(t.id ?? 0)">Editar</button>
+            <button (click)="confirmarEliminarTarea(t.id ?? 0)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top: 20px;">
+      <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">Anterior</button>
+      <span> Página {{ paginaActual }} </span>
+      <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">Siguiente</button>
+    </div>
+  </div>

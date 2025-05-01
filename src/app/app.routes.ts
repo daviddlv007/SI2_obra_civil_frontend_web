@@ -27,6 +27,12 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
 import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usuario-update.component';
 
+import { BitacoraComponent } from './components/bitacora/bitacora.component';
+
+import { TareaComponent } from './components/tarea/tarea.component';
+// import { TareaCreateComponent } from './components/tarea/tarea-create/tarea-create.component';
+// import { TareaUpdateComponent } from './components/tarea/tarea-update/tarea-update.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -59,6 +65,12 @@ export const routes: Routes = [
       { path: 'usuario-create', component: UsuarioCreateComponent },
       { path: 'usuario-update', component: UsuarioUpdateComponent },
       { path: 'usuario-update/:id', component: UsuarioUpdateComponent },
+
+      { path: 'bitacora', component: BitacoraComponent },
+
+      { path: 'tarea', component: TareaComponent }, 
+      // { path: 'tarea-create', component: TareaComponent },
+      // { path: 'tarea-update/:id', component: TareaComponent },
 
       { path: '', redirectTo: 'usuario', pathMatch: 'full' },
     ],
