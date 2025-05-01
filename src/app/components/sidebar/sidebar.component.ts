@@ -26,9 +26,13 @@ export class SidebarComponent {
     {
       title: 'Proyecto',
       expanded: false,
-      children: [{ title: 'Obra-civil', route: '/obra-civil' }],
+      children: [
+        { title: 'Obra-civil', route: '/obra-civil' },
+      ],
     },
-    { title: 'Gestionar Obras', expanded: false, children: [] },
+    { title: 'Gestionar Obras', expanded: false, children: [
+      { title: 'Servicio', route: '/servicio' }
+    ] },
     /*{ title: 'Modelos', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Auto', route: '/auto' },

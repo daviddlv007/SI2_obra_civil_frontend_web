@@ -1,0 +1,42 @@
+<div *ngIf="mostrarModal" class="modal">
+  <div class="modal-content">
+    <h3>¿Estás seguro de eliminar este servicio?</h3>
+    <button (click)="eliminarServicioConfirmado()">Confirmar</button>
+    <button (click)="cerrarModal()">Cancelar</button>
+  </div>
+</div>
+
+<div>
+  <h2>Servicios</h2>
+  <input type="text" [(ngModel)]="textoBusqueda" (input)="filtrarServicios()" placeholder="Buscar...">
+  <button class="btn btn-primary" (click)="irACrearServicio()" style="float: right; margin-bottom: 10px;">
+    <i class="bi bi-plus-circle"></i> Crear Servicio
+  </button>
+  <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; margin-top: 20px;">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Costo Unitario</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of serviciosPaginados">
+        <td>{{ s.nombre }}</td>
+        <td>{{ s.descripcion }}</td>
+        <td>{{ s.costo_unitario | currency:'BOB':'symbol':'1.2-2' }}</td>
+        <td>
+          <button (click)="irAEditarServicio(s.id ?? 0)">Editar</button>
+          <button (click)="confirmarEliminarServicio(s.id ?? 0)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top: 20px;">
+    <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">Anterior</button>
+    <span> Página {{ paginaActual }} </span>
+    <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">Siguiente</button>
+  </div>
+</div>

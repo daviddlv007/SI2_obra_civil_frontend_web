@@ -12,6 +12,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
+
 //USUARIO
 //permiso
 import { PermisoListComponent } from './components/administrador/permiso/permiso-list/permiso-list.component';
@@ -34,11 +35,15 @@ import { ObracivilListComponent } from './components/proyecto/obracivil/obracivi
 import { ObracivilCreateComponent } from './components/proyecto/obracivil/obracivil-create/obracivil-create.component';
 import { ObracivilUpdateComponent } from './components/proyecto/obracivil/obracivil-update/obracivil-update.component';
 
+//SERVICIO
+import { ServicioComponent } from './components/servicio/servicio.component';
+import { ServicioCreateComponent } from './components/servicio/servicio-create/servicio-create.component';
+
 export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     children: [
       { path: 'persona', component: PersonaComponent },
       { path: 'persona-create', component: PersonaCreateComponent },
@@ -76,9 +81,17 @@ export const routes: Routes = [
       { path: 'obra-civil-create', component: ObracivilCreateComponent },
       { path: 'obra-civil-update/:id', component: ObracivilUpdateComponent },
 
-      { path: '', redirectTo: 'usuario', pathMatch: 'full' },
+     // { path: '', redirectTo: 'usuario', pathMatch: 'full' },
+
+
+       // SERVICIO
+       { path: 'servicio', component: ServicioComponent },
+       { path: 'servicio-create', component: ServicioCreateComponent },
+
+        { path: '', redirectTo: 'servicio', pathMatch: 'full' }
     ],
   },
-  { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: 'usuario' },
+  //{ path: 'login', component: LoginComponent },
+  //{ path: '**', redirectTo: 'login' },
+
 ];
