@@ -33,7 +33,10 @@ export class SidebarComponent {
     {
       title: 'Recursos',
       expanded: false,
-      children: [],
+      children: [
+        { title: 'Servicios', route: '/servicio' },
+        { title: 'Empleados', route: '/empleado' },
+      ],
     },
     {
       title: 'Compras',

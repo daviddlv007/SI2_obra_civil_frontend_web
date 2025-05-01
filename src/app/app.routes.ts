@@ -42,12 +42,18 @@ import { ObracivilUpdateComponent } from './components/proyecto/obracivil/obraci
 //SERVICIO
 import { ServicioComponent } from './components/servicio/servicio.component';
 import { ServicioCreateComponent } from './components/servicio/servicio-create/servicio-create.component';
+import { ServicioUpdateComponent } from './components/servicio/servicio-update/servicio-update.component';
+
+//EMPLEADO
+import { EmpleadoComponent } from './components/empleado/empleado.component';
+import { EmpleadoCreateComponent } from './components/empleado/empleado-create/empleado-create.component';
+import { EmpleadoUpdateComponent } from './components/empleado/empleado-update/empleado-update.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    //canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],--descomentar luego
     children: [
       { path: 'persona', component: PersonaComponent },
       { path: 'persona-create', component: PersonaCreateComponent },
@@ -95,11 +101,22 @@ export const routes: Routes = [
        // SERVICIO
        { path: 'servicio', component: ServicioComponent },
        { path: 'servicio-create', component: ServicioCreateComponent },
+       { path: 'servicio-update/:id', component: ServicioUpdateComponent },
 
-        { path: '', redirectTo: 'servicio', pathMatch: 'full' }
+
+       //EMPLEADO
+       { path: 'empleado', component: EmpleadoComponent },
+       { path: 'empleado-create', component: EmpleadoCreateComponent },
+       { path: 'empleado-update/:id', component: EmpleadoUpdateComponent },
+
+
+       //{ path: '', redirectTo: 'usuario', pathMatch: 'full' }--descomentar luego
+        { path: '', redirectTo: 'empleado-update/', pathMatch: 'full' }
     ],
   },
-  //{ path: 'login', component: LoginComponent },
-  //{ path: '**', redirectTo: 'login' },
+
+   // { path: 'login', component: LoginComponent },--descomentar luego
+   // { path: '**', redirectTo: 'usuario' },--descomentar luego
+
 
 ];
