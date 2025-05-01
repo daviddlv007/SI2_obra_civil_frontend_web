@@ -1,9 +1,9 @@
-<!-- src/app/components/tarea/tarea-create/tarea-create.component.html -->
+<!-- src/app/components/tarea/tarea-update/tarea-update.component.html -->
 
 <div class="form-container">
-    <h2>Crear Tarea</h2>
+    <h2>Actualizar Tarea</h2>
   
-    <form (ngSubmit)="crearTarea()" #tareaForm="ngForm">
+    <form (ngSubmit)="actualizarTarea()" #tareaForm="ngForm">
       <div class="form-group">
         <label for="nombre">Nombre:</label>
         <input 
@@ -115,8 +115,7 @@
           #obraCivil="ngModel" 
           class="form-control"
         >
-          <option value="">Seleccione una obra civil</option>
-          <option *ngFor="let obra of obrasCiviles" [value]="obra.id">
+          <option *ngFor="let obra of obrasCiviles" [value]="obra.id" [selected]="obra.id === tarea.obraCivil.id">
             {{ obra.nombre }}
           </option>
         </select>
@@ -126,7 +125,7 @@
       </div>
   
       <div class="button-container">
-        <button type="submit" [disabled]="tareaForm.invalid" class="submit-btn">Crear</button>
+        <button type="submit" [disabled]="tareaForm.invalid" class="submit-btn">Actualizar</button>
         <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
       </div>
     </form>

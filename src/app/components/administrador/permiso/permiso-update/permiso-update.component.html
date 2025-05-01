@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12">
         <!-- Card -->
-        <div class="card">
+        <div class="card shadow-sm">
           <div class="card-body">
             <!-- Título y Botón para Editar -->
             <div class="row mb-3">
@@ -38,7 +38,7 @@
                       (nombre.invalid && (nombre.dirty || nombre.touched)) ||
                       (submitted && nombre.invalid)
                     "
-                    class="error-message"
+                    class="error-message text-danger"
                   >
                     <small *ngIf="nombre.errors?.['required']">
                       El nombre es obligatorio.
@@ -71,7 +71,7 @@
                         (descripcion.dirty || descripcion.touched)) ||
                       (submitted && descripcion.invalid)
                     "
-                    class="error-message"
+                    class="error-message text-danger"
                   >
                     <small *ngIf="descripcion.errors?.['required']">
                       La descripción es obligatoria.
@@ -83,16 +83,17 @@
                 <div class="col-12 col-md-6 d-flex justify-content-start gap-3">
                   <button
                     type="submit"
-                    class="btn btn-primary"
+                    class="btn btn-warning"
                     [disabled]="!permisoForm.form.valid"
                   >
-                    Actualizar
+                    <i class="bi bi-save mr-1"></i> Actualizar
                   </button>
                   <button
                     type="button"
                     class="btn btn-secondary"
                     (click)="cancelar()"
                   >
+                    <i class="bi bi-x-circle"></i>
                     Cancelar
                   </button>
                 </div>
