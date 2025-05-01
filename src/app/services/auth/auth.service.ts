@@ -1,4 +1,3 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
@@ -10,23 +9,19 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private tokenKey = 'auth_token';
-  private userIdKey = 'user_id';
-  private userNameKey = 'user_name';
-  private userEmailKey = 'user_email';
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  // Login: solo almacena el token
   login(correo: string, contrasena: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/auth/login`, { correo, contrasena }).pipe(
+    return this.http.post<any>(`${environment.apiUrl}/auth/login`, { correo, contrasena }).pipe(
       tap((response: any) => {
-        this.setToken(response.token);
-        this.setUserId(response.id);
-        this.setUserName(response.nombre);
-        this.setUserEmail(response.correo);
+        this.setToken(response.token); // Solo guarda el token
       })
     );
   }
 
+  // Logout: borra los datos de autenticación y redirige al login
   logout(): Observable<any> {
     const token = this.getToken();
     if (!token) {
@@ -46,47 +41,23 @@ export class AuthService {
     );
   }
 
+  // Verifica si el usuario está autenticado comprobando la existencia del token
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
 
+  // Obtiene el token almacenado en el localStorage
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
-  getUserId(): number | null {
-    const userId = localStorage.getItem(this.userIdKey);
-    return userId ? parseInt(userId, 10) : null;
-  }
-
-  getUserName(): string | null {
-    return localStorage.getItem(this.userNameKey);
-  }
-
-  getUserEmail(): string | null {
-    return localStorage.getItem(this.userEmailKey);
-  }
-
+  // Guarda el token en el localStorage
   private setToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
   }
 
-  private setUserId(id: number): void {
-    localStorage.setItem(this.userIdKey, id.toString());
-  }
-
-  private setUserName(nombre: string): void {
-    localStorage.setItem(this.userNameKey, nombre);
-  }
-
-  private setUserEmail(correo: string): void {
-    localStorage.setItem(this.userEmailKey, correo);
-  }
-
+  // Elimina los datos de autenticación almacenados
   private clearAuthData(): void {
     localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.userIdKey);
-    localStorage.removeItem(this.userNameKey);
-    localStorage.removeItem(this.userEmailKey);
   }
 }

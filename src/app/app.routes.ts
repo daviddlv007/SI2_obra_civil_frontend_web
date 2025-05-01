@@ -27,10 +27,14 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
 import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usuario-update.component';
 
+import { BitacoraComponent } from './components/bitacora/bitacora.component';
+import { TareaComponent } from './components/tarea/tarea.component';
+import { TareaCreateComponent } from './components/tarea/tarea-create/tarea-create.component';
+import { TareaUpdateComponent } from './components/tarea/tarea-update/tarea-update.component';
+
 import { BackupComponent } from './components/backup-restore/backup/backup.component';
 
-//PROYECTO
-//obra civil
+// PROYECTO - OBRA CIVIL
 import { ObracivilListComponent } from './components/proyecto/obracivil/obracivil-list/obracivil-list.component';
 import { ObracivilCreateComponent } from './components/proyecto/obracivil/obracivil-create/obracivil-create.component';
 import { ObracivilUpdateComponent } from './components/proyecto/obracivil/obracivil-update/obracivil-update.component';
@@ -74,9 +78,13 @@ export const routes: Routes = [
       { path: 'usuario-create', component: UsuarioCreateComponent },
       { path: 'usuario-update', component: UsuarioUpdateComponent },
       { path: 'usuario-update/:id', component: UsuarioUpdateComponent },
+      // BITÁCORA Y TAREA
+      { path: 'bitacora', component: BitacoraComponent },
+      { path: 'tarea', component: TareaComponent },
+      { path: 'tarea-create', component: TareaCreateComponent },
+      { path: 'tarea-update/:id', component: TareaUpdateComponent },
 
-      //PROYECTO
-      //obra civil
+      // PROYECTO - OBRA CIVIL
       { path: 'obra-civil', component: ObracivilListComponent },
       { path: 'obra-civil-create', component: ObracivilCreateComponent },
       { path: 'obra-civil-update/:id', component: ObracivilUpdateComponent },

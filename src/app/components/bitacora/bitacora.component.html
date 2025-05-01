@@ -1,0 +1,29 @@
+<div>
+    <h2>Bitácora</h2>
+  
+    <!-- Tabla para mostrar las bitácoras -->
+    <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; margin-top: 20px;">
+      <thead>
+        <tr>
+          <th>Acción</th>
+          <th>Fecha</th>
+          <th>IP Origen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let b of bitacorasPaginadas">
+          <td>{{ generarAccion(b) }}</td>
+          <td>{{ b.fecha | date: 'short' }}</td>
+          <td>{{ b.ipOrigen }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Controles de paginación -->
+    <div style="margin-top: 20px;">
+      <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">Anterior</button>
+      <span> Página {{ paginaActual }} </span>
+      <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">Siguiente</button>
+    </div>
+  </div>
+  

@@ -14,25 +14,42 @@ export class SidebarComponent {
     { title: 'Home', route: '/', expanded: false, children: [] },
 
     {
-      title: 'Gestionar Usuarios',
+      title: 'Usuarios',
       expanded: false,
       children: [
-        { title: 'Usuario', route: '/usuario' },
-        { title: 'Rol', route: '/rol' },
-        { title: 'Permiso', route: '/permiso' },
-        { title: 'Backup', route: '/backup-restore' },
+        { title: 'Usuarios', route: '/usuario' },
+        { title: 'Roles', route: '/rol' },
+        { title: 'Permisos', route: '/permiso' },
       ],
     },
     {
-      title: 'Proyecto',
+      title: 'Obras',
       expanded: false,
       children: [
-        { title: 'Obra-civil', route: '/obra-civil' },
+        { title: 'Obras', route: '/obra-civil' },
+        { title: 'Tareas', route: '/tarea' },
       ],
     },
-    { title: 'Gestionar Obras', expanded: false, children: [
-      { title: 'Servicio', route: '/servicio' }
-    ] },
+    {
+      title: 'Recursos',
+      expanded: false,
+      children: [],
+    },
+    {
+      title: 'Compras',
+      expanded: false,
+      children: [],
+    },
+    {
+      title: 'Sistema',
+      expanded: false,
+      children: [
+        { title: 'Bitacora', route: '/bitacora' },
+        { title: 'Backup y Restore', route: '/backup-restore' },
+      ],
+    }
+  ];
+
     /*{ title: 'Modelos', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Auto', route: '/auto' },
@@ -46,7 +63,6 @@ export class SidebarComponent {
       { title: 'Persona', route: '/persona' },
       { title: 'Settings', route: '/persona/settings' }
     ]}*/
-  ];
 
   toggleMenu(menu: any) {
     menu.expanded = !menu.expanded;
