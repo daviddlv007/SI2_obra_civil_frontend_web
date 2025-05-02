@@ -10,13 +10,15 @@ import { Servicio } from '../../../models/servicio/servicio.model';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './servicio-create.component.html',
-  styleUrl: './servicio-create.component.scss'
+  styleUrls: ['./servicio-create.component.scss']
 })
 export class ServicioCreateComponent {
   servicio: Servicio = {
+    codigo_servicio: '',
     nombre: '',
     descripcion: '',
-    costo_unitario: 0
+    precio_unitario: 0,
+    duracion_estimada: 0
   };
 
   constructor(

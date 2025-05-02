@@ -17,7 +17,9 @@ export class ServicioUpdateComponent implements OnInit {
     id: 0,
     nombre: '',
     descripcion: '',
-    costo_unitario: 0
+    precio_unitario: 0,
+    codigo_servicio: '', // Campo añadido para código del servicio
+    duracion_estimada: 0 // Campo añadido para duración estimada
   };
 
   constructor(

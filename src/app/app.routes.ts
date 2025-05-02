@@ -111,7 +111,7 @@ export const routes: Routes = [
 
 
        //{ path: '', redirectTo: 'usuario', pathMatch: 'full' }--descomentar luego
-        { path: '', redirectTo: 'empleado-update/', pathMatch: 'full' }
+        { path: '', redirectTo: 'empleado', pathMatch: 'full' }
     ],
   },
 

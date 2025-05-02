@@ -2,6 +2,25 @@
   <h2>Crear Servicio</h2>
 
   <form (ngSubmit)="crearServicio()" #servicioForm="ngForm">
+    <!-- Código de Servicio -->
+    <div class="form-group">
+      <label for="codigo_servicio">Código de Servicio:</label>
+      <input
+        id="codigo_servicio"
+        type="text"
+        [(ngModel)]="servicio.codigo_servicio"
+        name="codigo_servicio"
+        required
+        minlength="3"
+        #codigo_servicio="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="codigo_servicio.invalid && (codigo_servicio.dirty || codigo_servicio.touched)" class="error-message">
+        <small *ngIf="codigo_servicio.errors?.['required']">El campo es obligatorio.</small>
+        <small *ngIf="codigo_servicio.errors?.['minlength']">Debe tener al menos 3 caracteres.</small>
+      </div>
+    </div>
+
     <!-- Nombre -->
     <div class="form-group">
       <label for="nombre">Nombre:</label>
@@ -45,7 +64,7 @@
       <input
         id="costoUnitario"
         type="number"
-        [(ngModel)]="servicio.costo_unitario"
+        [(ngModel)]="servicio.precio_unitario"
         name="costoUnitario"
         required
         min="0.01"
@@ -56,6 +75,26 @@
       <div *ngIf="costoUnitario.invalid && (costoUnitario.dirty || costoUnitario.touched)" class="error-message">
         <small *ngIf="costoUnitario.errors?.['required']">El campo es obligatorio.</small>
         <small *ngIf="costoUnitario.errors?.['min']">Debe ser mayor a 0.</small>
+      </div>
+    </div>
+
+    <!-- Duración Estimada -->
+    <div class="form-group">
+      <label for="duracion_estimada">Duración Estimada (horas):</label>
+      <input
+        id="duracion_estimada"
+        type="number"
+        [(ngModel)]="servicio.duracion_estimada"
+        name="duracion_estimada"
+        required
+        min="0.01"
+        step="0.01"
+        #duracion_estimada="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="duracion_estimada.invalid && (duracion_estimada.dirty || duracion_estimada.touched)" class="error-message">
+        <small *ngIf="duracion_estimada.errors?.['required']">El campo es obligatorio.</small>
+        <small *ngIf="duracion_estimada.errors?.['min']">Debe ser mayor a 0.</small>
       </div>
     </div>
 

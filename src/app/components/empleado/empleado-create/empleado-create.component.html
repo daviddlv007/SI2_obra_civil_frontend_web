@@ -40,6 +40,83 @@
       </div>
     </div>
 
+    <!-- Documento de Identidad -->
+    <div class="form-group">
+      <label for="documento_identidad">Documento de Identidad:</label>
+      <input
+        id="documento_identidad"
+        type="text"
+        [(ngModel)]="empleado.documento_identidad"
+        name="documento_identidad"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <!-- Tipo de Contrato -->
+    <div class="form-group">
+      <label for="tipo_contrato">Tipo de Contrato:</label>
+      <select
+        id="tipo_contrato"
+        [(ngModel)]="empleado.tipo_contrato"
+        name="tipo_contrato"
+        required
+        class="form-control"
+      >
+        <option value="planta">Planta</option>
+        <option value="eventual">Eventual</option>
+      </select>
+    </div>
+
+    <!-- Fecha de Ingreso -->
+    <div class="form-group">
+      <label for="fecha_ingreso">Fecha de Ingreso:</label>
+      <input
+        id="fecha_ingreso"
+        type="date"
+        [(ngModel)]="empleado.fecha_ingreso"
+        name="fecha_ingreso"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <!-- Fecha de Término de Contrato (opcional) -->
+    <div class="form-group">
+      <label for="fecha_termino_contrato">Fecha de Término de Contrato (opcional):</label>
+      <input
+        id="fecha_termino_contrato"
+        type="date"
+        [(ngModel)]="empleado.fecha_termino_contrato"
+        name="fecha_termino_contrato"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input
+        id="email"
+        type="email"
+        [(ngModel)]="empleado.email"
+        name="email"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Teléfono -->
+    <div class="form-group">
+      <label for="telefono">Teléfono:</label>
+      <input
+        id="telefono"
+        type="text"
+        [(ngModel)]="empleado.telefono"
+        name="telefono"
+        class="form-control"
+      />
+    </div>
+
     <!-- Puesto -->
     <div class="form-group">
       <label for="puesto">Puesto:</label>
@@ -77,6 +154,18 @@
         <small *ngIf="salario.errors?.['required']">El campo es obligatorio.</small>
         <small *ngIf="salario.errors?.['min']">Debe ser mayor a 0.</small>
       </div>
+    </div>
+
+    <!-- Activo -->
+    <div class="form-group">
+      <label>
+        <input
+          type="checkbox"
+          [(ngModel)]="empleado.activo"
+          name="activo"
+        />
+        Activo
+      </label>
     </div>
 
     <!-- Botones -->

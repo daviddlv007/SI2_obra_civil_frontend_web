@@ -8,17 +8,24 @@
 
 <div>
   <h2>Empleados</h2>
+
   <input type="text" [(ngModel)]="textoBusqueda" (input)="filtrarEmpleados()" placeholder="Buscar...">
+
   <button class="btn btn-primary" (click)="irACrearEmpleado()" style="float: right; margin-bottom: 10px;">
     <i class="bi bi-plus-circle"></i> Crear Empleado
   </button>
+
   <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; margin-top: 20px;">
     <thead>
       <tr>
         <th>Nombre</th>
         <th>Apellido</th>
+        <th>C.I.</th>
         <th>Puesto</th>
+        <th>Tipo de Contrato</th>
+        <th>Fecha Ingreso</th>
         <th>Salario</th>
+        <th>Activo</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -26,8 +33,12 @@
       <tr *ngFor="let e of empleadosPaginados">
         <td>{{ e.nombre }}</td>
         <td>{{ e.apellido }}</td>
-        <td>{{ e.puesto }}</td>
+        <td>{{ e.documento_identidad }}</td>
+        <td>{{ e.puesto || '—' }}</td>
+        <td>{{ e.tipo_contrato }}</td>
+        <td>{{ e.fecha_ingreso }}</td>
         <td>{{ e.salario | currency:'BOB':'symbol':'1.2-2' }}</td>
+        <td>{{ e.activo ? 'Sí' : 'No' }}</td>
         <td>
           <button (click)="irAEditarEmpleado(e.id ?? 0)">Editar</button>
           <button (click)="confirmarEliminarEmpleado(e.id ?? 0)">Eliminar</button>
@@ -38,7 +49,7 @@
 
   <div style="margin-top: 20px;">
     <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">Anterior</button>
-    <span> Página {{ paginaActual }} </span>
+    <span> Página {{ paginaActual }} de {{ totalPaginas }} </span>
     <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">Siguiente</button>
   </div>
 </div>

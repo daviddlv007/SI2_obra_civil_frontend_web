@@ -9,26 +9,32 @@
 <div>
   <h2>Servicios</h2>
   <input type="text" [(ngModel)]="textoBusqueda" (input)="filtrarServicios()" placeholder="Buscar...">
+
   <button class="btn btn-primary" (click)="irACrearServicio()" style="float: right; margin-bottom: 10px;">
     <i class="bi bi-plus-circle"></i> Crear Servicio
   </button>
+
   <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; margin-top: 20px;">
     <thead>
       <tr>
+        <th>Código</th>
         <th>Nombre</th>
         <th>Descripción</th>
-        <th>Costo Unitario</th>
+        <th>Precio Unitario</th>
+        <th>Duración Estimada</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let s of serviciosPaginados">
+        <td>{{ s.codigo_servicio }}</td>
         <td>{{ s.nombre }}</td>
         <td>{{ s.descripcion }}</td>
-        <td>{{ s.costo_unitario | currency:'BOB':'symbol':'1.2-2' }}</td>
+        <td>{{ s.precio_unitario | currency:'BOB':'symbol':'1.2-2' }}</td>
+        <td>{{ s.duracion_estimada }} horas</td>
         <td>
-          <button (click)="irAEditarServicio(s.id ?? 0)">Editar</button>
-          <button (click)="confirmarEliminarServicio(s.id ?? 0)">Eliminar</button>
+          <button (click)="irAEditarServicio(s.id??0)">Editar</button>
+          <button (click)="confirmarEliminarServicio(s.id??0)">Eliminar</button>
         </td>
       </tr>
     </tbody>
