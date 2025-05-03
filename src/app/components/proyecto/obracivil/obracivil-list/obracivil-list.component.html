@@ -30,73 +30,107 @@
 
             <!-- Lista de Obras en disposición vertical -->
             <div class="row">
-              <div class="col-12" *ngFor="let obra of obrasPaginadas">
+              <div
+                class="col-12"
+                *ngFor="let obra of obrasPaginadas; let i = index"
+              >
                 <div class="card mb-4">
-                  <img
-                    src="{{ obra.planoUrl }}"
-                    class="card-img-top img-fluid"
-                    alt="Plano de la obra"
-                    style="
-                      max-height: 300px;
-                      max-width: 300px;
-                      object-fit: cover;
-                    "
-                    data-bs-toggle="modal"
-                    data-bs-target="#imageModal"
-                    (click)="abrirModalImg(obra.planoUrl!)"
-                  />
-                  <div class="card-body">
-                    <h5 class="card-title">{{ obra.nombre }}</h5>
-                    <p class="card-text">
-                      <strong>Descripción:</strong> {{ obra.descripcion }}
-                    </p>
-                    <p class="card-text">
-                      <strong>Tipo de Obra:</strong> {{ obra.tipoObra }}
-                    </p>
-                    <p class="card-text">
-                      <strong>Ubicación:</strong> {{ obra.ubicacion }}
-                    </p>
-                    <p class="card-text">
-                      <strong>Estado:</strong> {{ obra.estado }}
-                    </p>
-                    <p class="card-text">
-                      <strong>Fecha de Inicio:</strong>
-                      {{ obra.fechaInicio | date }}
-                    </p>
-                    <p class="card-text">
-                      <strong>Fecha Estimada de Finalización:</strong>
-                      {{ obra.fechaFinEstimada | date }}
-                    </p>
-                    <p class="card-text">
-                      <strong>Costo Estimado:</strong> ${{
-                        obra.costoEstimado | number
-                      }}
-                    </p>
-                    <p class="card-text">
-                      <strong>Costo Actual:</strong> ${{ obra.costo | number }}
-                    </p>
-                    <p class="card-text">
-                      <strong>Presupuesto Disponible:</strong> ${{
-                        obra.presupuestoDisponible | number
-                      }}
-                    </p>
+                  <div class="row g-0">
+                    <!-- Columna para la imagen -->
+                    <div class="col-md-5">
+                      <div class="card-body">
+                        <p class="card-text">
+                          <strong>Plano:</strong>
+                        </p>
+                        <img
+                          src="{{ obra.planoUrl }}"
+                          class="card-img-top img-fluid"
+                          alt="Plano de la obra"
+                          style="
+                            max-height: 150px;
+                            max-width: 60%;
+                            object-fit: cover;
+                          "
+                          data-bs-toggle="modal"
+                          data-bs-target="#imageModal"
+                          (click)="abrirModalImg(obra.planoUrl!)"
+                        />
+                      </div>
+                      <div class="card-body">
+                        <p class="card-text">
+                          <strong>Ubicacion:</strong>
+                        </p>
+                        <div
+                          id="map-{{ i }}"
+                          style="height: 300px; width: 100%"
+                        ></div>
+                      </div>
+                    </div>
 
-                    <!-- Botones de Acción -->
-                    <div class="d-flex gap-2 justify-content-start">
-                      <button
-                        class="btn btn-info btn-sm"
-                        (click)="irAEditarObra(obra.id)"
-                      >
-                        <i class="bi bi-pencil"></i> Editar
-                      </button>
-                      <button
-                        class="btn btn-danger btn-sm"
-                        data-bs-toggle="modal"
-                        data-bs-target="#deleteModal"
-                        (click)="confirmarEliminarObra(obra.id)"
-                      >
-                        <i class="bi bi-trash"></i> Eliminar
-                      </button>
+                    <!-- Columna para la información de la obra -->
+                    <div class="col-md-7">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ obra.nombre }}</h5>
+                        <p class="card-text">
+                          <strong>Descripción:</strong> {{ obra.descripcion }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Tipo de Obra:</strong> {{ obra.tipoObra }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Direccion:</strong> {{ obra.direccion }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Estado:</strong> {{ obra.estado }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Fecha de Inicio:</strong>
+                          {{ obra.fechaInicio | date }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Fecha Estimada de Finalización:</strong>
+                          {{ obra.fechaFinEstimada | date }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Costo Estimado:</strong> ${{
+                            obra.costoEstimado | number
+                          }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Costo Actual:</strong> ${{
+                            obra.costo | number
+                          }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Presupuesto Disponible:</strong> ${{
+                            obra.presupuestoDisponible | number
+                          }}
+                        </p>
+
+                        <!-- Botones de Acción -->
+                        <div class="d-flex gap-2 justify-content-start">
+                          <button
+                            class="btn btn-secondary btn-sm"
+                            (click)="verDetalleObra(obra.id!)"
+                          >
+                            <i class="bi bi-eye"></i> Ver
+                          </button>
+                          <button
+                            class="btn btn-warning btn-sm"
+                            (click)="irAEditarObra(obra.id!)"
+                          >
+                            <i class="bi bi-pencil"></i> Editar
+                          </button>
+                          <button
+                            class="btn btn-danger btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            (click)="confirmarEliminarObra(obra.id!)"
+                          >
+                            <i class="bi bi-trash"></i> Eliminar
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
