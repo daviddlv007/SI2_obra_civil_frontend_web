@@ -33,11 +33,23 @@ export class ServicioComponent implements OnInit {
     private paginationService: PaginationService
   ) {}
 
+  mensajeExito: string = '';
+  mensajeError: string = '';
+
   ngOnInit(): void {
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras?.state as { mensaje?: string, error?: string };
+    if (state?.mensaje) {
+      this.mensajeExito = state.mensaje;
+      setTimeout(() => this.mensajeExito = '', 3000);
+    }
+    if (state?.error) {
+      this.mensajeError = state.error;
+      setTimeout(() => this.mensajeError = '', 3000);
+    }
     this.obtenerServicios();
   }
 
-  // Obtener los servicios desde el servicio
   obtenerServicios(): void {
     this.servicioService.obtenerServicios().subscribe((data) => {
       this.servicios = data;
@@ -46,30 +58,26 @@ export class ServicioComponent implements OnInit {
     });
   }
 
-  // Eliminar un servicio específico
   eliminarServicio(id: number): void {
     this.servicioService.eliminarServicio(id).subscribe(() => {
       this.obtenerServicios();
+      alert('Servicio eliminado exitosamente.');
     });
   }
 
-  // Redirige a la página de creación de servicio
   irACrearServicio(): void {
     this.router.navigate(['/servicio-create']);
   }
 
-  // Redirige a la página de edición de servicio
   irAEditarServicio(id: number): void {
     this.router.navigate([`/servicio-update/${id}`]);
   }
 
-  // Muestra el modal de confirmación de eliminación
   confirmarEliminarServicio(id: number): void {
     this.servicioAEliminarId = id;
     this.mostrarModal = true;
   }
 
-  // Elimina el servicio confirmado
   eliminarServicioConfirmado(): void {
     if (this.servicioAEliminarId !== null) {
       this.eliminarServicio(this.servicioAEliminarId);
@@ -77,13 +85,11 @@ export class ServicioComponent implements OnInit {
     }
   }
 
-  // Cierra el modal
   cerrarModal(): void {
     this.mostrarModal = false;
     this.servicioAEliminarId = null;
   }
 
-  // Filtra los servicios según el texto de búsqueda
   filtrarServicios(): void {
     this.serviciosFiltrados = this.filterService.filtrar(
       this.servicios,
@@ -93,7 +99,6 @@ export class ServicioComponent implements OnInit {
     this.calcularPaginacion();
   }
 
-  // Calcula la paginación de los servicios filtrados
   calcularPaginacion(): void {
     const paginacion = this.paginationService.paginate(
       this.serviciosFiltrados,
@@ -104,7 +109,6 @@ export class ServicioComponent implements OnInit {
     this.serviciosPaginados = paginacion.paginatedData;
   }
 
-  // Cambia la página hacia la anterior o siguiente
   cambiarPagina(direccion: 'previous' | 'next'): void {
     this.paginaActual = this.paginationService.changePage(
       this.paginaActual,
@@ -114,7 +118,6 @@ export class ServicioComponent implements OnInit {
     this.actualizarServiciosPaginados();
   }
 
-  // Actualiza los servicios paginados al cambiar de página
   actualizarServiciosPaginados(): void {
     const paginacion = this.paginationService.paginate(
       this.serviciosFiltrados,
@@ -123,4 +126,6 @@ export class ServicioComponent implements OnInit {
     );
     this.serviciosPaginados = paginacion.paginatedData;
   }
+
+
 }

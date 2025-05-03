@@ -33,11 +33,11 @@
       <tr *ngFor="let e of empleadosPaginados">
         <td>{{ e.nombre }}</td>
         <td>{{ e.apellido }}</td>
-        <td>{{ e.documento_identidad }}</td>
+        <td>{{ e.documentoIdentidad }}</td>
         <td>{{ e.puesto || '—' }}</td>
-        <td>{{ e.tipo_contrato }}</td>
-        <td>{{ e.fecha_ingreso }}</td>
-        <td>{{ e.salario | currency:'BOB':'symbol':'1.2-2' }}</td>
+        <td>{{ e.tipoContrato }}</td>
+        <td>{{ e.fechaIngreso }}</td>
+        <td>{{ e.salario }} Bs </td>
         <td>{{ e.activo ? 'Sí' : 'No' }}</td>
         <td>
           <button (click)="irAEditarEmpleado(e.id ?? 0)">Editar</button>

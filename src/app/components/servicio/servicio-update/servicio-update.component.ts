@@ -15,11 +15,11 @@ import { Servicio } from '../../../models/servicio/servicio.model'; // Importamo
 export class ServicioUpdateComponent implements OnInit {
   servicio: Servicio = {
     id: 0,
+    codigoServicio: '', // Campo añadido para código del servicio
     nombre: '',
     descripcion: '',
-    precio_unitario: 0,
-    codigo_servicio: '', // Campo añadido para código del servicio
-    duracion_estimada: 0 // Campo añadido para duración estimada
+    precioUnitario: 0,
+    duracionEstimada: 0 // Campo añadido para duración estimada
   };
 
   constructor(
@@ -39,14 +39,32 @@ export class ServicioUpdateComponent implements OnInit {
     }
   }
 
-  actualizarServicio(): void {
-    if (this.servicio.id) {
+ // actualizarServicio(): void {
+   // if (this.servicio.id) {
       // Si el servicio tiene un ID, lo actualizamos
-      this.servicioService.actualizarServicio(this.servicio.id, this.servicio).subscribe(() => {
-        this.router.navigate(['/servicio']); // Redirige a la lista de servicios
+     // this.servicioService.actualizarServicio(this.servicio.id, this.servicio).subscribe(() => {
+       // this.router.navigate(['/servicio']); // Redirige a la lista de servicios
+   //   });
+   // }
+  //}
+
+  actualizarServicio(): void {
+    if (this.servicio.id != null) {
+      this.servicioService.actualizarServicio(this.servicio.id, this.servicio).subscribe({
+        next: () => {
+          this.router.navigate(['/servicio'], {
+            state: { mensaje: 'Servicio actualizado exitosamente.' }
+          });
+        },
+        error: () => {
+          this.router.navigate(['/servicio'], {
+            state: { error: 'Ocurrió un error al actualizar el servicio.' }
+          });
+        }
       });
     }
   }
+
 
   cancelar(): void {
     // Si se cancela, redirigimos a la lista de servicios

@@ -14,11 +14,11 @@ import { Servicio } from '../../../models/servicio/servicio.model';
 })
 export class ServicioCreateComponent {
   servicio: Servicio = {
-    codigo_servicio: '',
+    codigoServicio: '',
     nombre: '',
     descripcion: '',
-    precio_unitario: 0,
-    duracion_estimada: 0
+    precioUnitario: 0,
+    duracionEstimada: 0
   };
 
   constructor(
@@ -26,13 +26,29 @@ export class ServicioCreateComponent {
     private router: Router
   ) {}
 
-  crearServicio(): void {
-    this.servicioService.crearServicio(this.servicio).subscribe(() => {
-      this.router.navigate(['/servicio']);
-    });
-  }
+  //crearServicio(): void {
+   // this.servicioService.crearServicio(this.servicio).subscribe(() => {
+     // this.router.navigate(['/servicio']);
+    //});
+  //}
 
   cancelar(): void {
     this.router.navigate(['/servicio']);
   }
+
+  crearServicio(): void {
+    this.servicioService.crearServicio(this.servicio).subscribe({
+      next: () => {
+        this.router.navigate(['/servicio'], {
+          state: { mensaje: 'Servicio creado exitosamente.' }
+        });
+      },
+      error: () => {
+        this.router.navigate(['/servicio'], {
+          state: { error: 'Ocurrió un error al crear el servicio.' }
+        });
+      }
+    });
+  }
+
 }

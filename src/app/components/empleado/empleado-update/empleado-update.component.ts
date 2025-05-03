@@ -17,9 +17,9 @@ export class EmpleadoUpdateComponent implements OnInit {
     id: 0,
     nombre: '',
     apellido: '',
-    documento_identidad: '',
-    tipo_contrato: 'planta',
-    fecha_ingreso: '',
+    documentoIdentidad: '',
+    tipoContrato: 'planta',
+    fechaIngreso: '',
     salario: 0,
     activo: true
   };

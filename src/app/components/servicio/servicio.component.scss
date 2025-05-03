@@ -139,4 +139,21 @@ input {
     border-color: #2196F3;
     box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
   }
+
+
+
+  //////////////
+  .alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+  }
+  .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
 }

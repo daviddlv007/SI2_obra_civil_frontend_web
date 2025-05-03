@@ -16,15 +16,15 @@ export class EmpleadoCreateComponent {
   empleado: Empleado = {
     nombre: '',
     apellido: '',
-    documento_identidad: '',
-    tipo_contrato: 'planta',
-    fecha_ingreso: '',
+    documentoIdentidad: '',
+    tipoContrato: 'planta',
+    fechaIngreso: '',
     salario: 0,
     activo: true,
     puesto: '',
     email: '',
     telefono: '',
-    fecha_termino_contrato: ''
+    fechaTerminoContrato: ''
   };
 
   constructor(

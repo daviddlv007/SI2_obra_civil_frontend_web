@@ -45,7 +45,7 @@
       <label for="documento_identidad">Documento de Identidad:</label>
       <input
         id="documento_identidad"
-        [(ngModel)]="empleado.documento_identidad"
+        [(ngModel)]="empleado.documentoIdentidad"
         name="documento_identidad"
         placeholder="Documento de Identidad"
         required
@@ -83,7 +83,7 @@
       <label for="tipo_contrato">Tipo de Contrato:</label>
       <select
         id="tipo_contrato"
-        [(ngModel)]="empleado.tipo_contrato"
+        [(ngModel)]="empleado.tipoContrato"
         name="tipo_contrato"
         required
         #tipo_contrato="ngModel"
@@ -104,7 +104,7 @@
       <input
         id="fecha_ingreso"
         type="date"
-        [(ngModel)]="empleado.fecha_ingreso"
+        [(ngModel)]="empleado.fechaIngreso"
         name="fecha_ingreso"
         required
         #fecha_ingreso="ngModel"
