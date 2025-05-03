@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ObracivilService } from '../../../../services/obracivil/obracivil.service';
@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { FilterService } from '../../../../services/filter/filter.service';
 import { PaginationService } from '../../../../services/pagination/pagination.service';
 
+import * as L from 'leaflet';
+
 @Component({
   selector: 'app-obracivil-list',
   standalone: true,
@@ -15,7 +17,7 @@ import { PaginationService } from '../../../../services/pagination/pagination.se
   templateUrl: './obracivil-list.component.html',
   styleUrl: './obracivil-list.component.scss',
 })
-export class ObracivilListComponent {
+export class ObracivilListComponent implements AfterViewInit {
   obras: Obracivil[] = [];
   obrasFiltradas: Obracivil[] = [];
   obrasPaginadas: Obracivil[] = [];
@@ -31,6 +33,7 @@ export class ObracivilListComponent {
   imagenUrl: string | null = null;
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private obracivilService: ObracivilService,
     private router: Router,
     private filterService: FilterService,
@@ -39,6 +42,64 @@ export class ObracivilListComponent {
 
   ngOnInit() {
     this.obtenerObrasCiviles();
+  }
+
+  ngAfterViewInit(): void {
+    // Crear el mapa de Leaflet después de que la vista esté completamente cargada
+    //this.initMaps();
+    // Esperamos un poco para que los elementos del DOM se rendericen completamente
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.initMaps();
+    }, 300); // Pequeño retraso de 100ms
+  }
+
+  initMaps(): void {
+    if (this.obrasPaginadas.length > 0) {
+      this.obrasPaginadas.forEach((obra, index) => {
+        const mapId = `map-${index}`; // Generamos un id único para cada mapa
+        const mapElement = document.getElementById(mapId);
+
+        if (mapElement) {
+          // Verifica si el div con el ID existe
+          const map = L.map(mapId).setView([obra.latitud!, obra.longitud!], 13);
+
+          // Agregar capa de mapa (usamos OpenStreetMap)
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          }).addTo(map);
+
+          // Crear un icono sin sombra
+          const customIcon = L.icon({
+            iconUrl:
+              'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png', // Icono predeterminado de Leaflet
+            shadowUrl: '', // No usamos sombra
+            iconSize: [25, 41], // Tamaño del icono
+            iconAnchor: [12, 41], // Punto de anclaje en el icono
+            popupAnchor: [0, -41], // Anclaje para los popups
+          });
+
+          // Agregar marcador con icono personalizado sin sombra
+          L.marker([obra.latitud!, obra.longitud!], { icon: customIcon })
+            .addTo(map)
+            .bindPopup(`Ubicación de la obra: ${obra.nombre}`)
+            .openPopup();
+        } else {
+          console.error(
+            `El contenedor para el mapa con id ${mapId} no se encuentra.`
+          );
+        }
+      });
+    } else {
+      // Si no hay obras, centra el mapa en Santa Cruz
+      /*const map = L.map('map').setView([-17.769553, -63.171463], 5); // Centrado en Santa Cruz
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);*/
+    }
   }
 
   obtenerObrasCiviles(): void {
@@ -67,6 +128,10 @@ export class ObracivilListComponent {
   confirmarEliminarObra(id: number): void {
     this.obraAEliminarId = id; // Guardamos el id de la Obra a eliminar
     this.mostrarModal = true; // Mostramos el modal
+  }
+
+  verDetalleObra(id: number): void {
+    this.router.navigate([`/obra-civil-show/${id}`]);
   }
 
   eliminarObraConfirmada(): void {
@@ -100,14 +165,6 @@ export class ObracivilListComponent {
     this.obrasPaginadas = paginacion.paginatedData;
   }
 
-  /*cambiarPagina(direccion: string): void {
-    this.paginaActual = this.paginationService.changePage(
-      this.paginaActual,
-      direccion as 'previous' | 'next',
-      this.totalPaginas
-    );
-    this.actualizarPermisosPaginadas();
-  }*/
   cambiarPagina(direccion: 'previous' | 'next'): void {
     this.paginaActual = this.paginationService.changePage(
       this.paginaActual,

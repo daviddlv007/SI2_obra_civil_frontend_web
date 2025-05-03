@@ -1,24 +1,23 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { UsuarioService } from '../../../../services/usuario/usuario.service';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ObracivilService } from '../../../../services/obracivil/obracivil.service';
-import { Obracivil } from '../../../../models/obracivil/obracivil.model';
-import { Usuario } from '../../../../models/usuario/usuario.model';
 import { ObracivilUsuarioService } from '../../../../services/obracivil-usuario/obracivil-usuario.service';
+import { UsuarioService } from '../../../../services/usuario/usuario.service';
+import { Obracivil } from '../../../../models/obracivil/obracivil.model';
 import { ObracivilUsuario } from '../../../../models/obracivil-usuario/obracivil-usuario.model';
-import { Router } from '@angular/router';
+import { Usuario } from '../../../../models/usuario/usuario.model';
+import { CommonModule } from '@angular/common';
 
 import * as L from 'leaflet';
 
 @Component({
-  selector: 'app-obracivil-create',
+  selector: 'app-obracivil-show',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './obracivil-create.component.html',
-  styleUrl: './obracivil-create.component.scss',
+  imports: [CommonModule],
+  templateUrl: './obracivil-show.component.html',
+  styleUrl: './obracivil-show.component.scss',
 })
-export class ObracivilCreateComponent implements OnInit {
+export class ObracivilShowComponent implements OnInit {
   obraCivil: Obracivil = {
     nombre: '',
     descripcion: '',
@@ -29,7 +28,7 @@ export class ObracivilCreateComponent implements OnInit {
     fechaInicio: undefined,
     fechaFinEstimada: undefined,
     estado: 'En planificación',
-    tipoObra: 'VIVIENDA', // O cualquiera que quieras por defecto
+    tipoObra: 'VIVIENDA',
     direccion: '',
     latitud: 0,
     longitud: 0,
@@ -37,63 +36,81 @@ export class ObracivilCreateComponent implements OnInit {
     fechaTerminacionReal: undefined,
   };
 
-  submitted: boolean = false;
+  usuarioCli: Usuario = {
+    id: 0,
+    nombre: '',
+    apellido: '',
+    correo: '',
+    contrasena: '',
+    telefono: '',
+    direccion: '',
+    fechaNacimiento: '',
+    genero: '',
+    numeroIdentificacion: '',
+    rol: { id: 0, nombre: '', descripcion: '' },
+  };
+
+  usuarioEmp: Usuario = {
+    id: 0,
+    nombre: '',
+    apellido: '',
+    correo: '',
+    contrasena: '',
+    telefono: '',
+    direccion: '',
+    fechaNacimiento: '',
+    genero: '',
+    numeroIdentificacion: '',
+    rol: { id: 0, nombre: '', descripcion: '' },
+  };
 
   usuariosClientes: Usuario[] = [];
   usuariosEmpleados: Usuario[] = [];
 
-  usuario: Usuario = {
-    nombre: '',
-    apellido: '',
-    correo: '',
-    contrasena: '',
-    telefono: '',
-    direccion: '',
-    fechaNacimiento: '',
-    genero: '',
-    numeroIdentificacion: '',
-    rol: { id: 0, nombre: '', descripcion: '' },
-  };
-
-  usuarioCliente: Usuario = {
-    nombre: '',
-    apellido: '',
-    correo: '',
-    contrasena: '',
-    telefono: '',
-    direccion: '',
-    fechaNacimiento: '',
-    genero: '',
-    numeroIdentificacion: '',
-    rol: { id: 0, nombre: '', descripcion: '' },
-  };
-
-  usuarioEncargado: Usuario = {
-    nombre: '',
-    apellido: '',
-    correo: '',
-    contrasena: '',
-    telefono: '',
-    direccion: '',
-    fechaNacimiento: '',
-    genero: '',
-    numeroIdentificacion: '',
-    rol: { id: 0, nombre: '', descripcion: '' },
-  };
+  obraId: number = 0;
 
   idUsuarioCliente: number = 0;
   idUsuarioEmpleado: number = 0;
 
+  submitted: boolean = false;
+
+  mostrarModalImagen: boolean = false;
+  imagenUrl: string | null = null;
+
   constructor(
-    private usuarioService: UsuarioService,
+    private cdr: ChangeDetectorRef,
+    private activatedRoute: ActivatedRoute,
     private obraCivilService: ObracivilService,
     private obraCivilUsuarioService: ObracivilUsuarioService,
+    private usuarioService: UsuarioService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.cargarClientes();
-    this.cargarEncargado();
+    this.obraId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    if (this.obraId) {
+      this.cargarObraCivil(this.obraId);
+    }
+    //this.cargarClientes();
+    //this.cargarEncargado();
+  }
+
+  cargarObraCivil(id: number): void {
+    this.obraCivilService.obtenerObraPorId(id).subscribe((data) => {
+      console.log('obraCivil:', data);
+      this.obraCivil = data;
+    });
+
+    this.obraCivilUsuarioService.obtenerRelacionesCli(id).subscribe((data) => {
+      console.log('Cliente', data);
+      this.usuarioCli = data[0].usuario;
+      console.log('Cliente', this.usuarioCli);
+    });
+    this.obraCivilUsuarioService.obtenerRelacionesEmp(id).subscribe((data) => {
+      console.log('Empleado', data);
+      this.usuarioEmp = data[0].usuario;
+      console.log('Empleado', this.usuarioEmp);
+    });
   }
 
   cargarClientes(): void {
@@ -109,8 +126,23 @@ export class ObracivilCreateComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
+    // Crear el mapa de Leaflet después de que la vista esté completamente cargada
+    //this.initMaps();
+    // Esperamos un poco para que los elementos del DOM se rendericen completamente
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.initMaps();
+    }, 300); // Pequeño retraso de 100ms
+  }
+
+  initMaps(): void {
     // Inicializar el mapa con la ubicación predeterminada de Bolivia (en este caso Santa Cruz)
-    const map = L.map('map').setView([-17.769553, -63.171463], 9); // Coordenadas de Bolivia (Santa Cruz)
+    //console.log('latitud:', this.obraCivil.latitud);
+    //console.log('longitud:', this.obraCivil.longitud);
+    const map = L.map('map').setView(
+      [this.obraCivil.latitud!, this.obraCivil.longitud!],
+      11
+    ); // Coordenadas de Bolivia (Santa Cruz)
 
     // Agregar una capa de mapa (OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -119,14 +151,17 @@ export class ObracivilCreateComponent implements OnInit {
     }).addTo(map);
 
     // Crear un marcador sin sombra
-    const marker = L.marker([-17.769553, -63.171463], {
-      icon: L.icon({
-        iconUrl: 'https://unpkg.com/leaflet/dist/images/marker-icon.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-      }),
-    }).addTo(map);
+    const marker = L.marker(
+      [this.obraCivil.latitud!, this.obraCivil.longitud!],
+      {
+        icon: L.icon({
+          iconUrl: 'https://unpkg.com/leaflet/dist/images/marker-icon.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        }),
+      }
+    ).addTo(map);
 
     // Escuchar el evento de clic en el mapa para actualizar las coordenadas
     map.on('click', (e: any) => {
@@ -142,19 +177,27 @@ export class ObracivilCreateComponent implements OnInit {
     });
   }
 
-  crearObraCivill() {
-    console.log('obracivil', this.obraCivil);
-    console.log('idcliente', this.idUsuarioCliente);
-    console.log('idencargado', this.idUsuarioEmpleado);
-    // Lógica para crear la obra civil, asignando el cliente y el empleado
+  // Método para abrir el modal con la imagen
+  abrirModalImg(imagenUrl: string): void {
+    this.imagenUrl = imagenUrl;
+    this.mostrarModalImagen = true;
+  }
+
+  cerrarModalImg(): void {
+    this.imagenUrl = null;
+    this.mostrarModalImagen = false;
+  }
+
+  volver(): void {
+    this.router.navigate(['/obra-civil']); // Redirige a la lista de obras civiles
   }
 
   crearObraCivil(): void {
     console.log('obracivil', this.obraCivil);
     this.obraCivilService
-      .crearObra(this.obraCivil)
-      .subscribe((nuevaObraCivil) => {
-        console.log('NEW:', nuevaObraCivil);
+      .actualizarObra(this.obraId, this.obraCivil)
+      .subscribe((updatedObra) => {
+        console.log('NEW:', updatedObra);
         console.log('Usuarios clientes:', this.usuariosClientes);
         console.log('Usuarios empleados:', this.usuariosEmpleados);
         console.log('ID cliente seleccionado:', this.idUsuarioCliente);
@@ -173,12 +216,12 @@ export class ObracivilCreateComponent implements OnInit {
         // Asegúrate de que los usuarios existen antes de proceder
         if (clienteSeleccionado && empleadoSeleccionado) {
           const obraCivilUsuarioCli: ObracivilUsuario = {
-            obraCivil: { id: nuevaObraCivil.id! },
+            obraCivil: { id: updatedObra.id! },
             usuario: { id: clienteSeleccionado.id }, // Aquí pasamos el objeto completo de usuario
           };
 
           const obraCivilUsuarioEnc: ObracivilUsuario = {
-            obraCivil: { id: nuevaObraCivil.id! },
+            obraCivil: { id: updatedObra.id! },
             usuario: { id: empleadoSeleccionado.id }, // Aquí pasamos el objeto completo de usuario
           };
 
@@ -187,12 +230,12 @@ export class ObracivilCreateComponent implements OnInit {
 
           // Crear la relación entre obra civil y el cliente
           this.obraCivilUsuarioService
-            .crearObraCivilUsuario(obraCivilUsuarioCli)
+            .actualizarObraCivilUsuario(this.obraId, obraCivilUsuarioCli)
             .subscribe();
 
           // Crear la relación entre obra civil y el empleado
           this.obraCivilUsuarioService
-            .crearObraCivilUsuario(obraCivilUsuarioEnc)
+            .actualizarObraCivilUsuario(this.obraId, obraCivilUsuarioEnc)
             .subscribe();
 
           // Redirigir después de la creación
@@ -203,12 +246,17 @@ export class ObracivilCreateComponent implements OnInit {
       });
   }
 
-  cancelar(): void {
-    this.router.navigate(['/obra-civil']); // Redirige a la lista de personas
+  editarObraCivil(): void {
+    this.obraCivilService
+      .actualizarObra(this.obraId, this.obraCivil)
+      .subscribe((updatedObra) => {
+        console.log('Obra civil actualizada', updatedObra);
+        this.router.navigate(['/obra-civil']); // Redirige a la lista después de la actualización
+      });
   }
 
-  idEmpleadoChange(idempleado: number): void {
-    this.idUsuarioEmpleado = idempleado;
+  cancelar(): void {
+    this.router.navigate(['/obra-civil']); // Redirige a la lista de obras civiles
   }
 
   onClienteChange() {

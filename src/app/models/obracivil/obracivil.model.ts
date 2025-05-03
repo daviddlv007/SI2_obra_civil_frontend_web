@@ -1,5 +1,5 @@
 export class Obracivil {
-  id!: number;
+  id?: number;
   nombre?: string;
   descripcion?: string;
   costoEstimado?: number;
@@ -12,7 +12,9 @@ export class Obracivil {
   fechaCreacion?: Date;
   fechaUltimaActualizacion?: Date;
   tipoObra?: string;
-  ubicacion?: string;
+  direccion?: string;
+  latitud?: number;
+  longitud?: number;
   planoUrl?: string;
   fechaTerminacionReal?: Date;
 }
