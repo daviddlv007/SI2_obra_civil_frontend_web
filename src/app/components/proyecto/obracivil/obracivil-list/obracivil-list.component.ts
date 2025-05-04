@@ -51,7 +51,7 @@ export class ObracivilListComponent implements AfterViewInit {
     this.cdr.detectChanges();
     setTimeout(() => {
       this.initMaps();
-    }, 300); // Pequeño retraso de 100ms
+    }, 500); // Pequeño retraso de 100ms
   }
 
   initMaps(): void {
@@ -111,12 +111,6 @@ export class ObracivilListComponent implements AfterViewInit {
     });
   }
 
-  eliminarObra(id: number): void {
-    this.obracivilService.eliminarObra(id).subscribe(() => {
-      this.obtenerObrasCiviles();
-    });
-  }
-
   irACrearObra(): void {
     this.router.navigate(['/obra-civil-create']);
   }
@@ -125,16 +119,25 @@ export class ObracivilListComponent implements AfterViewInit {
     this.router.navigate([`/obra-civil-update/${id}`]);
   }
 
-  confirmarEliminarObra(id: number): void {
-    this.obraAEliminarId = id; // Guardamos el id de la Obra a eliminar
-    this.mostrarModal = true; // Mostramos el modal
-  }
-
   verDetalleObra(id: number): void {
     this.router.navigate([`/obra-civil-show/${id}`]);
   }
 
+  eliminarObra(id: number): void {
+    this.obracivilService.eliminarObra(id).subscribe(() => {
+      this.obtenerObrasCiviles();
+    });
+  }
+
+  confirmarEliminarObra(id: number): void {
+    //console.log('id', id);
+    this.obraAEliminarId = id; // Guardamos el id de la Obra a eliminar
+    //console.log('obraAEliminarId', this.obraAEliminarId);
+    this.mostrarModal = true; // Mostramos el modal
+  }
+
   eliminarObraConfirmada(): void {
+    console.log('obraAEliminarId', this.obraAEliminarId);
     if (this.obraAEliminarId !== null) {
       this.eliminarObra(this.obraAEliminarId); // Realizamos la eliminación
       this.cerrarModal(); // Cerramos el modal
