@@ -33,10 +33,20 @@ export class EmpleadoCreateComponent {
   ) {}
 
   crearEmpleado(): void {
-    this.empleadoService.crearEmpleado(this.empleado).subscribe(() => {
-      this.router.navigate(['/empleado']);
+    this.empleadoService.crearEmpleado(this.empleado).subscribe({
+      next: () => {
+        this.router.navigate(['/empleado'], {
+          state: { mensaje: 'Empleado creado exitosamente.' }  // Mensaje de éxito
+        });
+      },
+      error: () => {
+        this.router.navigate(['/empleado'], {
+          state: { error: 'Ocurrió un error al crear el empleado.' }  // Mensaje de error
+        });
+      }
     });
   }
+
 
   cancelar(): void {
     this.router.navigate(['/empleado']);

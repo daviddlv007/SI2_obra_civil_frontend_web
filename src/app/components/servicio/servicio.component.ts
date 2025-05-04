@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FilterService } from '../../services/filter/filter.service';
 import { PaginationService } from '../../services/pagination/pagination.service';
+import { Location } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-servicio',
@@ -30,23 +33,26 @@ export class ServicioComponent implements OnInit {
     private servicioService: ServicioService,
     private router: Router,
     private filterService: FilterService,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    private location: Location
   ) {}
 
   mensajeExito: string = '';
   mensajeError: string = '';
 
   ngOnInit(): void {
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras?.state as { mensaje?: string, error?: string };
+    const state = this.location.getState() as { mensaje?: string, error?: string };
+
     if (state?.mensaje) {
       this.mensajeExito = state.mensaje;
       setTimeout(() => this.mensajeExito = '', 3000);
     }
+
     if (state?.error) {
       this.mensajeError = state.error;
       setTimeout(() => this.mensajeError = '', 3000);
     }
+
     this.obtenerServicios();
   }
 

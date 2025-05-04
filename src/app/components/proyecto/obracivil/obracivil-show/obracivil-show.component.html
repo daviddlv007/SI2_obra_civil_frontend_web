@@ -1,0 +1,161 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <!-- Card Principal -->
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <!-- Título y Botón para Crear Nueva Obra -->
+            <div class="row mb-3">
+              <div class="col-12 col-md-9">
+                <h4 class="m-0">Detalle Obra Civil: {{ obraCivil.nombre }}</h4>
+              </div>
+            </div>
+
+            <!-- Lista de Obras en disposición vertical -->
+            <div class="row">
+              <div class="card mb-4">
+                <div class="row g-0">
+                  <!-- Columna para la imagen -->
+                  <div class="col-md-5">
+                    <div class="card-body">
+                      <p class="card-text">
+                        <strong>Plano:</strong>
+                      </p>
+                      <img
+                        src="{{ obraCivil.planoUrl }}"
+                        class="card-img-top img-fluid"
+                        alt="Plano de la obra"
+                        style="
+                          max-height: 150px;
+                          max-width: 60%;
+                          object-fit: cover;
+                        "
+                        data-bs-toggle="modal"
+                        data-bs-target="#imageModal"
+                        (click)="abrirModalImg(obraCivil.planoUrl!)"
+                      />
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text">
+                        <strong>Ubicacion:</strong>
+                      </p>
+                      <div id="map" style="height: 300px; width: 100%"></div>
+                    </div>
+                  </div>
+
+                  <!-- Columna para la información de la obra -->
+                  <div class="col-md-7">
+                    <div class="card-body">
+                      <h5 class="card-title" style="color: #0a4075">
+                        {{ obraCivil.nombre }}
+                      </h5>
+                      <p class="card-text">
+                        <strong>Descripción:</strong>
+                        {{ obraCivil.descripcion }}
+                      </p>
+                      <p class="card-text">
+                        <strong>Tipo de Obra:</strong> {{ obraCivil.tipoObra }}
+                      </p>
+                      <p class="card-text">
+                        <strong>Direccion:</strong> {{ obraCivil.direccion }}
+                      </p>
+                      <p class="card-text">
+                        <strong>Estado:</strong> {{ obraCivil.estado }}
+                      </p>
+                      <p class="card-text">
+                        <strong>Fecha de Inicio:</strong>
+                        {{ obraCivil.fechaInicio | date }}
+                      </p>
+                      <p class="card-text">
+                        <strong>Fecha Estimada de Finalización:</strong>
+                        {{ obraCivil.fechaFinEstimada | date }}
+                      </p>
+                      <p class="card-text">
+                        <strong>Costo Estimado:</strong> ${{
+                          obraCivil.costoEstimado | number
+                        }}
+                      </p>
+                      <p class="card-text">
+                        <strong>Costo Actual:</strong> ${{
+                          obraCivil.costo | number
+                        }}
+                      </p>
+                      <p class="card-text">
+                        <strong>Presupuesto Disponible:</strong> ${{
+                          obraCivil.presupuestoDisponible | number
+                        }}
+                      </p>
+                      <!--Propietario-->
+                      <h5 class="card-title" style="color: #0a4075">
+                        Propietario: {{ usuarioCli.nombre }}
+                        {{ usuarioCli.apellido }}
+                      </h5>
+                      <p class="card-text">
+                        <strong>Direccion:</strong> {{ usuarioCli.direccion }}
+                      </p>
+                      <p class="card-text">
+                        <strong>Telefono:</strong> {{ usuarioCli.telefono }}
+                      </p>
+                      <!--Encargado-->
+                      <h5 class="card-title" style="color: #0a4075">
+                        Encargado: {{ usuarioEmp.nombre }}
+                        {{ usuarioEmp.apellido }}
+                      </h5>
+
+                      <p class="card-text">
+                        <strong>Telefono:</strong> {{ usuarioEmp.telefono }}
+                      </p>
+
+                      <!-- Botones de Acción -->
+                      <div class="d-flex gap-2 justify-content-start">
+                        <button
+                          class="btn btn-secondary btn-sm"
+                          (click)="volver()"
+                        >
+                          <i class="bi bi-arrow-left"></i> Volver
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal de Imagen Completa -->
+<div
+  class="modal fade"
+  id="imageModal"
+  tabindex="-1"
+  aria-labelledby="imageModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabel">Plano de la Obra</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="cerrarModalImg()"
+        ></button>
+      </div>
+      <div class="modal-body text-center">
+        <img
+          *ngIf="imagenUrl"
+          [src]="imagenUrl"
+          class="img-fluid"
+          alt="Plano de la obra"
+        />
+      </div>
+    </div>
+  </div>
+</div>

@@ -16,7 +16,7 @@ export class ObracivilService {
     return this.http.get<Obracivil[]>(`${this.apiUrl}/obras`);
   }
 
-  obtenerObrasPorId(id: number): Observable<Obracivil> {
+  obtenerObraPorId(id: number): Observable<Obracivil> {
     return this.http.get<Obracivil>(`${this.apiUrl}/obras/${id}`);
   }
 

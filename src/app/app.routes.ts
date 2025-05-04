@@ -38,6 +38,7 @@ import { BackupComponent } from './components/backup-restore/backup/backup.compo
 import { ObracivilListComponent } from './components/proyecto/obracivil/obracivil-list/obracivil-list.component';
 import { ObracivilCreateComponent } from './components/proyecto/obracivil/obracivil-create/obracivil-create.component';
 import { ObracivilUpdateComponent } from './components/proyecto/obracivil/obracivil-update/obracivil-update.component';
+import { ObracivilShowComponent } from './components/proyecto/obracivil/obracivil-show/obracivil-show.component';
 
 //SERVICIO
 import { ServicioComponent } from './components/servicio/servicio.component';
@@ -94,6 +95,7 @@ export const routes: Routes = [
       { path: 'obra-civil', component: ObracivilListComponent },
       { path: 'obra-civil-create', component: ObracivilCreateComponent },
       { path: 'obra-civil-update/:id', component: ObracivilUpdateComponent },
+      { path: 'obra-civil-show/:id', component: ObracivilShowComponent },
 
      // { path: '', redirectTo: 'usuario', pathMatch: 'full' },
 

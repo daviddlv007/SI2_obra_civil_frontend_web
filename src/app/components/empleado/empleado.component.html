@@ -7,6 +7,8 @@
 </div>
 
 <div>
+  <div *ngIf="mensajeExito" class="alert alert-success">{{ mensajeExito }}</div>
+  <div *ngIf="mensajeError" class="alert alert-danger">{{ mensajeError }}</div>
   <h2>Empleados</h2>
 
   <input type="text" [(ngModel)]="textoBusqueda" (input)="filtrarEmpleados()" placeholder="Buscar...">

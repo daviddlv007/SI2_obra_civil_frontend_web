@@ -39,13 +39,24 @@ export class EmpleadoUpdateComponent implements OnInit {
     }
   }
 
+
   actualizarEmpleado(): void {
-    if (this.empleado.id) {
-      this.empleadoService.actualizarEmpleado(this.empleado.id, this.empleado).subscribe(() => {
-        this.router.navigate(['/empleado']);
+    if (this.empleado.id != null) {  // Verificamos si el empleado tiene un ID
+      this.empleadoService.actualizarEmpleado(this.empleado.id, this.empleado).subscribe({
+        next: () => {
+          this.router.navigate(['/empleado'], {
+            state: { mensaje: 'Empleado actualizado exitosamente.' }  // Redirigimos con mensaje de éxito
+          });
+        },
+        error: () => {
+          this.router.navigate(['/empleado'], {
+            state: { error: 'Ocurrió un error al actualizar el empleado.' }  // Redirigimos con mensaje de error
+          });
+        }
       });
     }
   }
+
 
   cancelar(): void {
     this.router.navigate(['/empleado']);

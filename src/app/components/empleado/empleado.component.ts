@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FilterService } from '../../services/filter/filter.service';
 import { PaginationService } from '../../services/pagination/pagination.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-empleado',
@@ -30,10 +31,26 @@ export class EmpleadoComponent {
     private empleadoService: EmpleadoService,  // Cambiado a EmpleadoService
     private router: Router,
     private filterService: FilterService,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    private location: Location
   ) {}
 
+  mensajeExito: string = '';
+  mensajeError: string = '';
+
   ngOnInit() {
+    const state = this.location.getState() as { mensaje?: string, error?: string };
+
+    if (state?.mensaje) {
+      this.mensajeExito = state.mensaje;
+      setTimeout(() => this.mensajeExito = '', 3000);
+    }
+
+    if (state?.error) {
+      this.mensajeError = state.error;
+      setTimeout(() => this.mensajeError = '', 3000);
+    }
+
     this.obtenerEmpleados();
   }
 
@@ -42,12 +59,6 @@ export class EmpleadoComponent {
       this.empleados = data;
       this.empleadosFiltrados = data;
       this.calcularPaginacion();
-    });
-  }
-
-  eliminarEmpleado(id: number): void {
-    this.empleadoService.eliminarEmpleado(id).subscribe(() => {
-      this.obtenerEmpleados();
     });
   }
 
@@ -67,9 +78,26 @@ export class EmpleadoComponent {
   eliminarEmpleadoConfirmado(): void {
     if (this.empleadoAEliminarId !== null) {
       this.eliminarEmpleado(this.empleadoAEliminarId);
-      this.cerrarModal();
+      this.cerrarModal(); // Cerrar el modal aquí
     }
   }
+
+  eliminarEmpleado(id: number): void {
+    this.empleadoService.eliminarEmpleado(id).subscribe({
+      next: () => {
+        this.obtenerEmpleados();
+        this.router.navigate(['/empleado'], {
+          state: { mensaje: 'Empleado eliminado exitosamente.' }  // Mostrar mensaje de éxito
+        });
+      },
+      error: () => {
+        this.router.navigate(['/empleado'], {
+          state: { error: 'Ocurrió un error al eliminar el empleado.' }  // Mostrar mensaje de error
+        });
+      }
+    });
+  }
+
 
   cerrarModal(): void {
     this.mostrarModal = false;
