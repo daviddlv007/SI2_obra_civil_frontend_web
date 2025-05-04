@@ -85,15 +85,15 @@ export class EmpleadoComponent {
   eliminarEmpleado(id: number): void {
     this.empleadoService.eliminarEmpleado(id).subscribe({
       next: () => {
-        this.obtenerEmpleados();
-        this.router.navigate(['/empleado'], {
-          state: { mensaje: 'Empleado eliminado exitosamente.' }  // Mostrar mensaje de éxito
-        });
+        // Mostrar mensaje directamente en el componente en lugar de navegar
+        this.mensajeExito = 'Empleado eliminado exitosamente.';
+        setTimeout(() => this.mensajeExito = '', 3000);
+        this.obtenerEmpleados(); // Actualizar la lista después de eliminar
       },
       error: () => {
-        this.router.navigate(['/empleado'], {
-          state: { error: 'Ocurrió un error al eliminar el empleado.' }  // Mostrar mensaje de error
-        });
+        // Mostrar mensaje de error directamente
+        this.mensajeError = 'Ocurrió un error al eliminar el empleado.';
+        setTimeout(() => this.mensajeError = '', 3000);
       }
     });
   }

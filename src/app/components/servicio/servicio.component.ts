@@ -65,9 +65,18 @@ export class ServicioComponent implements OnInit {
   }
 
   eliminarServicio(id: number): void {
-    this.servicioService.eliminarServicio(id).subscribe(() => {
-      this.obtenerServicios();
-      alert('Servicio eliminado exitosamente.');
+    this.servicioService.eliminarServicio(id).subscribe({
+      next: () => {
+        // Mostrar mensaje directamente en el componente en lugar de usar alert
+        this.mensajeExito = 'Servicio eliminado exitosamente.';
+        setTimeout(() => this.mensajeExito = '', 3000);
+        this.obtenerServicios(); // Actualizar la lista después de eliminar
+      },
+      error: (error) => {
+        // Mostrar mensaje de error directamente
+        this.mensajeError = 'Ocurrió un error al eliminar el servicio.';
+        setTimeout(() => this.mensajeError = '', 3000);
+      }
     });
   }
 
