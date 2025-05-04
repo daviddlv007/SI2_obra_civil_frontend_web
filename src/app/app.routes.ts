@@ -54,7 +54,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    //canActivate: [AuthGuard],--descomentar luego
+    canActivate: [AuthGuard],
     children: [
       { path: 'persona', component: PersonaComponent },
       { path: 'persona-create', component: PersonaCreateComponent },
@@ -112,13 +112,11 @@ export const routes: Routes = [
        { path: 'empleado-update/:id', component: EmpleadoUpdateComponent },
 
 
-       //{ path: '', redirectTo: 'usuario', pathMatch: 'full' }--descomentar luego
-        { path: '', redirectTo: 'empleado', pathMatch: 'full' }
+       { path: '', redirectTo: 'usuario', pathMatch: 'full' }
+
     ],
   },
 
-   // { path: 'login', component: LoginComponent },--descomentar luego
-   // { path: '**', redirectTo: 'usuario' },--descomentar luego
-
-
+   { path: 'login', component: LoginComponent },
+   { path: '**', redirectTo: 'usuario' },
 ];
