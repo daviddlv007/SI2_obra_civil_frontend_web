@@ -29,6 +29,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet/dist/images",
+                "output": "/assets/leaflet/images"
               }
             ],
             "styles": [
@@ -37,7 +42,8 @@
               "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/leaflet/dist/leaflet.js"
             ]
           },
           "configurations": {
