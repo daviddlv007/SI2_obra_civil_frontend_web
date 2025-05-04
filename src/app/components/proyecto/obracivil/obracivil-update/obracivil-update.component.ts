@@ -102,13 +102,13 @@ export class ObracivilUpdateComponent implements OnInit {
     this.cdr.detectChanges();
     setTimeout(() => {
       this.initMaps();
-    }, 300); // Pequeño retraso de 100ms
+    }, 500); // Pequeño retraso de 100ms
   }
 
   initMaps(): void {
     // Inicializar el mapa con la ubicación predeterminada de Bolivia (en este caso Santa Cruz)
-    //console.log('latitud:', this.obraCivil.latitud);
-    //console.log('longitud:', this.obraCivil.longitud);
+    console.log('latitud:', this.obraCivil.latitud);
+    console.log('longitud:', this.obraCivil.longitud);
     const map = L.map('map').setView(
       [this.obraCivil.latitud!, this.obraCivil.longitud!],
       11
