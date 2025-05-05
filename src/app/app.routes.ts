@@ -39,6 +39,9 @@ import { ObracivilCreateComponent } from './components/proyecto/obracivil/obraci
 import { ObracivilUpdateComponent } from './components/proyecto/obracivil/obracivil-update/obracivil-update.component';
 import { ObracivilShowComponent } from './components/proyecto/obracivil/obracivil-show/obracivil-show.component';
 
+//Dashboard
+import { DashboardComponent } from './components/home/dashboard/dashboard.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -86,9 +89,12 @@ export const routes: Routes = [
       { path: 'obra-civil-update/:id', component: ObracivilUpdateComponent },
       { path: 'obra-civil-show/:id', component: ObracivilShowComponent },
 
-      { path: '', redirectTo: 'usuario', pathMatch: 'full' },
+      //Dashboard
+      { path: 'dashboard', component: DashboardComponent },
+
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: 'usuario' },
+  { path: '**', redirectTo: 'dashboard' },
 ];
