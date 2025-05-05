@@ -50,6 +50,9 @@ import { EmpleadoComponent } from './components/empleado/empleado.component';
 import { EmpleadoCreateComponent } from './components/empleado/empleado-create/empleado-create.component';
 import { EmpleadoUpdateComponent } from './components/empleado/empleado-update/empleado-update.component';
 
+//Dashboard
+import { DashboardComponent } from './components/home/dashboard/dashboard.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -96,11 +99,8 @@ export const routes: Routes = [
       { path: 'obra-civil-create', component: ObracivilCreateComponent },
       { path: 'obra-civil-update/:id', component: ObracivilUpdateComponent },
       { path: 'obra-civil-show/:id', component: ObracivilShowComponent },
-
-     // { path: '', redirectTo: 'usuario', pathMatch: 'full' },
-
-
-       // SERVICIO
+      
+      // SERVICIO
        { path: 'servicio', component: ServicioComponent },
        { path: 'servicio-create', component: ServicioCreateComponent },
        { path: 'servicio-update/:id', component: ServicioUpdateComponent },
@@ -110,13 +110,14 @@ export const routes: Routes = [
        { path: 'empleado', component: EmpleadoComponent },
        { path: 'empleado-create', component: EmpleadoCreateComponent },
        { path: 'empleado-update/:id', component: EmpleadoUpdateComponent },
+      
+      //Dashboard
+      { path: 'dashboard', component: DashboardComponent },
 
-
-       { path: '', redirectTo: 'usuario', pathMatch: 'full' }
-
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
+  { path: 'login', component: LoginComponent },
+  { path: '**', redirectTo: 'dashboard' },
 
-   { path: 'login', component: LoginComponent },
-   { path: '**', redirectTo: 'usuario' },
 ];
