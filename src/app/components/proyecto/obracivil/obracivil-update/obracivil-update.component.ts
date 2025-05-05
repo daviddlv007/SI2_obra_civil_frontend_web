@@ -102,7 +102,7 @@ export class ObracivilUpdateComponent implements OnInit {
     this.cdr.detectChanges();
     setTimeout(() => {
       this.initMaps();
-    }, 500); // Pequeño retraso de 100ms
+    }, 600); // Pequeño retraso de 100ms
   }
 
   initMaps(): void {
