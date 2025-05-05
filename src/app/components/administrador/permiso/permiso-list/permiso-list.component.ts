@@ -95,13 +95,21 @@ export class PermisoListComponent {
     this.permisosPaginadas = paginacion.paginatedData;
   }
 
-  cambiarPagina(direccion: string): void {
+  /*cambiarPagina(direccion: string): void {
     this.paginaActual = this.paginationService.changePage(
       this.paginaActual,
       direccion as 'previous' | 'next',
       this.totalPaginas
     );
     this.actualizarPermisosPaginadas();
+  }*/
+  cambiarPagina(direccion: 'previous' | 'next'): void {
+    this.paginaActual = this.paginationService.changePage(
+      this.paginaActual,
+      direccion,
+      this.totalPaginas
+    );
+    this.actualizarUsuariosPaginados();
   }
 
   actualizarPermisosPaginadas(): void {
@@ -122,5 +130,14 @@ export class PermisoListComponent {
   editarPermiso(id: number) {
     console.log('Editar permiso con ID:', id);
     // Aquí puedes redirigir a una página de edición o abrir un modal con los datos del permiso.
+  }
+
+  actualizarUsuariosPaginados(): void {
+    const paginacion = this.paginationService.paginate(
+      this.permisosFiltradas,
+      this.paginaActual,
+      this.elementosPorPagina
+    );
+    this.permisosPaginadas = paginacion.paginatedData;
   }
 }

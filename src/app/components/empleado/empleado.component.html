@@ -1,0 +1,57 @@
+<div *ngIf="mostrarModal" class="modal">
+  <div class="modal-content">
+    <h3>¿Estás seguro de eliminar este empleado?</h3>
+    <button (click)="eliminarEmpleadoConfirmado()">Confirmar</button>
+    <button (click)="cerrarModal()">Cancelar</button>
+  </div>
+</div>
+
+<div>
+  <div *ngIf="mensajeExito" class="alert alert-success">{{ mensajeExito }}</div>
+  <div *ngIf="mensajeError" class="alert alert-danger">{{ mensajeError }}</div>
+  <h2>Empleados</h2>
+
+  <input type="text" [(ngModel)]="textoBusqueda" (input)="filtrarEmpleados()" placeholder="Buscar...">
+
+  <button class="btn btn-primary" (click)="irACrearEmpleado()" style="float: right; margin-bottom: 10px;">
+    <i class="bi bi-plus-circle"></i> Crear Empleado
+  </button>
+
+  <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; margin-top: 20px;">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>C.I.</th>
+        <th>Puesto</th>
+        <th>Tipo de Contrato</th>
+        <th>Fecha Ingreso</th>
+        <th>Salario</th>
+        <th>Activo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let e of empleadosPaginados">
+        <td>{{ e.nombre }}</td>
+        <td>{{ e.apellido }}</td>
+        <td>{{ e.documentoIdentidad }}</td>
+        <td>{{ e.puesto || '—' }}</td>
+        <td>{{ e.tipoContrato }}</td>
+        <td>{{ e.fechaIngreso }}</td>
+        <td>{{ e.salario }} Bs </td>
+        <td>{{ e.activo ? 'Sí' : 'No' }}</td>
+        <td>
+          <button (click)="irAEditarEmpleado(e.id ?? 0)">Editar</button>
+          <button (click)="confirmarEliminarEmpleado(e.id ?? 0)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top: 20px;">
+    <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">Anterior</button>
+    <span> Página {{ paginaActual }} de {{ totalPaginas }} </span>
+    <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">Siguiente</button>
+  </div>
+</div>

@@ -1,0 +1,495 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <!-- Card -->
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h4 class="mb-3">Editar Obra Civil</h4>
+
+            <form
+              (ngSubmit)="editarObraCivil()"
+              #obraCivilForm="ngForm"
+              (ngSubmit)="submitted = true"
+            >
+              <div class="row">
+                <!-- Campo de Nombre -->
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="nombre" class="form-label fw-bold">Nombre:</label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    [(ngModel)]="obraCivil.nombre"
+                    class="form-control border-dark focus:border-primary"
+                    placeholder="Ingrese el nombre de la obra civil"
+                    name="nombre"
+                    #nombre="ngModel"
+                    required
+                    minlength="3"
+                  />
+                  <div
+                    *ngIf="
+                      (nombre.invalid && (nombre.dirty || nombre.touched)) ||
+                      (submitted && nombre.invalid)
+                    "
+                    class="error-message text-danger"
+                  >
+                    <small *ngIf="nombre.errors?.['required']"
+                      >El nombre es obligatorio.</small
+                    >
+                    <small *ngIf="nombre.errors?.['minlength']"
+                      >El nombre debe tener al menos 3 caracteres.</small
+                    >
+                  </div>
+                </div>
+
+                <!-- Campo de Descripción -->
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="descripcion" class="form-label fw-bold"
+                    >Descripción:</label
+                  >
+                  <textarea
+                    id="descripcion"
+                    class="form-control border-dark focus:border-primary"
+                    rows="3"
+                    placeholder="Ingrese la descripción de la obra civil"
+                    [(ngModel)]="obraCivil.descripcion"
+                    name="descripcion"
+                    required
+                    #descripcion="ngModel"
+                  ></textarea>
+                  <div
+                    *ngIf="
+                      (descripcion.invalid &&
+                        (descripcion.dirty || descripcion.touched)) ||
+                      (submitted && descripcion.invalid)
+                    "
+                    class="error-message text-danger"
+                  >
+                    <small *ngIf="descripcion.errors?.['required']"
+                      >La descripción es obligatoria.</small
+                    >
+                  </div>
+                </div>
+
+                <!-- Select para Usuario Cliente -->
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="idUsuarioCliente" class="form-label fw-bold"
+                    >Seleccionar Propietario (Cliente):</label
+                  >
+                  <select
+                    id="idUsuarioCliente"
+                    [(ngModel)]="idUsuarioCliente"
+                    class="form-control border-dark focus:border-primary"
+                    name="idUsuarioCliente"
+                    required
+                    (ngModelChange)="onClienteChange()"
+                  >
+                    <option [value]="0" disabled selected>
+                      Seleccione un propietario...
+                    </option>
+                    <option
+                      *ngFor="let cliente of usuariosClientes"
+                      [value]="cliente.id"
+                    >
+                      {{ cliente.apellido }} {{ cliente.nombre }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="idUsuarioCliente === 0 && obraCivilForm.submitted"
+                    class="error-message text-danger"
+                  >
+                    <small></small>El propietario (cliente) es obligatorio.
+                  </div>
+                </div>
+
+                <!-- Select para Agregar Empleados -->
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="idUsuarioEmpleado" class="form-label fw-bold"
+                    >Agregar Responsable (Empleado):</label
+                  >
+                  <select
+                    id="idUsuarioEmpleado"
+                    [(ngModel)]="idUsuarioEmpleado"
+                    class="form-control border-dark focus:border-primary"
+                    name="idUsuarioEmpleado"
+                    required
+                  >
+                    <option [value]="0" disabled selected>
+                      Seleccione un empleado...
+                    </option>
+                    <option
+                      *ngFor="let empleado of usuariosEmpleados"
+                      [value]="empleado.id"
+                    >
+                      {{ empleado.apellido }} {{ empleado.nombre }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="idUsuarioEmpleado === 0 && obraCivilForm.submitted"
+                    class="error-message text-danger"
+                  >
+                    <small></small>El responsable (empleado) es obligatorio.
+                  </div>
+                </div>
+
+                <!-- Filas de campos agrupados -->
+
+                <!-- Fila para Costo Estimado, Costo Real y Presupuesto -->
+                <div class="row mb-3">
+                  <div class="col-12 col-md-4">
+                    <label for="costoEstimado" class="form-label fw-bold"
+                      >Costo Estimado:</label
+                    >
+                    <input
+                      type="number"
+                      id="costoEstimado"
+                      [(ngModel)]="obraCivil.costoEstimado"
+                      class="form-control border-dark focus:border-primary"
+                      placeholder="Ingrese el costo estimado"
+                      name="costoEstimado"
+                      #costoEstimado="ngModel"
+                      required
+                      [min]="0"
+                    />
+                    <div
+                      *ngIf="
+                        (costoEstimado.invalid &&
+                          (costoEstimado.dirty || costoEstimado.touched)) ||
+                        (submitted && costoEstimado.invalid)
+                      "
+                      class="error-message text-danger"
+                    >
+                      <small *ngIf="costoEstimado.errors?.['required']"
+                        >El costo estimado es obligatorio.</small
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label for="costo" class="form-label fw-bold"
+                      >Costo Real:</label
+                    >
+                    <input
+                      type="number"
+                      id="costo"
+                      [(ngModel)]="obraCivil.costo"
+                      class="form-control border-dark focus:border-primary"
+                      placeholder="Ingrese el costo real"
+                      name="costo"
+                      #costo="ngModel"
+                      required
+                      [min]="0"
+                    />
+                    <div
+                      *ngIf="
+                        (costo.invalid && (costo.dirty || costo.touched)) ||
+                        (submitted && costo.invalid)
+                      "
+                      class="error-message text-danger"
+                    >
+                      <small *ngIf="costo.errors?.['required']"
+                        >El costo real es obligatorio.</small
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label for="presupuesto" class="form-label fw-bold"
+                      >Presupuesto:</label
+                    >
+                    <input
+                      type="number"
+                      id="presupuesto"
+                      [(ngModel)]="obraCivil.presupuesto"
+                      class="form-control border-dark focus:border-primary"
+                      placeholder="Ingrese el presupuesto"
+                      name="presupuesto"
+                      #presupuesto="ngModel"
+                      required
+                      [min]="0"
+                    />
+                    <div
+                      *ngIf="
+                        (presupuesto.invalid &&
+                          (presupuesto.dirty || presupuesto.touched)) ||
+                        (submitted && presupuesto.invalid)
+                      "
+                      class="error-message text-danger"
+                    >
+                      <small *ngIf="presupuesto.errors?.['required']"
+                        >El presupuesto es obligatorio.</small
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fila para Presupuesto Disponible, Fecha de Inicio y Fecha Estimada de Fin -->
+                <div class="row mb-3">
+                  <div class="col-12 col-md-4">
+                    <label
+                      for="presupuestoDisponible"
+                      class="form-label fw-bold"
+                      >Presupuesto Disponible:</label
+                    >
+                    <input
+                      type="number"
+                      id="presupuestoDisponible"
+                      [(ngModel)]="obraCivil.presupuestoDisponible"
+                      class="form-control border-dark focus:border-primary"
+                      placeholder="Ingrese el presupuesto disponible"
+                      name="presupuestoDisponible"
+                      #presupuestoDisponible="ngModel"
+                      required
+                      [min]="0"
+                    />
+                    <div
+                      *ngIf="
+                        (presupuestoDisponible.invalid &&
+                          (presupuestoDisponible.dirty ||
+                            presupuestoDisponible.touched)) ||
+                        (submitted && presupuestoDisponible.invalid)
+                      "
+                      class="error-message text-danger"
+                    >
+                      <small *ngIf="presupuestoDisponible.errors?.['required']"
+                        >El presupuesto disponible es obligatorio.</small
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label for="fechaInicio" class="form-label fw-bold"
+                      >Fecha de Inicio:</label
+                    >
+                    <input
+                      type="date"
+                      id="fechaInicio"
+                      [(ngModel)]="obraCivil.fechaInicio"
+                      class="form-control border-dark focus:border-primary"
+                      name="fechaInicio"
+                      #fechaInicio="ngModel"
+                      required
+                    />
+                    <div
+                      *ngIf="
+                        (fechaInicio.invalid &&
+                          (fechaInicio.dirty || fechaInicio.touched)) ||
+                        (submitted && fechaInicio.invalid)
+                      "
+                      class="error-message text-danger"
+                    >
+                      <small *ngIf="fechaInicio.errors?.['required']"
+                        >La fecha de inicio es obligatoria.</small
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label for="fechaFinEstimada" class="form-label fw-bold"
+                      >Fecha Estimada de Fin:</label
+                    >
+                    <input
+                      type="date"
+                      id="fechaFinEstimada"
+                      [(ngModel)]="obraCivil.fechaFinEstimada"
+                      class="form-control border-dark focus:border-primary"
+                      name="fechaFinEstimada"
+                      #fechaFinEstimada="ngModel"
+                      required
+                    />
+                    <div
+                      *ngIf="
+                        (fechaFinEstimada.invalid &&
+                          (fechaFinEstimada.dirty ||
+                            fechaFinEstimada.touched)) ||
+                        (submitted && fechaFinEstimada.invalid)
+                      "
+                      class="error-message text-danger"
+                    >
+                      <small *ngIf="fechaFinEstimada.errors?.['required']"
+                        >La fecha estimada de fin es obligatoria.</small
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fila para Fecha de Terminación Real, Estado y Tipo de Obra -->
+                <div class="row mb-3">
+                  <div class="col-12 col-md-4">
+                    <label for="fechaTerminacionReal" class="form-label fw-bold"
+                      >Fecha de Terminación Real:</label
+                    >
+                    <input
+                      type="date"
+                      id="fechaTerminacionReal"
+                      [(ngModel)]="obraCivil.fechaTerminacionReal"
+                      class="form-control border-dark focus:border-primary"
+                      name="fechaTerminacionReal"
+                      #fechaTerminacionReal="ngModel"
+                    />
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label for="estado" class="form-label fw-bold"
+                      >Seleccionar Estado:</label
+                    >
+                    <select
+                      id="estado"
+                      [(ngModel)]="obraCivil.estado"
+                      class="form-control border-dark focus:border-primary"
+                      name="estado"
+                      #estado="ngModel"
+                      required
+                    >
+                      <option value="En planificación">En planificación</option>
+                      <option value="En diseño">En diseño</option>
+                      <option value="En progreso">En progreso</option>
+                      <option value="En construcción">En construcción</option>
+                      <option value="En mantenimiento">En mantenimiento</option>
+                      <option value="Reparaciones">Reparaciones</option>
+                      <option value="Finalizada">Finalizada</option>
+                      <option value="Cancelada">Cancelada</option>
+                    </select>
+                    <div
+                      *ngIf="
+                        (estado.invalid && (estado.dirty || estado.touched)) ||
+                        (submitted && estado.invalid)
+                      "
+                      class="error-message text-danger"
+                    >
+                      <small *ngIf="estado.errors?.['required']"
+                        >El estado es obligatorio.</small
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label for="tipoObra" class="form-label fw-bold"
+                      >Tipo de Obra:</label
+                    >
+                    <select
+                      id="tipoObra"
+                      [(ngModel)]="obraCivil.tipoObra"
+                      class="form-control border-dark focus:border-primary"
+                      name="tipoObra"
+                      #tipoObra="ngModel"
+                      required
+                    >
+                      <option value="VIVIENDA">Vivienda</option>
+                      <option value="COMERCIAL">Comercial</option>
+                      <option value="INDUSTRIAL">Industrial</option>
+                      <option value="OTROS">Otros</option>
+                    </select>
+                    <div
+                      *ngIf="
+                        (tipoObra.invalid &&
+                          (tipoObra.dirty || tipoObra.touched)) ||
+                        (submitted && tipoObra.invalid)
+                      "
+                      class="error-message text-danger"
+                    >
+                      <small *ngIf="tipoObra.errors?.['required']"
+                        >El tipo de obra es obligatorio.</small
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Campo de URL de Plano -->
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="planoUrl" class="form-label fw-bold"
+                    >Plano URL:</label
+                  >
+                  <input
+                    type="text"
+                    id="planoUrl"
+                    [(ngModel)]="obraCivil.planoUrl"
+                    class="form-control border-dark focus:border-primary"
+                    placeholder="Ingrese la URL del plano"
+                    name="planoUrl"
+                    #planoUrl="ngModel"
+                    required
+                  />
+                  <!-- Mensajes de error para el campo URL de Plano -->
+                  <div
+                    *ngIf="
+                      (planoUrl.invalid &&
+                        (planoUrl.dirty || planoUrl.touched)) ||
+                      (submitted && planoUrl.invalid)
+                    "
+                    class="error-message text-danger"
+                  >
+                    <small *ngIf="planoUrl.errors?.['required']">
+                      La URL del plano es obligatoria.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Campo de Direccion -->
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="direccion" class="form-label fw-bold"
+                    >Direccion:</label
+                  >
+                  <input
+                    type="text"
+                    id="direccion"
+                    [(ngModel)]="obraCivil.direccion"
+                    class="form-control border-dark focus:border-primary"
+                    placeholder="Ingrese la direccion de la obra civil"
+                    name="direccion"
+                    #direccion="ngModel"
+                    required
+                  />
+                  <!-- Mensajes de error para el campo direccion -->
+                  <div
+                    *ngIf="
+                      (direccion.invalid &&
+                        (direccion.dirty || direccion.touched)) ||
+                      (submitted && direccion.invalid)
+                    "
+                    class="error-message text-danger"
+                  >
+                    <small *ngIf="direccion.errors?.['required']">
+                      La direccion es obligatoria.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Campo de Ubicacion -->
+                <div class="col-12 col-md-6 mb-3">
+                  <label for="ubicacion" class="form-label fw-bold"
+                    >Ubicación:</label
+                  >
+                  <!-- Mapa de Leaflet -->
+                  <div id="map" style="height: 300px"></div>
+                  <div class="text-muted mt-2">
+                    <small>Seleccione una ubicación en el mapa</small>
+                  </div>
+                </div>
+              </div>
+              <!-- Botones de Acción -->
+              <div class="col-12 col-md-6 d-flex justify-content-start gap-3">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="!obraCivilForm.form.valid"
+                >
+                  <i class="bi bi-plus-circle mr-1"></i> Guardar Cambios
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="cancelar()"
+                >
+                  <i class="bi bi-x-circle mr-1"></i> Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div>
+</section>

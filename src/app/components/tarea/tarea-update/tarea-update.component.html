@@ -1,0 +1,132 @@
+<!-- src/app/components/tarea/tarea-update/tarea-update.component.html -->
+
+<div class="form-container">
+    <h2>Actualizar Tarea</h2>
+  
+    <form (ngSubmit)="actualizarTarea()" #tareaForm="ngForm">
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input 
+          id="nombre" 
+          [(ngModel)]="tarea.nombre" 
+          name="nombre" 
+          placeholder="Nombre de la tarea" 
+          required 
+          minlength="3"
+          maxlength="100"
+          #nombre="ngModel" 
+          class="form-control"
+        />
+        <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="error-message">
+          <small *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</small>
+          <small *ngIf="nombre.errors?.['minlength']">Debe tener al menos 3 caracteres.</small>
+          <small *ngIf="nombre.errors?.['maxlength']">No puede exceder los 100 caracteres.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea
+          id="descripcion" 
+          [(ngModel)]="tarea.descripcion" 
+          name="descripcion" 
+          placeholder="Descripción de la tarea"
+          maxlength="255"
+          #descripcion="ngModel" 
+          class="form-control"
+          rows="3"
+        ></textarea>
+        <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="error-message">
+          <small *ngIf="descripcion.errors?.['maxlength']">No puede exceder los 255 caracteres.</small>
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="fechaInicio">Fecha Inicio:</label>
+          <input 
+            type="date" 
+            id="fechaInicio" 
+            [(ngModel)]="tarea.fechaInicio" 
+            name="fechaInicio" 
+            required
+            #fechaInicio="ngModel" 
+            class="form-control"
+          />
+          <div *ngIf="fechaInicio.invalid && (fechaInicio.dirty || fechaInicio.touched)" class="error-message">
+            <small *ngIf="fechaInicio.errors?.['required']">La fecha de inicio es obligatoria.</small>
+          </div>
+        </div>
+  
+        <div class="form-group col-md-6">
+          <label for="fechaFin">Fecha Fin:</label>
+          <input 
+            type="date" 
+            id="fechaFin" 
+            [(ngModel)]="tarea.fechaFin" 
+            name="fechaFin" 
+            required
+            #fechaFin="ngModel" 
+            class="form-control"
+          />
+          <div *ngIf="fechaFin.invalid && (fechaFin.dirty || fechaFin.touched)" class="error-message">
+            <small *ngIf="fechaFin.errors?.['required']">La fecha de fin es obligatoria.</small>
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="estado">Estado:</label>
+          <select 
+            id="estado" 
+            [(ngModel)]="tarea.estado" 
+            name="estado" 
+            required
+            #estado="ngModel" 
+            class="form-control"
+          >
+            <option *ngFor="let estado of estados" [value]="estado">{{ estado | titlecase }}</option>
+          </select>
+        </div>
+  
+        <div class="form-group col-md-6">
+          <label for="prioridad">Prioridad:</label>
+          <select 
+            id="prioridad" 
+            [(ngModel)]="tarea.prioridad" 
+            name="prioridad" 
+            required
+            #prioridad="ngModel" 
+            class="form-control"
+          >
+            <option *ngFor="let prioridad of prioridades" [value]="prioridad">{{ prioridad | titlecase }}</option>
+          </select>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="obraCivil">Obra Civil:</label>
+        <select 
+          id="obraCivil" 
+          [(ngModel)]="tarea.obraCivil.id" 
+          name="obraCivil" 
+          required
+          #obraCivil="ngModel" 
+          class="form-control"
+        >
+          <option *ngFor="let obra of obrasCiviles" [value]="obra.id" [selected]="obra.id === tarea.obraCivil.id">
+            {{ obra.nombre }}
+          </option>
+        </select>
+        <div *ngIf="obraCivil.invalid && (obraCivil.dirty || obraCivil.touched)" class="error-message">
+          <small *ngIf="obraCivil.errors?.['required']">Debe seleccionar una obra civil.</small>
+        </div>
+      </div>
+  
+      <div class="button-container">
+        <button type="submit" [disabled]="tareaForm.invalid" class="submit-btn">Actualizar</button>
+        <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
+      </div>
+    </form>
+  </div>

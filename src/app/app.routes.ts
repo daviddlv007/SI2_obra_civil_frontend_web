@@ -12,7 +12,8 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
-//ADMINISTRADOR
+
+//USUARIO
 //permiso
 import { PermisoListComponent } from './components/administrador/permiso/permiso-list/permiso-list.component';
 import { PermisoCreateComponent } from './components/administrador/permiso/permiso-create/permiso-create.component';
@@ -22,10 +23,10 @@ import { RolComponent } from './components/rol/rol.component';
 import { RolCreateComponent } from './components/rol/rol-create/rol-create.component';
 import { RolUpdateComponent } from './components/rol/rol-update/rol-update.component';
 
-
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
 import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usuario-update.component';
+
 
 
 import { MaterialComponent } from './components/material/material.component';
@@ -35,6 +36,33 @@ import { MaterialUpdateComponent } from './components/material/material-update/m
 import { EquipoComponent } from './components/equipo/equipo.component';
 import { EquipoCreateComponent } from './components/equipo/equipo-create/equipo-create.component';
 import { EquipoUpdateComponent } from './components/equipo/equipo-update/equipo-update.component';
+
+import { BitacoraComponent } from './components/bitacora/bitacora.component';
+import { TareaComponent } from './components/tarea/tarea.component';
+import { TareaCreateComponent } from './components/tarea/tarea-create/tarea-create.component';
+import { TareaUpdateComponent } from './components/tarea/tarea-update/tarea-update.component';
+
+import { BackupComponent } from './components/backup-restore/backup/backup.component';
+
+// PROYECTO - OBRA CIVIL
+import { ObracivilListComponent } from './components/proyecto/obracivil/obracivil-list/obracivil-list.component';
+import { ObracivilCreateComponent } from './components/proyecto/obracivil/obracivil-create/obracivil-create.component';
+import { ObracivilUpdateComponent } from './components/proyecto/obracivil/obracivil-update/obracivil-update.component';
+import { ObracivilShowComponent } from './components/proyecto/obracivil/obracivil-show/obracivil-show.component';
+
+//SERVICIO
+import { ServicioComponent } from './components/servicio/servicio.component';
+import { ServicioCreateComponent } from './components/servicio/servicio-create/servicio-create.component';
+import { ServicioUpdateComponent } from './components/servicio/servicio-update/servicio-update.component';
+
+//EMPLEADO
+import { EmpleadoComponent } from './components/empleado/empleado.component';
+import { EmpleadoCreateComponent } from './components/empleado/empleado-create/empleado-create.component';
+import { EmpleadoUpdateComponent } from './components/empleado/empleado-update/empleado-update.component';
+
+//Dashboard
+import { DashboardComponent } from './components/home/dashboard/dashboard.component';
+
 
 export const routes: Routes = [
   {
@@ -54,7 +82,10 @@ export const routes: Routes = [
       { path: 'perro-create', component: PerroCreateComponent },
       { path: 'perro-update/:id', component: PerroUpdateComponent },
 
-      //ADMINISTRADOR
+      //USUARIO
+      //Backup-Restore
+      { path: 'backup-restore', component: BackupComponent },
+
       //permiso
       { path: 'permiso', component: PermisoListComponent },
       { path: 'permiso-create', component: PermisoCreateComponent },
@@ -68,6 +99,11 @@ export const routes: Routes = [
       { path: 'usuario-create', component: UsuarioCreateComponent },
       { path: 'usuario-update', component: UsuarioUpdateComponent },
       { path: 'usuario-update/:id', component: UsuarioUpdateComponent },
+      // BITÁCORA Y TAREA
+      { path: 'bitacora', component: BitacoraComponent },
+      { path: 'tarea', component: TareaComponent },
+      { path: 'tarea-create', component: TareaCreateComponent },
+      { path: 'tarea-update/:id', component: TareaUpdateComponent },
 
       { path: '', redirectTo: 'usuario', pathMatch: 'full' },
 
@@ -81,9 +117,32 @@ export const routes: Routes = [
       
 
 
+      // PROYECTO - OBRA CIVIL
+      { path: 'obra-civil', component: ObracivilListComponent },
+      { path: 'obra-civil-create', component: ObracivilCreateComponent },
+      { path: 'obra-civil-update/:id', component: ObracivilUpdateComponent },
+      { path: 'obra-civil-show/:id', component: ObracivilShowComponent },
+      
+      // SERVICIO
+       { path: 'servicio', component: ServicioComponent },
+       { path: 'servicio-create', component: ServicioCreateComponent },
+       { path: 'servicio-update/:id', component: ServicioUpdateComponent },
+
+
+       //EMPLEADO
+       { path: 'empleado', component: EmpleadoComponent },
+       { path: 'empleado-create', component: EmpleadoCreateComponent },
+       { path: 'empleado-update/:id', component: EmpleadoUpdateComponent },
+      
+      //Dashboard
+      { path: 'dashboard', component: DashboardComponent },
+
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
     ],
   },
 
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: 'usuario' },
+  { path: '**', redirectTo: 'dashboard' },
+
 ];

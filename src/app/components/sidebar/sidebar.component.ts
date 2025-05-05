@@ -13,6 +13,7 @@ export class SidebarComponent {
   menus = [
     { title: 'Home', route: '/', expanded: false, children: [] },
 
+
     { title: 'Gestionar Usuarios', expanded: false, children: [
       { title: 'Usuario', route: '/usuario' },
       { title: 'Rol', route: '/rol' },
@@ -29,6 +30,48 @@ export class SidebarComponent {
     
     { title: 'Gestionar Equipos', route: '/equipo' },
     
+
+    {
+      title: 'Usuarios',
+      expanded: false,
+      children: [
+        { title: 'Usuarios', route: '/usuario' },
+        { title: 'Roles', route: '/rol' },
+        { title: 'Permisos', route: '/permiso' },
+      ],
+    },
+    {
+      title: 'Obras',
+      expanded: false,
+      children: [
+        { title: 'Obras', route: '/obra-civil' },
+        { title: 'Tareas', route: '/tarea' },
+      ],
+    },
+    {
+      title: 'Recursos',
+      expanded: false,
+      children: [
+        { title: 'Servicios', route: '/servicio' },
+        { title: 'Empleados', route: '/empleado' },
+      ],
+    },
+    {
+      title: 'Compras',
+      expanded: false,
+      children: [],
+    },
+    {
+      title: 'Sistema',
+      expanded: false,
+      children: [
+        { title: 'Bitacora', route: '/bitacora' },
+        { title: 'Backup y Restore', route: '/backup-restore' },
+      ],
+    }
+  ];
+
+
     /*{ title: 'Modelos', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Auto', route: '/auto' },
@@ -42,8 +85,6 @@ export class SidebarComponent {
       { title: 'Persona', route: '/persona' },
       { title: 'Settings', route: '/persona/settings' }
     ]}*/
-
-  ];
 
   toggleMenu(menu: any) {
     menu.expanded = !menu.expanded;

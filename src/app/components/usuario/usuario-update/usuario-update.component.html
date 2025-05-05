@@ -5,14 +5,14 @@
     <!-- Nombre -->
     <div class="form-group">
       <label for="nombre">Nombre:</label>
-      <input 
+      <input
         id="nombre"
-        [(ngModel)]="usuario.nombre" 
-        name="nombre" 
-        placeholder="Nombre" 
-        required 
+        [(ngModel)]="usuario.nombre"
+        name="nombre"
+        placeholder="Nombre"
+        required
         minlength="2"
-        #nombre="ngModel" 
+        #nombre="ngModel"
         class="form-control"
       />
       <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="error-message">
@@ -24,14 +24,14 @@
     <!-- Apellido -->
     <div class="form-group">
       <label for="apellido">Apellido:</label>
-      <input 
+      <input
         id="apellido"
-        [(ngModel)]="usuario.apellido" 
-        name="apellido" 
-        placeholder="Apellido" 
-        required 
+        [(ngModel)]="usuario.apellido"
+        name="apellido"
+        placeholder="Apellido"
+        required
         minlength="2"
-        #apellido="ngModel" 
+        #apellido="ngModel"
         class="form-control"
       />
       <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)" class="error-message">
@@ -42,15 +42,15 @@
 
     <!-- Correo -->
     <div class="form-group">
-      <label for="correo">Correo:</label>
-      <input 
+      <label for="correo">Correo:</label>7
+      <input
         id="correo"
-        [(ngModel)]="usuario.correo" 
-        name="correo" 
-        type="email" 
-        placeholder="Correo electrónico" 
-        required 
-        #correo="ngModel" 
+        [(ngModel)]="usuario.correo"
+        name="correo"
+        type="email"
+        placeholder="Correo electrónico"
+        required
+        #correo="ngModel"
         class="form-control"
       />
       <div *ngIf="correo.invalid && (correo.dirty || correo.touched)" class="error-message">
@@ -61,14 +61,14 @@
 
     <div class="form-group">
       <label for="telefono">Teléfono:</label>
-      <input 
+      <input
         id="telefono"
-        [(ngModel)]="usuario.telefono" 
-        name="telefono" 
-        placeholder="Teléfono" 
-        required 
-        minlength="8"  
-        #telefono="ngModel" 
+        [(ngModel)]="usuario.telefono"
+        name="telefono"
+        placeholder="Teléfono"
+        required
+        minlength="8"
+        #telefono="ngModel"
         class="form-control"
       />
       <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="error-message">
@@ -76,17 +76,17 @@
         <small *ngIf="telefono.errors?.['minlength']">Debe tener al menos 8 caracteres.</small> <!-- Actualizado aquí -->
       </div>
     </div>
-    
+
     <!-- Dirección -->
     <div class="form-group">
       <label for="direccion">Dirección:</label>
-      <input 
+      <input
         id="direccion"
-        [(ngModel)]="usuario.direccion" 
-        name="direccion" 
-        placeholder="Dirección" 
-        required 
-        #direccion="ngModel" 
+        [(ngModel)]="usuario.direccion"
+        name="direccion"
+        placeholder="Dirección"
+        required
+        #direccion="ngModel"
         class="form-control"
       />
       <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)" class="error-message">
@@ -97,13 +97,13 @@
     <!-- Fecha de Nacimiento -->
     <div class="form-group">
       <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-      <input 
+      <input
         id="fechaNacimiento"
-        [(ngModel)]="usuario.fechaNacimiento" 
-        name="fechaNacimiento" 
-        type="date" 
-        required 
-        #fechaNacimiento="ngModel" 
+        [(ngModel)]="usuario.fechaNacimiento"
+        name="fechaNacimiento"
+        type="date"
+        required
+        #fechaNacimiento="ngModel"
         class="form-control"
       />
       <div *ngIf="fechaNacimiento.invalid && (fechaNacimiento.dirty || fechaNacimiento.touched)" class="error-message">
@@ -125,13 +125,13 @@
     <!-- Número de Identificación -->
     <div class="form-group">
       <label for="numeroIdentificacion">Número de Identificación:</label>
-      <input 
+      <input
         id="numeroIdentificacion"
-        [(ngModel)]="usuario.numeroIdentificacion" 
-        name="numeroIdentificacion" 
-        placeholder="Número de Identificación" 
-        required 
-        #numeroIdentificacion="ngModel" 
+        [(ngModel)]="usuario.numeroIdentificacion"
+        name="numeroIdentificacion"
+        placeholder="Número de Identificación"
+        required
+        #numeroIdentificacion="ngModel"
         class="form-control"
       />
       <div *ngIf="numeroIdentificacion.invalid && (numeroIdentificacion.dirty || numeroIdentificacion.touched)" class="error-message">

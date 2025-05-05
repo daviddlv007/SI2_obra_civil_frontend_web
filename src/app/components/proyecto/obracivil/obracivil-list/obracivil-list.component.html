@@ -1,0 +1,236 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <!-- Card Principal -->
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <!-- Título y Botón para Crear Nueva Obra -->
+            <div class="row mb-3">
+              <div class="col-12 col-md-6">
+                <h4 class="m-0">Obras Civiles</h4>
+              </div>
+              <div class="col-12 col-md-6 text-md-end">
+                <button class="btn btn-primary" (click)="irACrearObra()">
+                  <i class="bi bi-plus-circle"></i> Crear nueva obra
+                </button>
+              </div>
+            </div>
+
+            <!-- Buscador -->
+            <div class="form-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="textoBusqueda"
+                (input)="filtrarObras()"
+                placeholder="Buscar por nombre o descripción"
+              />
+            </div>
+
+            <!-- Lista de Obras en disposición vertical -->
+            <div class="row">
+              <div
+                class="col-12"
+                *ngFor="let obra of obrasPaginadas; let i = index"
+              >
+                <div class="card mb-4">
+                  <div class="row g-0">
+                    <!-- Columna para la imagen -->
+                    <div class="col-md-5">
+                      <div class="card-body">
+                        <p class="card-text">
+                          <strong>Plano:</strong>
+                        </p>
+                        <img
+                          src="{{ obra.planoUrl }}"
+                          class="card-img-top img-fluid"
+                          alt="Plano de la obra"
+                          style="
+                            max-height: 150px;
+                            max-width: 60%;
+                            object-fit: cover;
+                          "
+                          data-bs-toggle="modal"
+                          data-bs-target="#imageModal"
+                          (click)="abrirModalImg(obra.planoUrl!)"
+                        />
+                      </div>
+                      <div class="card-body">
+                        <p class="card-text">
+                          <strong>Ubicacion:</strong>
+                        </p>
+                        <div
+                          id="map-{{ i }}"
+                          style="height: 300px; width: 100%"
+                        ></div>
+                      </div>
+                    </div>
+
+                    <!-- Columna para la información de la obra -->
+                    <div class="col-md-7">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ obra.nombre }}</h5>
+                        <p class="card-text">
+                          <strong>Descripción:</strong> {{ obra.descripcion }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Tipo de Obra:</strong> {{ obra.tipoObra }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Direccion:</strong> {{ obra.direccion }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Estado:</strong> {{ obra.estado }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Fecha de Inicio:</strong>
+                          {{ obra.fechaInicio | date }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Fecha Estimada de Finalización:</strong>
+                          {{ obra.fechaFinEstimada | date }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Costo Estimado:</strong> ${{
+                            obra.costoEstimado | number
+                          }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Costo Actual:</strong> ${{
+                            obra.costo | number
+                          }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Presupuesto Disponible:</strong> ${{
+                            obra.presupuestoDisponible | number
+                          }}
+                        </p>
+
+                        <!-- Botones de Acción -->
+                        <div class="d-flex gap-2 justify-content-start">
+                          <button
+                            class="btn btn-secondary btn-sm"
+                            (click)="verDetalleObra(obra.id!)"
+                          >
+                            <i class="bi bi-eye"></i> Ver
+                          </button>
+                          <button
+                            class="btn btn-warning btn-sm"
+                            (click)="irAEditarObra(obra.id!)"
+                          >
+                            <i class="bi bi-pencil"></i> Editar
+                          </button>
+                          <button
+                            class="btn btn-danger btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            (click)="confirmarEliminarObra(obra.id!)"
+                          >
+                            <i class="bi bi-trash"></i> Eliminar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Paginación -->
+            <div class="d-flex align-items-center justify-content-center mt-4">
+              <button
+                class="btn btn-outline-secondary btn-sm"
+                (click)="cambiarPagina('previous')"
+                [disabled]="paginaActual === 1"
+              >
+                ← Anterior
+              </button>
+              <span class="mx-3"> Página {{ paginaActual }} </span>
+              <button
+                class="btn btn-outline-secondary btn-sm"
+                (click)="cambiarPagina('next')"
+                [disabled]="paginaActual === totalPaginas"
+              >
+                Siguiente →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal de Imagen Completa -->
+<div
+  class="modal fade"
+  id="imageModal"
+  tabindex="-1"
+  aria-labelledby="imageModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabel">Plano de la Obra</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="cerrarModalImg()"
+        ></button>
+      </div>
+      <div class="modal-body text-center">
+        <img
+          *ngIf="imagenUrl"
+          [src]="imagenUrl"
+          class="img-fluid"
+          alt="Plano de la obra"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">
+          Confirmación de Eliminación
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar esta obra?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle"></i> Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="eliminarObraConfirmada()"
+          data-bs-dismiss="modal"
+        >
+          <i class="bi bi-trash"></i> Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

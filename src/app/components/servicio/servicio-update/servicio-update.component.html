@@ -1,0 +1,109 @@
+<div class="form-container">
+  <h2>Actualizar Servicio</h2>
+
+  <form (ngSubmit)="actualizarServicio()" #servicioForm="ngForm">
+    <!-- Nombre del servicio -->
+    <div class="form-group">
+      <label for="nombre">Nombre del servicio:</label>
+      <input
+        id="nombre"
+        [(ngModel)]="servicio.nombre"
+        name="nombre"
+        placeholder="Nombre del servicio"
+        required
+        minlength="2"
+        #nombre="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="error-message">
+        <small *ngIf="nombre.errors?.['required']">El nombre del servicio es obligatorio.</small>
+        <small *ngIf="nombre.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Descripción del servicio -->
+    <div class="form-group">
+      <label for="descripcion">Descripción:</label>
+      <input
+        id="descripcion"
+        [(ngModel)]="servicio.descripcion"
+        name="descripcion"
+        placeholder="Descripción del servicio"
+        required
+        minlength="2"
+        #descripcion="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="error-message">
+        <small *ngIf="descripcion.errors?.['required']">La descripción es obligatoria.</small>
+        <small *ngIf="descripcion.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Costo unitario -->
+    <div class="form-group">
+      <label for="costo_unitario">Costo unitario:</label>
+      <input
+        id="costo_unitario"
+        [(ngModel)]="servicio.precioUnitario"
+        name="costo_unitario"
+        type="number"
+        placeholder="Costo unitario"
+        required
+        min="0"
+        #costo_unitario="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="costo_unitario.invalid && (costo_unitario.dirty || costo_unitario.touched)" class="error-message">
+        <small *ngIf="costo_unitario.errors?.['required']">El costo unitario es obligatorio.</small>
+        <small *ngIf="costo_unitario.errors?.['min']">El costo debe ser un valor positivo.</small>
+      </div>
+    </div>
+
+    <!-- Código del servicio -->
+    <div class="form-group">
+      <label for="codigo_servicio">Código del servicio:</label>
+      <input
+        id="codigo_servicio"
+        [(ngModel)]="servicio.codigoServicio"
+        name="codigo_servicio"
+        placeholder="Código del servicio"
+        required
+        minlength="2"
+        #codigo_servicio="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="codigo_servicio.invalid && (codigo_servicio.dirty || codigo_servicio.touched)" class="error-message">
+        <small *ngIf="codigo_servicio.errors?.['required']">El código del servicio es obligatorio.</small>
+        <small *ngIf="codigo_servicio.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Duración estimada -->
+    <div class="form-group">
+      <label for="duracion_estimada">Duración estimada (en horas):</label>
+      <input
+        id="duracion_estimada"
+        [(ngModel)]="servicio.duracionEstimada"
+        name="duracion_estimada"
+        type="number"
+        placeholder="Duración estimada"
+        required
+        min="0"
+        step="0.1"
+        #duracion_estimada="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="duracion_estimada.invalid && (duracion_estimada.dirty || duracion_estimada.touched)" class="error-message">
+        <small *ngIf="duracion_estimada.errors?.['required']">La duración estimada es obligatoria.</small>
+        <small *ngIf="duracion_estimada.errors?.['min']">La duración debe ser un valor positivo.</small>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="button-container">
+      <button type="submit" [disabled]="servicioForm.invalid" class="submit-btn">Actualizar</button>
+      <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
+    </div>
+  </form>
+</div>
