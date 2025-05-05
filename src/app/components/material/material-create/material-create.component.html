@@ -1,0 +1,143 @@
+<div class="form-container">
+    <h2>Registrar Material</h2>
+  
+    <form (ngSubmit)="crearMaterial()" #materialForm="ngForm">
+      <!-- Código de Inventario -->
+      <div class="form-group">
+        <label for="codigoInventario">Código de Inventario:</label>
+        <input
+          id="codigoInventario"
+          type="text"
+          [(ngModel)]="material.codigoInventario"
+          name="codigoInventario"
+          required
+          minlength="2"
+          #codigoInventario="ngModel"
+          class="form-control"
+        />
+        <div *ngIf="codigoInventario.invalid && (codigoInventario.dirty || codigoInventario.touched)" class="error-message">
+          <small *ngIf="codigoInventario.errors?.['required']">Campo obligatorio.</small>
+          <small *ngIf="codigoInventario.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+        </div>
+      </div>
+  
+      <!-- Nombre -->
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input
+          id="nombre"
+          type="text"
+          [(ngModel)]="material.nombre"
+          name="nombre"
+          required
+          minlength="2"
+          #nombre="ngModel"
+          class="form-control"
+        />
+        <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="error-message">
+          <small *ngIf="nombre.errors?.['required']">Campo obligatorio.</small>
+          <small *ngIf="nombre.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+        </div>
+      </div>
+  
+      <!-- Descripción -->
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea
+          id="descripcion"
+          [(ngModel)]="material.descripcion"
+          name="descripcion"
+          rows="3"
+          class="form-control"
+        ></textarea>
+      </div>
+  
+      <!-- Unidad de Medida -->
+      <div class="form-group">
+        <label for="unidadMedida">Unidad de Medida:</label>
+        <input
+          id="unidadMedida"
+          type="text"
+          [(ngModel)]="material.unidadMedida"
+          name="unidadMedida"
+          required
+          #unidadMedida="ngModel"
+          class="form-control"
+        />
+        <div *ngIf="unidadMedida.invalid && (unidadMedida.dirty || unidadMedida.touched)" class="error-message">
+          <small *ngIf="unidadMedida.errors?.['required']">Campo obligatorio.</small>
+        </div>
+      </div>
+  
+      <!-- Precio Unitario -->
+      <div class="form-group">
+        <label for="precioUnitario">Precio Unitario:</label>
+        <input
+          id="precioUnitario"
+          type="number"
+          step="0.01"
+          [(ngModel)]="material.precioUnitario"
+          name="precioUnitario"
+          required
+          #precioUnitario="ngModel"
+          class="form-control"
+        />
+        <div *ngIf="precioUnitario.invalid && (precioUnitario.dirty || precioUnitario.touched)" class="error-message">
+          <small *ngIf="precioUnitario.errors?.['required']">Campo obligatorio.</small>
+        </div>
+      </div>
+  
+      <!-- Stock Actual -->
+      <div class="form-group">
+        <label for="stockActual">Stock Actual:</label>
+        <input
+          id="stockActual"
+          type="number"
+          [(ngModel)]="material.stockActual"
+          name="stockActual"
+          required
+          #stockActual="ngModel"
+          class="form-control"
+        />
+        <div *ngIf="stockActual.invalid && (stockActual.dirty || stockActual.touched)" class="error-message">
+          <small *ngIf="stockActual.errors?.['required']">Campo obligatorio.</small>
+        </div>
+      </div>
+  
+      <!-- Stock Mínimo -->
+      <div class="form-group">
+        <label for="stockMinimo">Stock Mínimo:</label>
+        <input
+          id="stockMinimo"
+          type="number"
+          [(ngModel)]="material.stockMinimo"
+          name="stockMinimo"
+          required
+          #stockMinimo="ngModel"
+          class="form-control"
+        />
+        <div *ngIf="stockMinimo.invalid && (stockMinimo.dirty || stockMinimo.touched)" class="error-message">
+          <small *ngIf="stockMinimo.errors?.['required']">Campo obligatorio.</small>
+        </div>
+      </div>
+  
+      <!-- Categoría -->
+      <div class="form-group">
+        <label for="categoria">Categoría:</label>
+        <input
+          id="categoria"
+          type="text"
+          [(ngModel)]="material.categoria"
+          name="categoria"
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Botones -->
+      <div class="button-container">
+        <button type="submit" [disabled]="materialForm.invalid" class="submit-btn">Crear</button>
+        <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
+      </div>
+    </form>
+  </div>
+  

@@ -27,6 +27,15 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
 import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usuario-update.component';
 
+
+import { MaterialComponent } from './components/material/material.component';
+import { MaterialCreateComponent } from './components/material/material-create/material-create.component';
+import { MaterialUpdateComponent } from './components/material/material-update/material-update.component';
+
+import { EquipoComponent } from './components/equipo/equipo.component';
+import { EquipoCreateComponent } from './components/equipo/equipo-create/equipo-create.component';
+import { EquipoUpdateComponent } from './components/equipo/equipo-update/equipo-update.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -61,8 +70,20 @@ export const routes: Routes = [
       { path: 'usuario-update/:id', component: UsuarioUpdateComponent },
 
       { path: '', redirectTo: 'usuario', pathMatch: 'full' },
+
+      { path: 'material', component: MaterialComponent },
+      { path: 'material-create', component: MaterialCreateComponent },
+      { path: 'material-update/:id', component: MaterialUpdateComponent },
+      
+      { path: 'equipo', component: EquipoComponent },
+      { path: 'equipo-create', component: EquipoCreateComponent },
+      { path: 'equipo-update/:id', component: EquipoUpdateComponent },
+      
+
+
     ],
   },
+
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: 'usuario' },
 ];

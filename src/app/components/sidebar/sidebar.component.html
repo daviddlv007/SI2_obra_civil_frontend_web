@@ -2,7 +2,7 @@
   <ul class="sidebar-menu">
     <li *ngFor="let menu of menus">
       <!-- Elemento sin submenús -->
-      <ng-container *ngIf="!menu.children.length; else hasChildren">
+      <ng-container *ngIf="!menu.children?.length; else hasChildren">
         <a [routerLink]="menu.route">{{ menu.title }}</a>
       </ng-container>
 

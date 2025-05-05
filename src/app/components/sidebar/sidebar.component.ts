@@ -18,10 +18,17 @@ export class SidebarComponent {
       { title: 'Rol', route: '/rol' },
       { title: 'Permiso', route: '/permiso' },
     ]},
+
     { title: 'Gestionar Inventario', expanded: false, children: [
     ]},
+
     { title: 'Gestionar Obras', expanded: false, children: [
     ]},
+
+    { title: 'Gestionar Materiales', route: '/material' },
+    
+    { title: 'Gestionar Equipos', route: '/equipo' },
+    
     /*{ title: 'Modelos', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Auto', route: '/auto' },
