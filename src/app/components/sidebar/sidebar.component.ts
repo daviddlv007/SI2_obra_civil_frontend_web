@@ -11,25 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class SidebarComponent {
   menus = [
-    { title: 'Home', route: '/', expanded: false, children: [] },
-
-
-    { title: 'Gestionar Usuarios', expanded: false, children: [
-      { title: 'Usuario', route: '/usuario' },
-      { title: 'Rol', route: '/rol' },
-      { title: 'Permiso', route: '/permiso' },
-    ]},
-
-    { title: 'Gestionar Inventario', expanded: false, children: [
-    ]},
-
-    { title: 'Gestionar Obras', expanded: false, children: [
-    ]},
-
-    { title: 'Gestionar Materiales', route: '/material' },
-    
-    { title: 'Gestionar Equipos', route: '/equipo' },
-    
+    { title: 'Home', route: '/dashboard', expanded: false, children: [] },
 
     {
       title: 'Usuarios',
@@ -54,6 +36,8 @@ export class SidebarComponent {
       children: [
         { title: 'Servicios', route: '/servicio' },
         { title: 'Empleados', route: '/empleado' },
+        { title: 'Materiales', route: '/material' },
+        { title: 'Equipos', route: '/equipo' },
       ],
     },
     {
@@ -68,11 +52,10 @@ export class SidebarComponent {
         { title: 'Bitacora', route: '/bitacora' },
         { title: 'Backup y Restore', route: '/backup-restore' },
       ],
-    }
+    },
   ];
 
-
-    /*{ title: 'Modelos', expanded: false, children: [
+  /*{ title: 'Modelos', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Auto', route: '/auto' },
       { title: 'Perro', route: '/perro' },
