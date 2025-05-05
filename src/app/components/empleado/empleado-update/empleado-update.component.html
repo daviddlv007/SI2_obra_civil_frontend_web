@@ -1,0 +1,158 @@
+<div class="form-container">
+  <h2>Actualizar Empleado</h2>
+
+  <form (ngSubmit)="actualizarEmpleado()" #empleadoForm="ngForm">
+    <!-- Nombre del empleado -->
+    <div class="form-group">
+      <label for="nombre">Nombre del empleado:</label>
+      <input
+        id="nombre"
+        [(ngModel)]="empleado.nombre"
+        name="nombre"
+        placeholder="Nombre del empleado"
+        required
+        minlength="2"
+        #nombre="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="error-message">
+        <small *ngIf="nombre.errors?.['required']">El nombre del empleado es obligatorio.</small>
+        <small *ngIf="nombre.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Apellido -->
+    <div class="form-group">
+      <label for="apellido">Apellido:</label>
+      <input
+        id="apellido"
+        [(ngModel)]="empleado.apellido"
+        name="apellido"
+        placeholder="Apellido"
+        required
+        minlength="2"
+        #apellido="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)" class="error-message">
+        <small *ngIf="apellido.errors?.['required']">El apellido es obligatorio.</small>
+        <small *ngIf="apellido.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Documento de Identidad -->
+    <div class="form-group">
+      <label for="documento_identidad">Documento de Identidad:</label>
+      <input
+        id="documento_identidad"
+        [(ngModel)]="empleado.documentoIdentidad"
+        name="documento_identidad"
+        placeholder="Documento de Identidad"
+        required
+        minlength="6"
+        #documento_identidad="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="documento_identidad.invalid && (documento_identidad.dirty || documento_identidad.touched)" class="error-message">
+        <small *ngIf="documento_identidad.errors?.['required']">El documento de identidad es obligatorio.</small>
+        <small *ngIf="documento_identidad.errors?.['minlength']">Debe tener al menos 6 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Puesto -->
+    <div class="form-group">
+      <label for="puesto">Puesto:</label>
+      <input
+        id="puesto"
+        [(ngModel)]="empleado.puesto"
+        name="puesto"
+        placeholder="Puesto del empleado"
+        required
+        minlength="2"
+        #puesto="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="puesto.invalid && (puesto.dirty || puesto.touched)" class="error-message">
+        <small *ngIf="puesto.errors?.['required']">El puesto es obligatorio.</small>
+        <small *ngIf="puesto.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Tipo de Contrato -->
+    <div class="form-group">
+      <label for="tipo_contrato">Tipo de Contrato:</label>
+      <select
+        id="tipo_contrato"
+        [(ngModel)]="empleado.tipoContrato"
+        name="tipo_contrato"
+        required
+        #tipo_contrato="ngModel"
+        class="form-control"
+      >
+        <option value="planta">Planta</option>
+        <option value="temporal">Temporal</option>
+        <option value="por obra">Por Obra</option>
+      </select>
+      <div *ngIf="tipo_contrato.invalid && (tipo_contrato.dirty || tipo_contrato.touched)" class="error-message">
+        <small *ngIf="tipo_contrato.errors?.['required']">El tipo de contrato es obligatorio.</small>
+      </div>
+    </div>
+
+    <!-- Fecha de Ingreso -->
+    <div class="form-group">
+      <label for="fecha_ingreso">Fecha de Ingreso:</label>
+      <input
+        id="fecha_ingreso"
+        type="date"
+        [(ngModel)]="empleado.fechaIngreso"
+        name="fecha_ingreso"
+        required
+        #fecha_ingreso="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="fecha_ingreso.invalid && (fecha_ingreso.dirty || fecha_ingreso.touched)" class="error-message">
+        <small *ngIf="fecha_ingreso.errors?.['required']">La fecha de ingreso es obligatoria.</small>
+      </div>
+    </div>
+
+    <!-- Salario -->
+    <div class="form-group">
+      <label for="salario">Salario:</label>
+      <input
+        id="salario"
+        type="number"
+        [(ngModel)]="empleado.salario"
+        name="salario"
+        placeholder="Salario"
+        required
+        min="0.01"
+        step="0.01"
+        #salario="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="salario.invalid && (salario.dirty || salario.touched)" class="error-message">
+        <small *ngIf="salario.errors?.['required']">El salario es obligatorio.</small>
+        <small *ngIf="salario.errors?.['min']">Debe ser mayor a 0.</small>
+      </div>
+    </div>
+
+    <!-- Estado Activo -->
+    <div class="form-group">
+      <label for="activo">Activo:</label>
+      <input
+        id="activo"
+        type="checkbox"
+        [(ngModel)]="empleado.activo"
+        name="activo"
+        #activo="ngModel"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Botones -->
+    <div class="button-container">
+      <button type="submit" [disabled]="empleadoForm.invalid" class="submit-btn">Actualizar</button>
+      <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
+    </div>
+  </form>
+</div>

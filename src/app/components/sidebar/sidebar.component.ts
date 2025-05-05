@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 export class SidebarComponent {
   menus = [
     { title: 'Home', route: '/', expanded: false, children: [] },
-  
+
     {
       title: 'Usuarios',
       expanded: false,
@@ -33,7 +33,10 @@ export class SidebarComponent {
     {
       title: 'Recursos',
       expanded: false,
-      children: [],
+      children: [
+        { title: 'Servicios', route: '/servicio' },
+        { title: 'Empleados', route: '/empleado' },
+      ],
     },
     {
       title: 'Compras',
@@ -49,7 +52,7 @@ export class SidebarComponent {
       ],
     }
   ];
-  
+
     /*{ title: 'Modelos', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Auto', route: '/auto' },

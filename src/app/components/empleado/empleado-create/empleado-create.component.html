@@ -1,0 +1,177 @@
+<div class="form-container">
+  <h2>Crear Empleado</h2>
+
+  <form (ngSubmit)="crearEmpleado()" #empleadoForm="ngForm">
+    <!-- Nombre -->
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input
+        id="nombre"
+        type="text"
+        [(ngModel)]="empleado.nombre"
+        name="nombre"
+        required
+        minlength="2"
+        #nombre="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="error-message">
+        <small *ngIf="nombre.errors?.['required']">El campo es obligatorio.</small>
+        <small *ngIf="nombre.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Apellido -->
+    <div class="form-group">
+      <label for="apellido">Apellido:</label>
+      <input
+        id="apellido"
+        type="text"
+        [(ngModel)]="empleado.apellido"
+        name="apellido"
+        required
+        minlength="2"
+        #apellido="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)" class="error-message">
+        <small *ngIf="apellido.errors?.['required']">El campo es obligatorio.</small>
+        <small *ngIf="apellido.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Documento de Identidad -->
+    <div class="form-group">
+      <label for="documento_identidad">Documento de Identidad:</label>
+      <input
+        id="documento_identidad"
+        type="text"
+        [(ngModel)]="empleado.documentoIdentidad"
+        name="documento_identidad"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <!-- Tipo de Contrato -->
+    <div class="form-group">
+      <label for="tipo_contrato">Tipo de Contrato:</label>
+      <select
+        id="tipo_contrato"
+        [(ngModel)]="empleado.tipoContrato"
+        name="tipo_contrato"
+        required
+        class="form-control"
+      >
+        <option value="planta">Planta</option>
+        <option value="eventual">Eventual</option>
+      </select>
+    </div>
+
+    <!-- Fecha de Ingreso -->
+    <div class="form-group">
+      <label for="fecha_ingreso">Fecha de Ingreso:</label>
+      <input
+        id="fecha_ingreso"
+        type="date"
+        [(ngModel)]="empleado.fechaIngreso"
+        name="fecha_ingreso"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <!-- Fecha de Término de Contrato (opcional) -->
+    <div class="form-group">
+      <label for="fecha_termino_contrato">Fecha de Término de Contrato (opcional):</label>
+      <input
+        id="fecha_termino_contrato"
+        type="date"
+        [(ngModel)]="empleado.fechaTerminoContrato"
+        name="fecha_termino_contrato"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input
+        id="email"
+        type="email"
+        [(ngModel)]="empleado.email"
+        name="email"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Teléfono -->
+    <div class="form-group">
+      <label for="telefono">Teléfono:</label>
+      <input
+        id="telefono"
+        type="text"
+        [(ngModel)]="empleado.telefono"
+        name="telefono"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Puesto -->
+    <div class="form-group">
+      <label for="puesto">Puesto:</label>
+      <input
+        id="puesto"
+        type="text"
+        [(ngModel)]="empleado.puesto"
+        name="puesto"
+        required
+        minlength="2"
+        #puesto="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="puesto.invalid && (puesto.dirty || puesto.touched)" class="error-message">
+        <small *ngIf="puesto.errors?.['required']">El campo es obligatorio.</small>
+        <small *ngIf="puesto.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Salario -->
+    <div class="form-group">
+      <label for="salario">Salario:</label>
+      <input
+        id="salario"
+        type="number"
+        [(ngModel)]="empleado.salario"
+        name="salario"
+        required
+        min="0.01"
+        step="0.01"
+        #salario="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="salario.invalid && (salario.dirty || salario.touched)" class="error-message">
+        <small *ngIf="salario.errors?.['required']">El campo es obligatorio.</small>
+        <small *ngIf="salario.errors?.['min']">Debe ser mayor a 0.</small>
+      </div>
+    </div>
+
+    <!-- Activo -->
+    <div class="form-group">
+      <label>
+        <input
+          type="checkbox"
+          [(ngModel)]="empleado.activo"
+          name="activo"
+        />
+        Activo
+      </label>
+    </div>
+
+    <!-- Botones -->
+    <div class="button-container">
+      <button type="submit" [disabled]="empleadoForm.invalid" class="submit-btn">Crear</button>
+      <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
+    </div>
+  </form>
+</div>

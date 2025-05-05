@@ -1,0 +1,107 @@
+<div class="form-container">
+  <h2>Crear Servicio</h2>
+
+  <form (ngSubmit)="crearServicio()" #servicioForm="ngForm">
+    <!-- Código de Servicio -->
+    <div class="form-group">
+      <label for="codigo_servicio">Código de Servicio:</label>
+      <input
+        id="codigo_servicio"
+        type="text"
+        [(ngModel)]="servicio.codigoServicio"
+        name="codigo_servicio"
+        required
+        minlength="3"
+        #codigo_servicio="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="codigo_servicio.invalid && (codigo_servicio.dirty || codigo_servicio.touched)" class="error-message">
+        <small *ngIf="codigo_servicio.errors?.['required']">El campo es obligatorio.</small>
+        <small *ngIf="codigo_servicio.errors?.['minlength']">Debe tener al menos 3 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Nombre -->
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input
+        id="nombre"
+        type="text"
+        [(ngModel)]="servicio.nombre"
+        name="nombre"
+        required
+        minlength="2"
+        #nombre="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="error-message">
+        <small *ngIf="nombre.errors?.['required']">El campo es obligatorio.</small>
+        <small *ngIf="nombre.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Descripción -->
+    <div class="form-group">
+      <label for="descripcion">Descripción:</label>
+      <textarea
+        id="descripcion"
+        [(ngModel)]="servicio.descripcion"
+        name="descripcion"
+        required
+        minlength="5"
+        #descripcion="ngModel"
+        class="form-control"
+      ></textarea>
+      <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="error-message">
+        <small *ngIf="descripcion.errors?.['required']">El campo es obligatorio.</small>
+        <small *ngIf="descripcion.errors?.['minlength']">Debe tener al menos 5 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Costo Unitario -->
+    <div class="form-group">
+      <label for="costoUnitario">Costo Unitario:</label>
+      <input
+        id="costoUnitario"
+        type="number"
+        [(ngModel)]="servicio.precioUnitario"
+        name="costoUnitario"
+        required
+        min="0.01"
+        step="0.01"
+        #costoUnitario="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="costoUnitario.invalid && (costoUnitario.dirty || costoUnitario.touched)" class="error-message">
+        <small *ngIf="costoUnitario.errors?.['required']">El campo es obligatorio.</small>
+        <small *ngIf="costoUnitario.errors?.['min']">Debe ser mayor a 0.</small>
+      </div>
+    </div>
+
+    <!-- Duración Estimada -->
+    <div class="form-group">
+      <label for="duracion_estimada">Duración Estimada (días):</label>
+      <input
+        id="duracion_estimada"
+        type="number"
+        [(ngModel)]="servicio.duracionEstimada"
+        name="duracion_estimada"
+        required
+        min="0.01"
+        step="0.01"
+        #duracion_estimada="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="duracion_estimada.invalid && (duracion_estimada.dirty || duracion_estimada.touched)" class="error-message">
+        <small *ngIf="duracion_estimada.errors?.['required']">El campo es obligatorio.</small>
+        <small *ngIf="duracion_estimada.errors?.['min']">Debe ser mayor a 0.</small>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="button-container">
+      <button type="submit" [disabled]="servicioForm.invalid" class="submit-btn">Crear</button>
+      <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
+    </div>
+  </form>
+</div>

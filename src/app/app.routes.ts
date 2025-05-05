@@ -12,6 +12,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
+
 //USUARIO
 //permiso
 import { PermisoListComponent } from './components/administrador/permiso/permiso-list/permiso-list.component';
@@ -38,6 +39,16 @@ import { ObracivilListComponent } from './components/proyecto/obracivil/obracivi
 import { ObracivilCreateComponent } from './components/proyecto/obracivil/obracivil-create/obracivil-create.component';
 import { ObracivilUpdateComponent } from './components/proyecto/obracivil/obracivil-update/obracivil-update.component';
 import { ObracivilShowComponent } from './components/proyecto/obracivil/obracivil-show/obracivil-show.component';
+
+//SERVICIO
+import { ServicioComponent } from './components/servicio/servicio.component';
+import { ServicioCreateComponent } from './components/servicio/servicio-create/servicio-create.component';
+import { ServicioUpdateComponent } from './components/servicio/servicio-update/servicio-update.component';
+
+//EMPLEADO
+import { EmpleadoComponent } from './components/empleado/empleado.component';
+import { EmpleadoCreateComponent } from './components/empleado/empleado-create/empleado-create.component';
+import { EmpleadoUpdateComponent } from './components/empleado/empleado-update/empleado-update.component';
 
 //Dashboard
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
@@ -88,7 +99,18 @@ export const routes: Routes = [
       { path: 'obra-civil-create', component: ObracivilCreateComponent },
       { path: 'obra-civil-update/:id', component: ObracivilUpdateComponent },
       { path: 'obra-civil-show/:id', component: ObracivilShowComponent },
+      
+      // SERVICIO
+       { path: 'servicio', component: ServicioComponent },
+       { path: 'servicio-create', component: ServicioCreateComponent },
+       { path: 'servicio-update/:id', component: ServicioUpdateComponent },
 
+
+       //EMPLEADO
+       { path: 'empleado', component: EmpleadoComponent },
+       { path: 'empleado-create', component: EmpleadoCreateComponent },
+       { path: 'empleado-update/:id', component: EmpleadoUpdateComponent },
+      
       //Dashboard
       { path: 'dashboard', component: DashboardComponent },
 
@@ -97,4 +119,5 @@ export const routes: Routes = [
   },
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: 'dashboard' },
+
 ];
