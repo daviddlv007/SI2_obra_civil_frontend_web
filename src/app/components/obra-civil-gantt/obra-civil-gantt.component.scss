@@ -1,0 +1,185 @@
+.gantt-container {
+  position: relative;
+  padding: 1.5rem;
+  max-width: 100%;
+  overflow-x: auto;  // Permite scroll horizontal solo si hace falta
+  -webkit-overflow-scrolling: touch; // Scroll suave en móviles
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    color: #222;
+  }
+
+  .filter {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    label {
+      font-size: 1rem;
+      color: #444;
+    }
+
+    select {
+      padding: 0.3rem 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: white;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      position: static;
+      margin-top: 1rem;
+      justify-content: flex-start;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+
+      label {
+        font-size: 0.9rem;
+      }
+
+      select {
+        width: 100%;
+        max-width: 200px;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .loading,
+  .error,
+  .no-tasks {
+    font-size: 1.2rem;
+    color: #444;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .loading .spinner {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid #ccc;
+    border-top: 3px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .error {
+    color: #d32f2f;
+    flex-wrap: wrap;
+
+    button {
+      background-color: #fff;
+      border: 1px solid #d32f2f;
+      color: #d32f2f;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #d32f2f;
+        color: white;
+      }
+    }
+  }
+
+  .no-tasks {
+    flex-direction: column;
+    align-items: flex-start;
+
+    p {
+      margin: 0;
+    }
+
+    .action-link {
+      margin-top: 0.5rem;
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      padding: 0.3rem 0;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #0056b3;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .chart-wrapper {
+    margin-top: 1rem;
+    width: 100%;
+    overflow-x: auto; // ya incluido correctamente
+    display: block;
+  }
+  
+  .chart-wrapper google-chart {
+    width: max-content !important;  // permite que el gráfico crezca más allá del contenedor
+    min-width: 100%;                // asegura que al menos ocupe el contenedor
+    height: auto !important;
+  }
+  
+
+  // Leyenda de colores
+  .legend {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 14px;
+    justify-content: center;
+
+    span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .color-box {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      vertical-align: middle;
+    }
+
+    .pendiente {
+      background-color: #ffc107;
+    }
+    .en-progreso {
+      background-color: #2196f3;
+    }
+    .completada {
+      background-color: #4caf50;
+    }
+    .cancelada {
+      background-color: #f44336;
+    }
+
+    @media (max-width: 600px) {
+      justify-content: flex-start;
+      font-size: 13px;
+    }
+  }
+}
+
+// Animacion de carga
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

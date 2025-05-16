@@ -63,6 +63,9 @@ import { EmpleadoUpdateComponent } from './components/empleado/empleado-update/e
 //Dashboard
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
 
+import { ObraCivilGanttComponent } from './components/obra-civil-gantt/obra-civil-gantt.component';
+
+import { ObraCivilTareaReporteComponent } from './components/obra-civil-tarea-reporte/obra-civil-tarea-reporte.component';
 
 export const routes: Routes = [
   {
@@ -136,6 +139,9 @@ export const routes: Routes = [
       
       //Dashboard
       { path: 'dashboard', component: DashboardComponent },
+
+      { path: 'obra-civil-gantt/:id', component: ObraCivilGanttComponent }, 
+      { path: 'obra-civil-tarea-reporte/:id_obra', component: ObraCivilTareaReporteComponent },
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 

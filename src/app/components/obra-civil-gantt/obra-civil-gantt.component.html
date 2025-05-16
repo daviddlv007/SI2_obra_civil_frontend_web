@@ -1,0 +1,51 @@
+<div class="gantt-container" role="region" aria-label="Diagrama de Timeline de la Obra">
+    <div class="header">
+      <h2>Avance de Obra</h2>
+  
+      <!-- Filtro por Estado -->
+      <div class="filter">
+        <label for="estado-select">Filtrar por estado:</label>
+        <select id="estado-select" [(ngModel)]="estadoFilter" (change)="onEstadoChange()">
+          <option *ngFor="let e of estados" [value]="e">{{ e }}</option>
+        </select>
+      </div>
+    </div>
+  
+    <!-- Cargando -->
+    <div *ngIf="isLoading" class="loading" role="alert" aria-busy="true">
+      <span class="spinner" aria-hidden="true"></span>
+      <span>Cargando tareas, por favor espera...</span>
+    </div>
+  
+    <!-- Error -->
+    <div *ngIf="error" class="error" role="alert" tabindex="0">
+      <span>{{ error }}</span>
+      <button (click)="onEstadoChange()" aria-label="Reintentar cargar las tareas">🔁 Reintentar</button>
+    </div>
+  
+    <!-- Timeline Chart -->
+    <div *ngIf="!isLoading && !error && chartData.length > 0" class="chart-wrapper">
+      <google-chart
+        [type]="chart.type"
+        [data]="chart.data"
+        [columns]="chart.columns"
+        [options]="chart.options"
+>
+      </google-chart>
+    </div>
+    
+  
+    <!-- Sin tareas -->
+    <div *ngIf="!isLoading && chartData.length === 0" class="no-tasks" role="alert" tabindex="0">
+      <p>No hay tareas registradas para esta obra civil.</p>
+    </div>
+  
+    <!-- Leyenda -->
+    <div class="legend">
+      <span><span class="color-box pendiente"></span> Pendiente</span>
+      <span><span class="color-box en-progreso"></span> En Progreso</span>
+      <span><span class="color-box completada"></span> Completada</span>
+      <span><span class="color-box cancelada"></span> Cancelada</span>
+    </div>
+  </div>
+  

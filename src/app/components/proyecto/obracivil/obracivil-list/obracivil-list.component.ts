@@ -226,4 +226,14 @@ export class ObracivilListComponent implements AfterViewInit {
     this.imagenUrl = null;
     this.mostrarModalImagen = false;
   }
+
+  verAvanceObra(id: number): void {
+    this.router.navigate([`/obra-civil-gantt/${id}`]);
+  }
+  
+  generarReporteObra(id: number): void {
+    this.router.navigate([`/obra-civil-tarea-reporte/${id}`]);
+  }
+  
+
 }
