@@ -15,23 +15,10 @@
 
             <!-- Botones de Backup -->
             <div class="row mb-4">
-              <div hidden class="col-md-6 mb-3">
-                <button
-                  class="btn btn-primary w-100"
-                  (click)="backupPostgreSQL()"
-                >
-                  <i class="bi bi-download"></i> Backup PostgreSQL
-                </button>
-              </div>
-              <div hidden class="col-md-6 mb-3">
-                <button class="btn btn-primary w-100" (click)="backupMySQL()">
-                  <i class="bi bi-download"></i> Backup MySQL
-                </button>
-              </div>
               <div class="col-md-6 mb-3">
                 <button
                   class="btn btn-primary w-100"
-                  (click)="backupHDos()"
+                  (click)="createBackupToDrive()"
                   [disabled]="isBackupInProgress"
                 >
                   <i class="bi bi-download"></i> Backup H2
@@ -39,60 +26,9 @@
               </div>
             </div>
 
-            <!-- Restaurar Backup PostgreSQL -->
-            <div hidden class="mb-4">
-              <label class="form-label">Restaurar Backup PostgreSQL</label>
-              <div class="input-group">
-                <input
-                  type="file"
-                  class="form-control"
-                  (change)="restorePostgreSQL($event)"
-                />
-                <button
-                  class="btn btn-danger"
-                  (click)="restorePostgreSQL($event)"
-                >
-                  <i class="bi bi-upload"></i> Restaurar
-                </button>
-              </div>
-            </div>
-
-            <!-- Restaurar Backup MySQL -->
-            <div hidden class="mb-4">
-              <label class="form-label">Restaurar Backup MySQL</label>
-              <div class="input-group">
-                <input
-                  type="file"
-                  class="form-control"
-                  (change)="restoreMySQL($event)"
-                />
-                <button class="btn btn-danger" (click)="restoreMySQL($event)">
-                  <i class="bi bi-upload"></i> Restaurar
-                </button>
-              </div>
-            </div>
-
-            <!-- Restaurar Backup H2 -->
-            <div *ngIf="isRestoreSectionVisible" class="mb-4">
-              <label class="form-label">Restaurar Backup H2</label>
-              <div class="input-group">
-                <input
-                  type="file"
-                  class="form-control"
-                  (change)="restoreHDos($event)"
-                />
-                <button
-                  class="btn btn-danger"
-                  (click)="restoreHDos($event)"
-                  [disabled]="isBackupInProgress"
-                >
-                  <i class="bi bi-upload"></i> Restaurar
-                </button>
-              </div>
-            </div>
-
             <!-- Tabla de Backup -->
             <div
+              hidden
               *ngIf="backups.length > 0"
               style="max-height: 400px; overflow-y: auto"
             >
@@ -127,10 +63,69 @@
                 </table>
               </div>
             </div>
+
+            <!-- Tabla de Backups en Google Drive -->
+            <div *ngIf="driveBackups.length > 0">
+              <h5 class="mt-4">Backups en Google Drive</h5>
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                  <thead class="table-success">
+                    <tr>
+                      <th>Nombre del Archivo</th>
+                      <th>Fecha y Hora</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let backup of driveBackups">
+                      <td>{{ backup.name }}</td>
+                      <td>
+                        {{ backup.createdTime }}
+                      </td>
+                      <td class="text-center">
+                        <button
+                          class="btn btn-outline-primary btn-sm"
+                          (click)="downloadFromDrive(backup.id, backup.name)"
+                        >
+                          <i class="bi bi-cloud-download"></i> Descargar
+                        </button>
+                        <button
+                          class="btn btn-outline-success btn-sm"
+                          (click)="openRestoreModal(backup.id, backup.name)"
+                        >
+                          <i class="bi bi-arrow-repeat"></i> Restaurar
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
             <!-- Loader de progreso de backup -->
             <div *ngIf="isBackupInProgress" class="text-center mt-3">
               <div class="spinner-border" role="status">
                 <span class="visually-hidden">Cargando...</span>
+              </div>
+            </div>
+
+            <!-- Restaurar Backup H2 -->
+            <div *ngIf="isRestoreSectionVisible" class="mb-4">
+              <label hidden class="form-label">Restaurar Backup H2</label>
+              <h5 class="mt-4">Restaurar Backup H2</h5>
+              <div class="input-group">
+                <input
+                  type="file"
+                  class="form-control"
+                  (change)="onFileSelected($event)"
+                  accept=".zip"
+                />
+                <button
+                  class="btn btn-danger"
+                  (click)="uploadAndRestore()"
+                  [disabled]="isBackupInProgress"
+                >
+                  <i class="bi bi-upload"></i> Restaurar
+                </button>
               </div>
             </div>
           </div>
@@ -139,3 +134,73 @@
     </div>
   </div>
 </section>
+<!-- Modal de Confirmación -->
+<div
+  class="modal fade"
+  id="restoreConfirmModal"
+  tabindex="-1"
+  aria-labelledby="restoreConfirmModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="restoreConfirmModalLabel">
+          ¿Confirmar Restauración?
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          <strong>Advertencia:</strong> Esto restaurará la base de datos al
+          estado del archivo seleccionado.<br />
+          Se perderán todos los datos actuales. ¿Deseas continuar?
+        </p>
+        <p><strong>Archivo:</strong> {{ selectedFileName }}</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button class="btn btn-danger" (click)="confirmRestore()">
+          Sí, restaurar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal de Mensajes -->
+<div
+  class="modal fade"
+  id="messageModal"
+  tabindex="-1"
+  aria-labelledby="messageModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="messageModalLabel">Mensaje</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+      <div class="modal-body">
+        {{ modalMessage }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
