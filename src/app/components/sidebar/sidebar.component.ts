@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class SidebarComponent {
   menus = [
-    { title: 'Home', route: '/', expanded: false, children: [] },
+    { title: 'Home', route: '/dashboard', expanded: false, children: [] },
 
     {
       title: 'Usuarios',
@@ -36,6 +36,8 @@ export class SidebarComponent {
       children: [
         { title: 'Servicios', route: '/servicio' },
         { title: 'Empleados', route: '/empleado' },
+        { title: 'Materiales', route: '/material' },
+        { title: 'Equipos', route: '/equipo' },
       ],
     },
     {
@@ -50,10 +52,10 @@ export class SidebarComponent {
         { title: 'Bitacora', route: '/bitacora' },
         { title: 'Backup y Restore', route: '/backup-restore' },
       ],
-    }
+    },
   ];
 
-    /*{ title: 'Modelos', expanded: false, children: [
+  /*{ title: 'Modelos', expanded: false, children: [
       { title: 'Persona', route: '/persona' },
       { title: 'Auto', route: '/auto' },
       { title: 'Perro', route: '/perro' },

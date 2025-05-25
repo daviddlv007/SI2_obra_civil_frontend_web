@@ -1,0 +1,121 @@
+<div class="form-container">
+    <h2>Registrar Equipo</h2>
+  
+    <form (ngSubmit)="crearEquipo()" #equipoForm="ngForm">
+      <!-- Código Activo -->
+      <div class="form-group">
+        <label for="codigoActivo">Código Activo:</label>
+        <input
+          id="codigoActivo"
+          type="text"
+          [(ngModel)]="equipo.codigoActivo"
+          name="codigoActivo"
+          required
+          minlength="2"
+          #codigoActivo="ngModel"
+          class="form-control"
+        />
+        <div *ngIf="codigoActivo.invalid && (codigoActivo.dirty || codigoActivo.touched)" class="error-message">
+          <small *ngIf="codigoActivo.errors?.['required']">Campo obligatorio.</small>
+          <small *ngIf="codigoActivo.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+        </div>
+      </div>
+  
+      <!-- Nombre -->
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input
+          id="nombre"
+          type="text"
+          [(ngModel)]="equipo.nombre"
+          name="nombre"
+          required
+          minlength="2"
+          #nombre="ngModel"
+          class="form-control"
+        />
+        <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="error-message">
+          <small *ngIf="nombre.errors?.['required']">Campo obligatorio.</small>
+          <small *ngIf="nombre.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+        </div>
+      </div>
+  
+      <!-- Descripción -->
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea
+          id="descripcion"
+          [(ngModel)]="equipo.descripcion"
+          name="descripcion"
+          rows="3"
+          class="form-control"
+        ></textarea>
+      </div>
+  
+      <!-- Unidad de Medida -->
+      <div class="form-group">
+        <label for="unidadMedida">Unidad de Medida:</label>
+        <input
+          id="unidadMedida"
+          type="text"
+          [(ngModel)]="equipo.unidadMedida"
+          name="unidadMedida"
+          required
+          #unidadMedida="ngModel"
+          class="form-control"
+        />
+        <div *ngIf="unidadMedida.invalid && (unidadMedida.dirty || unidadMedida.touched)" class="error-message">
+          <small *ngIf="unidadMedida.errors?.['required']">Campo obligatorio.</small>
+        </div>
+      </div>
+  
+      <!-- Tipo de Equipo -->
+      <div class="form-group">
+        <label for="tipoEquipo">Tipo de Equipo:</label>
+        <input
+          id="tipoEquipo"
+          type="text"
+          [(ngModel)]="equipo.tipoEquipo"
+          name="tipoEquipo"
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Precio Unitario -->
+      <div class="form-group">
+        <label for="precioUnitario">Precio Unitario:</label>
+        <input
+          id="precioUnitario"
+          type="number"
+          step="0.01"
+          [(ngModel)]="equipo.precioUnitario"
+          name="precioUnitario"
+          required
+          #precioUnitario="ngModel"
+          class="form-control"
+        />
+        <div *ngIf="precioUnitario.invalid && (precioUnitario.dirty || precioUnitario.touched)" class="error-message">
+          <small *ngIf="precioUnitario.errors?.['required']">Campo obligatorio.</small>
+        </div>
+      </div>
+  
+      <!-- Fecha de Adquisición -->
+      <div class="form-group">
+        <label for="fechaAdquisicion">Fecha de Adquisición:</label>
+        <input
+          id="fechaAdquisicion"
+          type="date"
+          [(ngModel)]="equipo.fechaAdquisicion"
+          name="fechaAdquisicion"
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Botones -->
+      <div class="button-container">
+        <button type="submit" [disabled]="equipoForm.invalid" class="submit-btn">Crear</button>
+        <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
+      </div>
+    </form>
+  </div>
+  

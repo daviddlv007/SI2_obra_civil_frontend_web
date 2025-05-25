@@ -27,6 +27,16 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
 import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usuario-update.component';
 
+
+
+import { MaterialComponent } from './components/material/material.component';
+import { MaterialCreateComponent } from './components/material/material-create/material-create.component';
+import { MaterialUpdateComponent } from './components/material/material-update/material-update.component';
+
+import { EquipoComponent } from './components/equipo/equipo.component';
+import { EquipoCreateComponent } from './components/equipo/equipo-create/equipo-create.component';
+import { EquipoUpdateComponent } from './components/equipo/equipo-update/equipo-update.component';
+
 import { BitacoraComponent } from './components/bitacora/bitacora.component';
 import { TareaComponent } from './components/tarea/tarea.component';
 import { TareaCreateComponent } from './components/tarea/tarea-create/tarea-create.component';
@@ -49,6 +59,13 @@ import { ServicioUpdateComponent } from './components/servicio/servicio-update/s
 import { EmpleadoComponent } from './components/empleado/empleado.component';
 import { EmpleadoCreateComponent } from './components/empleado/empleado-create/empleado-create.component';
 import { EmpleadoUpdateComponent } from './components/empleado/empleado-update/empleado-update.component';
+
+//Dashboard
+import { DashboardComponent } from './components/home/dashboard/dashboard.component';
+
+import { ObraCivilGanttComponent } from './components/obra-civil-gantt/obra-civil-gantt.component';
+
+import { ObraCivilTareaReporteComponent } from './components/obra-civil-tarea-reporte/obra-civil-tarea-reporte.component';
 
 export const routes: Routes = [
   {
@@ -91,16 +108,25 @@ export const routes: Routes = [
       { path: 'tarea-create', component: TareaCreateComponent },
       { path: 'tarea-update/:id', component: TareaUpdateComponent },
 
+      { path: '', redirectTo: 'usuario', pathMatch: 'full' },
+
+      { path: 'material', component: MaterialComponent },
+      { path: 'material-create', component: MaterialCreateComponent },
+      { path: 'material-update/:id', component: MaterialUpdateComponent },
+
+      { path: 'equipo', component: EquipoComponent },
+      { path: 'equipo-create', component: EquipoCreateComponent },
+      { path: 'equipo-update/:id', component: EquipoUpdateComponent },
+
+
+
       // PROYECTO - OBRA CIVIL
       { path: 'obra-civil', component: ObracivilListComponent },
       { path: 'obra-civil-create', component: ObracivilCreateComponent },
       { path: 'obra-civil-update/:id', component: ObracivilUpdateComponent },
       { path: 'obra-civil-show/:id', component: ObracivilShowComponent },
 
-     // { path: '', redirectTo: 'usuario', pathMatch: 'full' },
-
-
-       // SERVICIO
+      // SERVICIO
        { path: 'servicio', component: ServicioComponent },
        { path: 'servicio-create', component: ServicioCreateComponent },
        { path: 'servicio-update/:id', component: ServicioUpdateComponent },
@@ -111,8 +137,13 @@ export const routes: Routes = [
        { path: 'empleado-create', component: EmpleadoCreateComponent },
        { path: 'empleado-update/:id', component: EmpleadoUpdateComponent },
 
+      //Dashboard
+      { path: 'dashboard', component: DashboardComponent },
 
-      // { path: '', redirectTo: 'servicio', pathMatch: 'full' }
+      { path: 'obra-civil-gantt/:id', component: ObraCivilGanttComponent },
+      { path: 'obra-civil-tarea-reporte/:id_obra', component: ObraCivilTareaReporteComponent },
+
+
 
     ],
 
@@ -121,5 +152,6 @@ export const routes: Routes = [
    //{ path: 'login', component: LoginComponent }, descomentar
    //{ path: '**', redirectTo: 'usuario' }, descomentar
    { path: '', redirectTo: 'servicio', pathMatch: 'full' }
+
 
 ];

@@ -41,7 +41,7 @@ export class ObracivilListComponent implements AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.obtenerObrasCiviles();
+    this.obtenerObrasCivilesDesc();
   }
 
   ngAfterViewInit(): void {
@@ -111,6 +111,15 @@ export class ObracivilListComponent implements AfterViewInit {
     });
   }
 
+  obtenerObrasCivilesDesc(): void {
+    this.obracivilService.obtenerObrasDesc().subscribe((data) => {
+      this.obras = data;
+      this.obrasFiltradas = data;
+      console.log('OBRAS: ', this.obrasFiltradas);
+      this.calcularPaginacion();
+    });
+  }
+
   irACrearObra(): void {
     this.router.navigate(['/obra-civil-create']);
   }
@@ -125,7 +134,7 @@ export class ObracivilListComponent implements AfterViewInit {
 
   eliminarObra(id: number): void {
     this.obracivilService.eliminarObra(id).subscribe(() => {
-      this.obtenerObrasCiviles();
+      this.obtenerObrasCivilesDesc();
     });
   }
 
@@ -139,7 +148,8 @@ export class ObracivilListComponent implements AfterViewInit {
   eliminarObraConfirmada(): void {
     console.log('obraAEliminarId', this.obraAEliminarId);
     if (this.obraAEliminarId !== null) {
-      this.eliminarObra(this.obraAEliminarId); // Realizamos la eliminación
+      //this.eliminarObra(this.obraAEliminarId); // Realizamos la eliminación
+      console.log('Obra Civil en proceso.');
       this.cerrarModal(); // Cerramos el modal
     }
   }
@@ -216,4 +226,14 @@ export class ObracivilListComponent implements AfterViewInit {
     this.imagenUrl = null;
     this.mostrarModalImagen = false;
   }
+
+  verAvanceObra(id: number): void {
+    this.router.navigate([`/obra-civil-gantt/${id}`]);
+  }
+  
+  generarReporteObra(id: number): void {
+    this.router.navigate([`/obra-civil-tarea-reporte/${id}`]);
+  }
+  
+
 }

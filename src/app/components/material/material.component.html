@@ -1,0 +1,78 @@
+<!-- Modal de confirmación -->
+<div class="modal" *ngIf="mostrarModal">
+    <div class="modal-content animate">
+      <h3><i class="fa fa-exclamation-triangle text-warning"></i> Confirmación</h3>
+      <p class="modal-message">¿Estás seguro de eliminar este material?</p>
+      <div class="modal-buttons">
+        <button class="btn-confirmar" (click)="eliminarMaterialConfirmado()">
+          <i class="fa fa-check"></i> Confirmar
+        </button>
+        <button class="btn-cancelar" (click)="cerrarModal()">
+          <i class="fa fa-times"></i> Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Encabezado -->
+  <section class="encabezado">
+    <h2>Gestión de Materiales</h2>
+    <div class="acciones">
+      <input
+        type="text"
+        [(ngModel)]="textoBusqueda"
+        (input)="filtrarMateriales()"
+        placeholder="Buscar material por cualquier campo..."
+      />
+      <button class="btn-crear" (click)="irACrearMaterial()">
+        <i class="fa fa-plus"></i> Registrar
+      </button>
+    </div>
+  </section>
+  
+  <!-- Tabla de Materiales -->
+  <table>
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Unidad</th>
+        <th>Precio Unitario</th>
+        <th>Stock Actual</th>
+        <th>Stock Mínimo</th>
+        <th>Categoría</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of materialesPaginados">
+        <td>{{ m.codigoInventario }}</td>
+        <td>{{ m.nombre }}</td>
+        <td>{{ m.unidadMedida }}</td>
+        <td>{{ m.precioUnitario | currency:'USD':'symbol':'1.2-2' }}</td>
+        <td>{{ m.stockActual }}</td>
+        <td>{{ m.stockMinimo }}</td>
+        <td>{{ m.categoria || 'N/A' }}</td>
+        <td>
+          <button class="btn-editar" (click)="irAEditarMaterial(m.id ?? 0)">
+            <i class="fa fa-edit"></i> Editar
+          </button>
+          <button class="btn-eliminar" (click)="confirmarEliminarMaterial(m.id ?? 0)">
+            <i class="fa fa-trash"></i> Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- Paginación -->
+  <div class="paginacion">
+    <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">
+      ← Anterior
+    </button>
+    <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+    <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">
+      Siguiente →
+    </button>
+  </div>
+  

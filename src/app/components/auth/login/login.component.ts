@@ -1,6 +1,11 @@
 // login.component.ts
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { AuthService } from '../../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -10,7 +15,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -23,7 +28,7 @@ export class LoginComponent {
   ) {
     this.loginForm = this.fb.group({
       correo: ['', [Validators.required, Validators.email]],
-      contrasena: ['', Validators.required]
+      contrasena: ['', Validators.required],
     });
   }
 
@@ -32,12 +37,12 @@ export class LoginComponent {
       const { correo, contrasena } = this.loginForm.value;
       this.authService.login(correo, contrasena).subscribe({
         next: () => {
-          this.router.navigate(['/usuario']);
+          this.router.navigate(['/dashboard']);
         },
         error: (err) => {
           this.errorMessage = 'Credenciales incorrectas';
           console.error(err);
-        }
+        },
       });
     }
   }

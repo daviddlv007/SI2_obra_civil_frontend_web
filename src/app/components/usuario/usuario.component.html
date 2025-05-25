@@ -1,51 +1,84 @@
-<div *ngIf="mostrarModal" class="modal">
-    <div class="modal-content">
-      <h3>¿Estás seguro de eliminar este usuario?</h3>
-      <button (click)="eliminarUsuarioConfirmado()">Confirmar</button>
-      <button (click)="cerrarModal()">Cancelar</button>
+<!-- Modal de confirmación -->
+<!-- Modal de confirmación -->
+<div class="modal" *ngIf="mostrarModal">
+  <div class="modal-content animate">
+    <h3><i class="fa fa-exclamation-triangle text-warning"></i> Confirmación</h3>
+    <p class="modal-message">¿Estás seguro de eliminar este usuario?</p>
+    <div class="modal-buttons">
+      <button class="btn-confirmar" (click)="eliminarUsuarioConfirmado()">
+        <i class="fa fa-check"></i> Confirmar
+      </button>
+      <button class="btn-cancelar" (click)="cerrarModal()">
+        <i class="fa fa-times"></i> Cancelar
+      </button>
     </div>
   </div>
-  
-  <div>
-    <h2>Usuarios</h2>
-    <input type="text" [(ngModel)]="textoBusqueda" (input)="filtrarUsuarios()" placeholder="Buscar...">
-    <button (click)="irACrearUsuario()" style="float: right; margin-bottom: 10px;">Registrar</button>
-    <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; margin-top: 20px;">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Correo</th>
-          <th>Teléfono</th>
-          <th>Dirección</th>
-          <th>Fecha Nac.</th>
-          <th>Género</th>
-          <th>N° Identificación</th>
-          <th>Rol</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let u of usuariosPaginados">
-          <td>{{ u.nombre }}</td>
-          <td>{{ u.apellido }}</td>
-          <td>{{ u.correo }}</td>
-          <td>{{ u.telefono }}</td>
-          <td>{{ u.direccion }}</td>
-          <td>{{ u.fechaNacimiento | date:'dd/MM/yyyy' }}</td>
-          <td>{{ u.genero }}</td>
-          <td>{{ u.numeroIdentificacion }}</td>
-          <td>{{ u.rol.nombre }}</td>
-          <td>
-            <button (click)="irAEditarUsuario(u.id ?? 0)">Editar</button>
-            <button (click)="confirmarEliminarUsuario(u.id ?? 0)">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div style="margin-top: 20px;">
-      <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">Anterior</button>
-      <span> Página {{ paginaActual }} </span>
-      <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">Siguiente</button>
-    </div>
+</div>
+
+
+<!-- Encabezado -->
+<section class="encabezado">
+  <h2>Gestión de Usuarios</h2>
+  <div class="acciones">
+    <input
+      type="text"
+      [(ngModel)]="textoBusqueda"
+      (input)="filtrarUsuarios()"
+      placeholder="Buscar usuario por cualquier campo..."
+    />
+    <button class="btn-crear" (click)="irACrearUsuario()">
+      <i class="fa fa-plus"></i> Registrar
+    </button>
   </div>
+</section>
+
+<!-- Tabla de Usuarios -->
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Correo</th>
+      <th>Teléfono</th>
+      <th>Dirección</th>
+      <th>Fecha Nac.</th>
+      <th>Género</th>
+      <th>N° Identificación</th>
+      <th>Rol</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let u of usuariosPaginados">
+      <td>{{ u.nombre }}</td>
+      <td>{{ u.apellido }}</td>
+      <td>{{ u.correo }}</td>
+      <td>{{ u.telefono }}</td>
+      <td>{{ u.direccion }}</td>
+      <td>{{ u.fechaNacimiento | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ u.genero }}</td>
+      <td>{{ u.numeroIdentificacion }}</td>
+      <td>{{ u.rol.nombre }}</td>
+      <td>
+        <button class="btn-editar" (click)="irAEditarUsuario(u.id ?? 0)">
+          <i class="fa fa-edit"></i> Editar
+        </button>
+
+        <button class="btn-eliminar" (click)="confirmarEliminarUsuario(u.id ?? 0)">
+          <i class="fa fa-trash"></i> Eliminar
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Paginación -->
+<div class="paginacion">
+  <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">
+    ← Anterior
+  </button>
+  <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+  <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">
+    Siguiente →
+  </button>
+</div>

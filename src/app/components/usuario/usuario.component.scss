@@ -1,142 +1,212 @@
-/* Estilos base */
+/* Tabla moderna */
 table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+
+  th,
+  td {
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid #ececec;
+  }
+
+  th {
+    background: linear-gradient(to right, #f3f4f6, #ffffff);
+    font-weight: 600;
+    color: #333;
+  }
+
+  tr:hover {
+    background-color: #f1f9ff;
+    transition: 0.3s ease;
+  }
+}
+
+/* Botones */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  margin-right: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  i {
+    font-size: 15px;
+  }
+}
+
+.btn-crear {
+  float: right;
+  background: linear-gradient(to right, #4CAF50, #45a049);
+  color: white;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    background: #3e8e41;
+  }
+}
+
+.btn-editar {
+  background-color: #2196f3;
+  color: white;
+
+  &:hover {
+    background-color: #0a84d1;
+  }
+}
+
+.btn-eliminar {
+  background-color: #f44336;
+  color: white;
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+}
+
+/* Modal */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+
+  .modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #e0e0e0;
-    }
-  
-    th {
-      background-color: #f5f5f5;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    animation: fadeZoom 0.25s ease-out;
+
+    h3 {
+      margin-bottom: 18px;
+      font-size: 20px;
       font-weight: 600;
+      color: #2c3e50;
     }
-  
-    tr:hover {
-      background-color: #f9f9f9;
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+
+      .btn-confirmar {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 6px;
+
+        &:hover {
+          background-color: #218838;
+        }
+      }
+
+      .btn-cancelar {
+        background-color: #dc3545;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 6px;
+
+        &:hover {
+          background-color: #c82333;
+        }
+      }
     }
   }
-  
-  /* Botones */
+}
+
+@keyframes fadeZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Paginación */
+.paginacion {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+
   button {
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
+    padding: 8px 18px;
+    background-color: #f0f0f0;
+
+    &:hover:not([disabled]) {
+      background-color: #dedede;
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
     font-size: 14px;
-    transition: background-color 0.3s;
-    margin-right: 5px;
-  
-    i {
-      margin-right: 5px;
-    }
+    color: #666;
   }
-  
-  .btn-crear {
-    float: right;
-    background-color: #4CAF50;
-    color: white;
-    margin-bottom: 15px;
-  
-    &:hover {
-      background-color: #45a049;
-    }
+}
+
+/* Input búsqueda */
+input {
+  padding: 10px 12px;
+  width: 100%;
+  max-width: 340px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  background: #fff;
+
+  &:focus {
+    outline: none;
+    border-color: #2196f3;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.25);
   }
-  
-  .btn-editar {
-    background-color: #2196F3;
-    color: white;
-  
-    &:hover {
-      background-color: #0b7dda;
-    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  table {
+    font-size: 13px;
   }
-  
-  .btn-eliminar {
-    background-color: #f44336;
-    color: white;
-  
-    &:hover {
-      background-color: #da190b;
-    }
+
+  button {
+    padding: 6px 10px;
+    font-size: 13px;
   }
-  
-  /* Modal */
-  .modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-  
-    .modal-content {
-      background: white;
-      padding: 25px;
-      border-radius: 8px;
-      width: 400px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  
-      h3 {
-        margin-bottom: 20px;
-        color: #333;
-      }
-  
-      button {
-        margin: 0 10px;
-        min-width: 80px;
-      }
-    }
-  }
-  
-  /* Paginación */
-  .paginacion {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-  
-    button {
-      padding: 8px 15px;
-      background-color: #f5f5f5;
-  
-      &:hover:not([disabled]) {
-        background-color: #e0e0e0;
-      }
-  
-      &[disabled] {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-    }
-  
-    span {
-      font-size: 14px;
-      color: #666;
-    }
-  }
-  
-  /* Input búsqueda */
+
   input {
-    padding: 10px;
-    width: 300px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 15px;
-  
-    &:focus {
-      outline: none;
-      border-color: #2196F3;
-      box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
-    }
+    width: 100%;
   }
+
+  .btn-crear {
+    float: none;
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}

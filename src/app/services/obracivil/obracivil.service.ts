@@ -16,6 +16,10 @@ export class ObracivilService {
     return this.http.get<Obracivil[]>(`${this.apiUrl}/obras`);
   }
 
+  obtenerObrasDesc(): Observable<Obracivil[]> {
+    return this.http.get<Obracivil[]>(`${this.apiUrl}/obras/list-desc`);
+  }
+
   obtenerObraPorId(id: number): Observable<Obracivil> {
     return this.http.get<Obracivil>(`${this.apiUrl}/obras/${id}`);
   }

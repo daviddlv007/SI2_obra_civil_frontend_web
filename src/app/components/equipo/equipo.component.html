@@ -1,0 +1,76 @@
+<!-- Modal de confirmación -->
+<div class="modal" *ngIf="mostrarModal">
+    <div class="modal-content animate">
+      <h3><i class="fa fa-exclamation-triangle text-warning"></i> Confirmación</h3>
+      <p class="modal-message">¿Estás seguro de eliminar este equipo?</p>
+      <div class="modal-buttons">
+        <button class="btn-confirmar" (click)="eliminarEquipoConfirmado()">
+          <i class="fa fa-check"></i> Confirmar
+        </button>
+        <button class="btn-cancelar" (click)="cerrarModal()">
+          <i class="fa fa-times"></i> Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Encabezado -->
+  <section class="encabezado">
+    <h2>Gestión de Equipos</h2>
+    <div class="acciones">
+      <input
+        type="text"
+        [(ngModel)]="textoBusqueda"
+        (input)="filtrarEquipos()"
+        placeholder="Buscar equipo por cualquier campo..."
+      />
+      <button class="btn-crear" (click)="irACrearEquipo()">
+        <i class="fa fa-plus"></i> Registrar
+      </button>
+    </div>
+  </section>
+  
+  <!-- Tabla de Equipos -->
+  <table>
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Unidad</th>
+        <th>Tipo</th>
+        <th>Precio Unitario</th>
+        <th>Fecha de Adquisición</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let e of equiposPaginados">
+        <td>{{ e.codigoActivo }}</td>
+        <td>{{ e.nombre }}</td>
+        <td>{{ e.unidadMedida }}</td>
+        <td>{{ e.tipoEquipo || 'N/A' }}</td>
+        <td>{{ e.precioUnitario | currency:'USD':'symbol':'1.2-2' }}</td>
+        <td>{{ e.fechaAdquisicion || 'No registrada' }}</td>
+        <td>
+          <button class="btn-editar" (click)="irAEditarEquipo(e.id ?? 0)">
+            <i class="fa fa-edit"></i> Editar
+          </button>
+          <button class="btn-eliminar" (click)="confirmarEliminarEquipo(e.id ?? 0)">
+            <i class="fa fa-trash"></i> Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- Paginación -->
+  <div class="paginacion">
+    <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">
+      ← Anterior
+    </button>
+    <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+    <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">
+      Siguiente →
+    </button>
+  </div>
+  

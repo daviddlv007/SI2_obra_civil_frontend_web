@@ -1,0 +1,112 @@
+.reporte-container {
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  
+    .titulo-reporte {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: #333;
+    }
+  
+    .formulario {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+  
+      .campo {
+        display: flex;
+        flex-direction: column;
+  
+        label {
+          margin-bottom: 0.25rem;
+          font-weight: 500;
+          color: #555;
+        }
+  
+        input, select {
+          padding: 0.4rem;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+      }
+  
+      .boton-filtrar {
+        display: flex;
+        align-items: flex-end;
+  
+        button {
+          padding: 0.5rem 1rem;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+  
+        button:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  
+    .acciones {
+      margin-top: 1.5rem;
+  
+      button {
+        margin-right: 1rem;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        background-color: #28a745;
+        color: white;
+        cursor: pointer;
+      }
+  
+      button:last-child {
+        background-color: #dc3545;
+      }
+  
+      button:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+  .tabla-responsive {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .tabla {
+    table {
+      width: 100%;
+      min-width: 600px;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+  
+      th, td {
+        border: 1px solid #ddd;
+        padding: 0.6rem;
+        text-align: left;
+      }
+  
+      th {
+        background-color: #f1f1f1;
+        font-weight: 600;
+      }
+  
+      tr:nth-child(even) {
+        background-color: #fafafa;
+      }
+    }
+  
+    p {
+      margin-top: 1rem;
+      font-style: italic;
+      color: #666;
+    }
+  }
+  
