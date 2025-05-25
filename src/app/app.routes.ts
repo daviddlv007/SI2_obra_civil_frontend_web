@@ -9,7 +9,7 @@ import { PerroComponent } from './components/perro/perro.component';
 import { PerroCreateComponent } from './components/perro/perro-create/perro-create.component';
 import { PerroUpdateComponent } from './components/perro/perro-update/perro-update.component';
 import { LoginComponent } from './components/auth/login/login.component';
-import { AuthGuard } from './guards/auth/auth.guard';
+//import { AuthGuard } from './guards/auth/auth.guard';descomentar
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
 
@@ -54,7 +54,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],descomentar
     children: [
       { path: 'persona', component: PersonaComponent },
       { path: 'persona-create', component: PersonaCreateComponent },
@@ -112,11 +112,14 @@ export const routes: Routes = [
        { path: 'empleado-update/:id', component: EmpleadoUpdateComponent },
 
 
-       { path: '', redirectTo: 'usuario', pathMatch: 'full' }
+      // { path: '', redirectTo: 'servicio', pathMatch: 'full' }
 
     ],
+
   },
 
-   { path: 'login', component: LoginComponent },
-   { path: '**', redirectTo: 'usuario' },
+   //{ path: 'login', component: LoginComponent }, descomentar
+   //{ path: '**', redirectTo: 'usuario' }, descomentar
+   { path: '', redirectTo: 'servicio', pathMatch: 'full' }
+
 ];
