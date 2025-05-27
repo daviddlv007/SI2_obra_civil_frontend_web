@@ -45,18 +45,22 @@ export class ObraCivilTareaReporteComponent implements OnInit {
     });
   }
 
-  filtrar(): void {
-    this.tareasFiltradas = this.tareas.filter(t => {
-      const fechaIni = new Date(this.fechaInicio);
-      const fechaFin = new Date(this.fechaFin);
-      const fechaFinTarea = new Date(t.fechaFin);
-      const enRango = (!this.fechaInicio || fechaFinTarea >= fechaIni) &&
-                      (!this.fechaFin || fechaFinTarea <= fechaFin);
-      const coincideEstado = !this.estado || t.estado === this.estado;
-      const coincidePrioridad = !this.prioridad || t.prioridad === this.prioridad;
-      return enRango && coincideEstado && coincidePrioridad;
-    });
-  }
+filtrar(): void {
+  this.tareasFiltradas = this.tareas.filter(t => {
+    const fechaIni = this.fechaInicio ? new Date(this.fechaInicio) : null;
+    const fechaFin = this.fechaFin ? new Date(this.fechaFin) : null;
+    const fechaInicioTarea = new Date(t.fechaInicio);
+    const fechaFinTarea = new Date(t.fechaFin);
+
+    const enRangoInicio = !fechaIni || fechaInicioTarea >= fechaIni;
+    const enRangoFin = !fechaFin || fechaFinTarea <= fechaFin;
+    
+    const coincideEstado = !this.estado || t.estado === this.estado;
+    const coincidePrioridad = !this.prioridad || t.prioridad === this.prioridad;
+    
+    return enRangoInicio && enRangoFin && coincideEstado && coincidePrioridad;
+  });
+}
   
 
   exportarExcel(): void {
@@ -112,5 +116,67 @@ export class ObraCivilTareaReporteComponent implements OnInit {
   
     doc.save(`${this.nombreObra}-reporte.pdf`);
   }
+
+exportarHTML(): void {
+  // Crear contenido HTML
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Reporte ${this.nombreObra}</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background-color: #2980b9; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #ddd; }
+        tr:nth-child(even) { background-color: #f5f5f5; }
+        .fecha { white-space: nowrap; }
+      </style>
+    </head>
+    <body>
+      <h1>Reporte de Tareas - ${this.nombreObra}</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Estado</th>
+            <th>Prioridad</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${this.tareasFiltradas.map(tarea => `
+            <tr>
+              <td>${tarea.nombre}</td>
+              <td>${tarea.descripcion}</td>
+              <td class="fecha">${this.formatDate(tarea.fechaInicio)}</td>
+              <td class="fecha">${this.formatDate(tarea.fechaFin)}</td>
+              <td>${tarea.estado}</td>
+              <td>${tarea.prioridad}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </body>
+    </html>
+  `;
+
+  // Crear y descargar archivo
+  const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+  FileSaver.saveAs(blob, `${this.nombreObra}-reporte.html`);
+}
+
+private formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+}
+
   
 }
