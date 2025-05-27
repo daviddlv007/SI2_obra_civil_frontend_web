@@ -11,32 +11,6 @@ export class BackupService {
 
   constructor(private http: HttpClient) {}
 
-  //MYQSL
-  // Método para realizar el backup de MySQL
-  backupDatabaseMySQL(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/backup/database/mysql`, {});
-  }
-
-  // Método para restaurar la base de datos de MySQL
-  restoreDatabaseMySQL(file: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/backup/restore/mysql`, file);
-  }
-
-  //POSTGRESQL
-  // Método para realizar el backup de PostgreSQL
-  backupDatabasePostgreSQL(): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/backup/database/postgresql`,
-      {},
-      { responseType: 'text' }
-    );
-  }
-
-  // Método para restaurar la base de datos de PostgreSQL
-  restoreDatabasePostgreSQL(file: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/backup/restore/postgresql`, file);
-  }
-
   //H2
   // Método para realizar el backup de H2
   backupDatabase(): Observable<any> {
@@ -63,5 +37,28 @@ export class BackupService {
         responseType: 'blob', // Para descargar el archivo
       }
     );
+  }
+
+  // Obtener la lista de backups
+  getBackupsGD(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/backup/api/backups`);
+  }
+
+  backupToGoogleDrive(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/backup/drive`, {}); // o usa GET si así está configurado
+  }
+
+  downloadDriveBackup(fileId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/backup/drive/download/${fileId}`, {
+      responseType: 'blob' as 'json', // para evitar conflicto de tipos con Observable<any>
+    });
+  }
+
+  restoreFromDrive(fileId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/backup/restore/${fileId}`, {});
+  }
+
+  restoreFromLocal(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/backup/restore/h2`, formData);
   }
 }
