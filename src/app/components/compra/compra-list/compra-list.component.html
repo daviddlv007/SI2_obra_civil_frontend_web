@@ -1,0 +1,297 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <!-- Título y Botón para Crear Nueva Compra -->
+            <div class="row mb-3">
+              <div class="col-12 col-md-6">
+                <h4 class="m-0">Gestión de Compras</h4>
+              </div>
+              <div class="col-12 col-md-6 text-md-end">
+                <button class="btn btn-primary" (click)="irACrearCompra()">
+                  <i class="bi bi-plus-circle"></i> Nueva Compra
+                </button>
+              </div>
+            </div>
+
+            <!-- Pestañas para tipos de compra -->
+            <ul class="nav nav-tabs mb-3" id="comprasTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="material-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#material"
+                  type="button"
+                  role="tab"
+                  aria-controls="material"
+                  aria-selected="true"
+                >
+                  <i class="bi bi-box-seam"></i> Materiales
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link"
+                  id="equipo-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#equipo"
+                  type="button"
+                  role="tab"
+                  aria-controls="equipo"
+                  aria-selected="false"
+                >
+                  <i class="bi bi-pc-display"></i> Equipos
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link"
+                  id="servicio-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#servicio"
+                  type="button"
+                  role="tab"
+                  aria-controls="servicio"
+                  aria-selected="false"
+                >
+                  <i class="bi bi-tools"></i> Servicios
+                </button>
+              </li>
+            </ul>
+
+            <!-- Contenido de las pestañas -->
+            <div class="tab-content" id="comprasTabsContent">
+              <!-- Pestaña de Materiales -->
+              <div
+                class="tab-pane fade show active"
+                id="material"
+                role="tabpanel"
+                aria-labelledby="material-tab"
+              >
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Buscar materiales..."
+                    [(ngModel)]="busquedaMaterial"
+                    (input)="filtrarMateriales()"
+                  />
+                </div>
+
+                <div style="max-height: 400px; overflow-y: auto">
+                  <table class="table table-bordered table-striped">
+                    <thead class="table-primary">
+                      <tr>
+                        <th>Cód. Inventario</th>
+                        <th>Nombre</th>
+                        <th>Unidad Medida</th>
+                        <th>Precio Unitario</th>
+                        <th>Stock Actual</th>
+                        <th class="text-center">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let m of materialesFiltrados">
+                        <td>{{ m.codigo_inventario }}</td>
+                        <td>{{ m.nombre }}</td>
+                        <td>{{ m.unidad_medida }}</td>
+                        <td>{{ m.precio_unitario | currency }}</td>
+                        <td
+                          [class.text-danger]="m.stock_actual < m.stock_minimo"
+                        >
+                          {{ m.stock_actual }}
+                          <span
+                            *ngIf="m.stock_actual < m.stock_minimo"
+                            class="badge bg-warning"
+                            >Mín: {{ m.stock_minimo }}</span
+                          >
+                        </td>
+                        <td class="text-center">
+                          <button
+                            class="btn btn-primary btn-sm me-1"
+                            (click)="agregarACarrito(m, 'material')"
+                          >
+                            <i class="bi bi-cart-plus"></i> Comprar
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Pestaña de Equipos -->
+              <div
+                class="tab-pane fade"
+                id="equipo"
+                role="tabpanel"
+                aria-labelledby="equipo-tab"
+              >
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Buscar equipos..."
+                    [(ngModel)]="busquedaEquipo"
+                    (input)="filtrarEquipos()"
+                  />
+                </div>
+
+                <div style="max-height: 400px; overflow-y: auto">
+                  <table class="table table-bordered table-striped">
+                    <thead class="table-primary">
+                      <tr>
+                        <th>Cód. Activo</th>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Precio Unitario</th>
+                        <th class="text-center">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let e of equiposFiltrados">
+                        <td>{{ e.codigo_activo }}</td>
+                        <td>{{ e.nombre }}</td>
+                        <td>{{ e.tipo_equipo }}</td>
+                        <td>{{ e.precio_unitario | currency }}</td>
+                        <td class="text-center">
+                          <button
+                            class="btn btn-primary btn-sm me-1"
+                            (click)="agregarACarrito(e, 'equipo')"
+                          >
+                            <i class="bi bi-cart-plus"></i> Comprar
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Pestaña de Servicios -->
+              <div
+                class="tab-pane fade"
+                id="servicio"
+                role="tabpanel"
+                aria-labelledby="servicio-tab"
+              >
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Buscar servicios..."
+                    [(ngModel)]="busquedaServicio"
+                    (input)="filtrarServicios()"
+                  />
+                </div>
+
+                <div style="max-height: 400px; overflow-y: auto">
+                  <table class="table table-bordered table-striped">
+                    <thead class="table-primary">
+                      <tr>
+                        <th>Cód. Servicio</th>
+                        <th>Nombre</th>
+                        <th>Duración</th>
+                        <th>Precio Unitario</th>
+                        <th class="text-center">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let s of serviciosFiltrados">
+                        <td>{{ s.codigo_servicio }}</td>
+                        <td>{{ s.nombre }}</td>
+                        <td>{{ s.duracion_estimada }} horas</td>
+                        <td>{{ s.precio_unitario | currency }}</td>
+                        <td class="text-center">
+                          <button
+                            class="btn btn-primary btn-sm me-1"
+                            (click)="agregarACarrito(s, 'servicio')"
+                          >
+                            <i class="bi bi-cart-plus"></i> Contratar
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Carrito de compras -->
+            <div class="card mt-4" *ngIf="carrito.length > 0">
+              <div class="card-header bg-primary text-white">
+                <h5 class="m-0">
+                  <i class="bi bi-cart"></i> Carrito de Compras
+                </h5>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Tipo</th>
+                        <th>Item</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of carrito; let i = index">
+                        <td>{{ item.tipo | titlecase }}</td>
+                        <td>{{ item.nombre }}</td>
+                        <td>
+                          <input
+                            type="number"
+                            class="form-control form-control-sm"
+                            style="width: 80px"
+                            min="1"
+                            [(ngModel)]="item.cantidad"
+                            (change)="actualizarSubtotal(item)"
+                          />
+                        </td>
+                        <td>{{ item.precio_unitario | currency }}</td>
+                        <td>{{ item.subtotal | currency }}</td>
+                        <td class="text-center">
+                          <button
+                            class="btn btn-danger btn-sm"
+                            (click)="eliminarDelCarrito(i)"
+                          >
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="4" class="text-end fw-bold">Total:</td>
+                        <td colspan="2" class="fw-bold">
+                          {{ calcularTotal() | currency }}
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="d-flex justify-content-end mt-3">
+                  <button
+                    class="btn btn-success me-2"
+                    (click)="confirmarCompra()"
+                  >
+                    <i class="bi bi-check-circle"></i> Confirmar Compra
+                  </button>
+                  <button class="btn btn-secondary" (click)="vaciarCarrito()">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

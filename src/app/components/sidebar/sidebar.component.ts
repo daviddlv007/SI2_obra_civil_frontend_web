@@ -43,7 +43,7 @@ export class SidebarComponent {
     {
       title: 'Compras',
       expanded: false,
-      children: [],
+      children: [{ title: 'compra', route: '/compras' }],
     },
     {
       title: 'Sistema',
