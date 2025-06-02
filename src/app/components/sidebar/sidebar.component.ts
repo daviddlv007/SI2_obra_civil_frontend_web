@@ -53,7 +53,7 @@ export class SidebarComponent {
     {
       title: 'Proveedores',route:'/proveedor',
       expanded: false,
-      children: [],
+      children: [{ title: 'compra', route: '/compras' }],
     },
     {
       title: 'Sistema',
