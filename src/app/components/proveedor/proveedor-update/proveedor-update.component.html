@@ -1,0 +1,137 @@
+<div class="form-container">
+  <h2>Actualizar Proveedor</h2>
+
+  <form (ngSubmit)="actualizarProveedor()" #proveedorForm="ngForm">
+    <!-- Nombre Completo -->
+    <div class="form-group">
+      <label for="nombreCompleto">Nombre Completo:</label>
+      <input
+        id="nombreCompleto"
+        type="text"
+        [(ngModel)]="proveedor.nombreCompleto"
+        name="nombreCompleto"
+        required
+        minlength="2"
+        #nombreCompleto="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="nombreCompleto.invalid && (nombreCompleto.dirty || nombreCompleto.touched)" class="error-message">
+        <small *ngIf="nombreCompleto.errors?.['required']">Campo obligatorio.</small>
+        <small *ngIf="nombreCompleto.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- NIT/CI -->
+    <div class="form-group">
+      <label for="nitCi">NIT/CI:</label>
+      <input
+        id="nitCi"
+        type="text"
+        [(ngModel)]="proveedor.nitCi"
+        name="nitCi"
+        required
+        #nitCi="ngModel"
+        class="form-control"
+      />
+      <div *ngIf="nitCi.invalid && (nitCi.dirty || nitCi.touched)" class="error-message">
+        <small *ngIf="nitCi.errors?.['required']">Campo obligatorio.</small>
+      </div>
+    </div>
+
+    <!-- Teléfono -->
+    <div class="form-group">
+      <label for="telefono">Teléfono:</label>
+      <input
+        id="telefono"
+        type="text"
+        [(ngModel)]="proveedor.telefono"
+        name="telefono"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Correo -->
+    <div class="form-group">
+      <label for="correo">Correo:</label>
+      <input
+        id="correo"
+        type="email"
+        [(ngModel)]="proveedor.correo"
+        name="correo"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Dirección -->
+    <div class="form-group">
+      <label for="direccion">Dirección:</label>
+      <input
+        id="direccion"
+        type="text"
+        [(ngModel)]="proveedor.direccion"
+        name="direccion"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Ciudad -->
+    <div class="form-group">
+      <label for="ciudad">Ciudad:</label>
+      <input
+        id="ciudad"
+        type="text"
+        [(ngModel)]="proveedor.ciudad"
+        name="ciudad"
+        class="form-control"
+      />
+    </div>
+
+    <!-- País -->
+    <div class="form-group">
+      <label for="pais">País:</label>
+      <input
+        id="pais"
+        type="text"
+        [(ngModel)]="proveedor.pais"
+        name="pais"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Empresa -->
+    <div class="form-group">
+      <label for="empresa">Empresa:</label>
+      <input
+        id="empresa"
+        type="text"
+        [(ngModel)]="proveedor.empresa"
+        name="empresa"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Estado -->
+    <div class="form-group">
+      <label for="estado">Estado:</label>
+      <select
+        id="estado"
+        [(ngModel)]="proveedor.estado"
+        name="estado"
+        required
+        #estado="ngModel"
+        class="form-control"
+      >
+        <option *ngFor="let e of estados" [value]="e">{{ e }}</option>
+      </select>
+      <div *ngIf="estado.invalid && (estado.dirty || estado.touched)" class="error-message">
+        <small *ngIf="estado.errors?.['required']">Campo obligatorio.</small>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="button-container">
+      <button type="submit" [disabled]="proveedorForm.invalid" class="submit-btn">Actualizar</button>
+      <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
+    </div>
+  </form>
+</div>

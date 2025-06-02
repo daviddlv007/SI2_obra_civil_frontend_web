@@ -40,8 +40,18 @@ export class SidebarComponent {
         { title: 'Equipos', route: '/equipo' },
       ],
     },
+    /*{
+      title: 'Compras',route:'/Proveedores'
+      expanded: false,
+      children: [],
+    },*/
+    /*  {
+      title: 'Proveedores',
+      expanded: false,
+      children: [],
+    },*/
     {
-      title: 'Compras',
+      title: 'Proveedores',route:'/proveedor',
       expanded: false,
       children: [{ title: 'compra', route: '/compras' }],
     },

@@ -67,6 +67,12 @@ import { ObraCivilGanttComponent } from './components/obra-civil-gantt/obra-civi
 
 import { ObraCivilTareaReporteComponent } from './components/obra-civil-tarea-reporte/obra-civil-tarea-reporte.component';
 
+
+import { ProveedorComponent } from './components/proveedor/proveedor.component';
+import { ProveedorCreateComponent } from './components/proveedor/proveedor-create/proveedor-create.component';
+import { ProveedorUpdateComponent } from './components/proveedor/proveedor-update/proveedor-update.component';
+
+
 export const routes: Routes = [
   {
     path: '',
@@ -136,6 +142,10 @@ export const routes: Routes = [
       { path: 'empleado-create', component: EmpleadoCreateComponent },
       { path: 'empleado-update/:id', component: EmpleadoUpdateComponent },
 
+    { path: 'proveedor', component: ProveedorComponent },
+    { path: 'proveedor-create', component: ProveedorCreateComponent },
+     { path: 'proveedor-update/:id', component: ProveedorUpdateComponent },
+      
       //Dashboard
       { path: 'dashboard', component: DashboardComponent },
 
