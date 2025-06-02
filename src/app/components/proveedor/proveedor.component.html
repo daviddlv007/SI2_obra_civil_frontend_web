@@ -1,0 +1,91 @@
+<!-- Modal de confirmación -->
+<div class="modal" *ngIf="mostrarModal">
+  <div class="modal-content animate">
+    <h3><i class="fa fa-exclamation-triangle text-warning"></i> Confirmación</h3>
+    <p class="modal-message">¿Estás seguro de eliminar este proveedor?</p>
+    <div class="modal-buttons">
+      <button class="btn-confirmar" (click)="eliminarProveedorConfirmado()">
+        <i class="fa fa-check"></i> Confirmar
+      </button>
+      <button class="btn-cancelar" (click)="cerrarModal()">
+        <i class="fa fa-times"></i> Cancelar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Título -->
+<h2>Gestión de Proveedores</h2>
+
+<!-- Filtros: búsqueda + estado + botón -->
+<div class="row-filtros">
+  <div class="input-busqueda">
+    <i class="fa fa-search"></i>
+    <input
+      type="text"
+      [(ngModel)]="textoBusqueda"
+      (input)="aplicarFiltros()"
+      placeholder="Buscar proveedores..."
+    />
+  </div>
+
+  <select [(ngModel)]="estadoSeleccionado" (change)="aplicarFiltros()">
+    <option value="Todos">Todos los estados</option>
+    <option value="Activo">Activo</option>
+    <option value="Inactivo">Inactivo</option>
+  </select>
+
+  <button class="btn-crear" (click)="irACrearProveedor()">
+    <i class="fa fa-plus"></i> Nuevo Proveedor
+  </button>
+</div>
+
+<!-- Tabla de proveedores -->
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>NIT/CI</th>
+      <th>Teléfono</th>
+      <th>Correo</th>
+      <th>Dirección</th>
+      <th>Ciudad</th>
+      <th>País</th>
+      <th>Empresa</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of proveedoresPaginados">
+      <td>{{ p.nombreCompleto }}</td>
+      <td>{{ p.nitCi }}</td>
+      <td>{{ p.telefono || 'N/A' }}</td>
+      <td>{{ p.correo || 'N/A' }}</td>
+      <td>{{ p.direccion || 'N/A' }}</td>
+      <td>{{ p.ciudad || 'N/A' }}</td>
+      <td>{{ p.pais || 'N/A' }}</td>
+      <td>{{ p.empresa || 'N/A' }}</td>
+      <td>
+        <span [ngClass]="{ 'text-success': p.estado === 'Activo', 'text-danger': p.estado === 'Inactivo' }">
+          {{ p.estado }}
+        </span>
+      </td>
+      <td>
+        <button class="btn-editar" (click)="irAEditarProveedor(p.id ?? 0)">
+          <i class="fa fa-edit"></i> Editar
+        </button>
+        <button class="btn-eliminar" (click)="confirmarEliminarProveedor(p.id ?? 0)">
+          <i class="fa fa-trash"></i> Eliminar
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Paginación -->
+<div class="paginacion">
+  <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">← Anterior</button>
+  <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+  <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">Siguiente →</button>
+</div>
