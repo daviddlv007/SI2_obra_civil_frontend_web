@@ -1,133 +1,255 @@
-<!-- src/app/components/tarea/tarea-create/tarea-create.component.html -->
-
 <div class="form-container">
-    <h2>Crear Tarea</h2>
-  
-    <form (ngSubmit)="crearTarea()" #tareaForm="ngForm">
-      <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input 
-          id="nombre" 
-          [(ngModel)]="tarea.nombre" 
-          name="nombre" 
-          placeholder="Nombre de la tarea" 
-          required 
-          minlength="3"
-          maxlength="100"
-          #nombre="ngModel" 
-          class="form-control"
-        />
-        <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="error-message">
-          <small *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</small>
-          <small *ngIf="nombre.errors?.['minlength']">Debe tener al menos 3 caracteres.</small>
-          <small *ngIf="nombre.errors?.['maxlength']">No puede exceder los 100 caracteres.</small>
-        </div>
+  <h2 class="mb-4">Crear Nueva Tarea</h2>
+
+  <form (ngSubmit)="crearTarea()" class="form">
+
+    <div class="form-group mb-3">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" class="form-control" [(ngModel)]="tarea.nombre" name="nombre" required />
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" class="form-control" [(ngModel)]="tarea.descripcion" name="descripcion"></textarea>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 form-group mb-3">
+        <label for="fechaInicio">Fecha Inicio:</label>
+        <input type="date" id="fechaInicio" class="form-control" [(ngModel)]="tarea.fechaInicio" name="fechaInicio" required />
       </div>
-  
-      <div class="form-group">
-        <label for="descripcion">Descripción:</label>
-        <textarea
-          id="descripcion" 
-          [(ngModel)]="tarea.descripcion" 
-          name="descripcion" 
-          placeholder="Descripción de la tarea"
-          maxlength="255"
-          #descripcion="ngModel" 
-          class="form-control"
-          rows="3"
-        ></textarea>
-        <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="error-message">
-          <small *ngIf="descripcion.errors?.['maxlength']">No puede exceder los 255 caracteres.</small>
-        </div>
+
+      <div class="col-md-6 form-group mb-3">
+        <label for="fechaFin">Fecha Fin:</label>
+        <input type="date" id="fechaFin" class="form-control" [(ngModel)]="tarea.fechaFin" name="fechaFin" required />
       </div>
-  
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="fechaInicio">Fecha Inicio:</label>
-          <input 
-            type="date" 
-            id="fechaInicio" 
-            [(ngModel)]="tarea.fechaInicio" 
-            name="fechaInicio" 
-            required
-            #fechaInicio="ngModel" 
-            class="form-control"
-          />
-          <div *ngIf="fechaInicio.invalid && (fechaInicio.dirty || fechaInicio.touched)" class="error-message">
-            <small *ngIf="fechaInicio.errors?.['required']">La fecha de inicio es obligatoria.</small>
-          </div>
-        </div>
-  
-        <div class="form-group col-md-6">
-          <label for="fechaFin">Fecha Fin:</label>
-          <input 
-            type="date" 
-            id="fechaFin" 
-            [(ngModel)]="tarea.fechaFin" 
-            name="fechaFin" 
-            required
-            #fechaFin="ngModel" 
-            class="form-control"
-          />
-          <div *ngIf="fechaFin.invalid && (fechaFin.dirty || fechaFin.touched)" class="error-message">
-            <small *ngIf="fechaFin.errors?.['required']">La fecha de fin es obligatoria.</small>
-          </div>
-        </div>
-      </div>
-  
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="estado">Estado:</label>
-          <select 
-            id="estado" 
-            [(ngModel)]="tarea.estado" 
-            name="estado" 
-            required
-            #estado="ngModel" 
-            class="form-control"
-          >
-            <option *ngFor="let estado of estados" [value]="estado">{{ estado | titlecase }}</option>
-          </select>
-        </div>
-  
-        <div class="form-group col-md-6">
-          <label for="prioridad">Prioridad:</label>
-          <select 
-            id="prioridad" 
-            [(ngModel)]="tarea.prioridad" 
-            name="prioridad" 
-            required
-            #prioridad="ngModel" 
-            class="form-control"
-          >
-            <option *ngFor="let prioridad of prioridades" [value]="prioridad">{{ prioridad | titlecase }}</option>
-          </select>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="obraCivil">Obra Civil:</label>
-        <select 
-          id="obraCivil" 
-          [(ngModel)]="tarea.obraCivil.id" 
-          name="obraCivil" 
-          required
-          #obraCivil="ngModel" 
-          class="form-control"
-        >
-          <option value="">Seleccione una obra civil</option>
-          <option *ngFor="let obra of obrasCiviles" [value]="obra.id">
-            {{ obra.nombre }}
-          </option>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 form-group mb-3">
+        <label for="estado">Estado:</label>
+        <select id="estado" class="form-select" [(ngModel)]="tarea.estado" name="estado">
+          <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
         </select>
-        <div *ngIf="obraCivil.invalid && (obraCivil.dirty || obraCivil.touched)" class="error-message">
-          <small *ngIf="obraCivil.errors?.['required']">Debe seleccionar una obra civil.</small>
-        </div>
       </div>
-  
-      <div class="button-container">
-        <button type="submit" [disabled]="tareaForm.invalid" class="submit-btn">Crear</button>
-        <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
+
+      <div class="col-md-6 form-group mb-3">
+        <label for="prioridad">Prioridad:</label>
+        <select id="prioridad" class="form-select" [(ngModel)]="tarea.prioridad" name="prioridad">
+          <option *ngFor="let prioridad of prioridades" [value]="prioridad">{{ prioridad }}</option>
+        </select>
       </div>
-    </form>
-  </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="obraCivil">Obra Civil:</label>
+      <select id="obraCivil" class="form-select" [(ngModel)]="tarea.obraCivil.id" name="obraCivilId">
+        <option *ngFor="let obra of obrasCiviles" [value]="obra.id">{{ obra.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="form-group mb-3 position-relative">
+      <label for="filtroServicio">Buscar Servicios:</label>
+      <input
+        type="text"
+        id="filtroServicio"
+        class="form-control"
+        [(ngModel)]="filtroServicio"
+        name="filtroServicio"
+        placeholder="Buscar servicio..."
+        (input)="mostrarSugerencias = true"
+        (blur)="ocultarSugerenciasConDelay()"
+        autocomplete="off"
+      />
+
+      <!-- Lista de sugerencias -->
+      <ul *ngIf="mostrarSugerencias && serviciosFiltrados.length > 0" class="list-group position-absolute w-100 sugerencias">
+        <li *ngFor="let servicio of serviciosFiltrados"
+    class="list-group-item list-group-item-action"
+    (mousedown)="seleccionarServicio(servicio)">
+  {{ servicio.nombre }}
+</li>
+
+      </ul>
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="leter">Servicios Seleccionados:</label>
+      <ul class="list-group">
+        <li *ngFor="let servicio of selectedServicios"
+             class="list-group-item d-flex justify-content-between align-items-center">
+          {{ servicio.nombre }}
+          <button type="button" class="btn btn-sm btn-danger" (click)="removeServicioFromSelected(servicio)">Eliminar</button>
+        </li>
+      </ul>
+    </div>
+
+        <!-- BUSCADOR Y SUGERENCIAS DE EMPLEADOS -->
+    <div class="form-group mb-3 position-relative">
+      <label for="filtroEmpleado">Buscar Empleados:</label>
+      <input
+        type="text"
+        id="filtroEmpleado"
+        class="form-control"
+        [(ngModel)]="filtroEmpleado"
+        name="filtroEmpleado"
+        placeholder="Buscar empleado..."
+        (input)="mostrarSugerenciasEmpleado = true"
+        (blur)="ocultarSugerenciasEmpleadoConDelay()"
+        autocomplete="off"
+      />
+
+      <!-- Lista de sugerencias -->
+      <ul
+        *ngIf="mostrarSugerenciasEmpleado && empleadosFiltrados.length > 0"
+        class="list-group position-absolute w-100 sugerencias"
+      >
+        <li
+          *ngFor="let empleado of empleadosFiltrados"
+          class="list-group-item list-group-item-action"
+          (mousedown)="seleccionarEmpleado(empleado)"
+        >
+          {{ empleado.nombre }} {{ empleado.apellido }} ({{ empleado.documentoIdentidad }})
+        </li>
+      </ul>
+    </div>
+
+    <!-- EMPLEADOS SELECCIONADOS -->
+    <div class="form-group mb-3">
+      <label class="leter">Empleados Seleccionados:</label>
+      <ul class="list-group">
+        <li
+          *ngFor="let empleado of selectedEmpleados"
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          {{ empleado.nombre }} {{ empleado.apellido }}
+          <button
+            type="button"
+            class="btn btn-sm btn-danger"
+            (click)="removeEmpleadoFromSelected(empleado)"
+          >
+            Eliminar
+          </button>
+        </li>
+      </ul>
+    </div>
+
+        <!-- BUSCADOR Y SUGERENCIAS DE MATERIALES -->
+    <div class="form-group mb-3 position-relative">
+      <label for="filtroMaterial">Buscar Materiales:</label>
+      <input
+        type="text"
+        id="filtroMaterial"
+        class="form-control"
+        [(ngModel)]="filtroMaterial"
+        name="filtroMaterial"
+        placeholder="Buscar material..."
+        (input)="mostrarSugerenciasMaterial = true"
+        (blur)="ocultarSugerenciasMaterialConDelay()"
+        autocomplete="off"
+      />
+
+      <!-- Lista de sugerencias -->
+      <ul
+        *ngIf="mostrarSugerenciasMaterial && materialesFiltrados.length > 0"
+        class="list-group position-absolute w-100 sugerencias"
+      >
+        <li
+          *ngFor="let material of materialesFiltrados"
+          class="list-group-item list-group-item-action"
+          (mousedown)="seleccionarMaterial(material)"
+        >
+          {{ material.nombre }} ({{ material.unidadMedida }})
+        </li>
+      </ul>
+    </div>
+
+    <!-- MATERIALES SELECCIONADOS -->
+    <div class="form-group mb-3">
+      <label class="leter">Materiales Seleccionados:</label>
+      <ul class="list-group">
+        <li
+          *ngFor="let item of selectedMateriales"
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          <div>
+            {{ item.material.nombre }} ({{ item.material.unidadMedida }}) -
+            <label for="cantidad">Cantidad:</label>
+            <input
+              type="number"
+              [(ngModel)]="item.cantidad"
+              min="1"
+              class="form-control d-inline-block"
+              style="width: 100px;"
+            />
+          </div>
+          <button
+            type="button"
+            class="btn btn-sm btn-danger"
+            (click)="removeMaterialFromSelected(item.material)"
+          >
+            Eliminar
+          </button>
+        </li>
+      </ul>
+    </div>
+
+
+          <!-- BUSCADOR Y SUGERENCIAS DE EQUIPOS -->
+      <div class="form-group mb-3 position-relative">
+        <label for="filtroEquipo">Buscar Equipos:</label>
+        <input
+          type="text"
+          id="filtroEquipo"
+          class="form-control"
+          [(ngModel)]="filtroEquipo"
+          name="filtroEquipo"
+          placeholder="Buscar equipo..."
+          (input)="mostrarSugerenciasEquipo = true"
+          (blur)="ocultarSugerenciasEquipoConDelay()"
+          autocomplete="off"
+        />
+
+        <!-- Lista de sugerencias -->
+        <ul
+          *ngIf="mostrarSugerenciasEquipo && equiposFiltrados.length > 0"
+          class="list-group position-absolute w-100 sugerencias"
+        >
+          <li
+            *ngFor="let equipo of equiposFiltrados"
+            class="list-group-item list-group-item-action"
+            (mousedown)="seleccionarEquipo(equipo)"
+          >
+            {{ equipo.nombre }} ({{ equipo.tipoEquipo }})
+          </li>
+        </ul>
+      </div>
+
+      <!-- EQUIPOS SELECCIONADOS -->
+      <div class="form-group mb-3">
+        <label class="leter">Equipos Seleccionados:</label>
+        <ul class="list-group">
+          <li
+            *ngFor="let equipo of selectedEquipos"
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            {{ equipo.nombre }}
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              (click)="removeEquipoFromSelected(equipo)"
+            >
+              Eliminar
+            </button>
+          </li>
+        </ul>
+      </div>
+
+
+    <div class="form-group d-flex justify-content-end gap-2">
+      <button type="submit" class="submit-btn">Crear Tarea</button>
+      <button type="button" class="cancel-btn" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>
+

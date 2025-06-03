@@ -1,51 +1,199 @@
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+// === Botones base ===
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  margin-right: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  i {
+    font-size: 15px;
   }
-  
-  th, td {
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.btn-crear {
+    float: right;
+    background: linear-gradient(to right, #4CAF50, #45a049);
+    color: white;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      background: #576c58;
+    }
+  }
+
+  &.btn-editar {
+    background-color: #2196f3;
+    color: white;
+
+    &:hover {
+      background-color: #38617a;
+    }
+  }
+
+  &.btn-eliminar {
+    background-color: #f44336;
+    color: white;
+
+    &:hover {
+      background-color: #7b4848;
+    }
+  }
+
+  &.btn-ver {
+    background-color: #9b9b9b;
+    color: white;
+
+    &:hover {
+      background-color: #7c7b7b;
+    }
+  }
+}
+
+// === Modal ===
+.modal,
+.modal-eliminar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .modal-dialog {
+    .modal-content,
+    .modal-content-eliminar {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      width: 400px;
+      text-align: center;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+  }
+}
+
+.modal-title {
+  font-size: 20px;
+  color: #333;
+  margin-top: 0;
+}
+
+.btn-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-weight: bold;
+  color: #666;
+
+  &:hover {
+    color: black;
+  }
+}
+
+// === Estilo para listas dentro del modal ===
+ol {
+  padding-left: 20px;
+  margin: 10px 0;
+  color: #444;
+
+  li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+// === Otros ===
+p {
+  color: #888;
+  font-style: normal;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+
+  th,
+  td {
     padding: 10px;
     text-align: left;
     border: 1px solid #ddd;
   }
-  
-  button {
-    margin-right: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
+}
+
+.info-item {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #444;
+
+  strong {
+    font-weight: bold;
+    color: #000;
+    margin-right: 0.3rem;
   }
-  
-  button:hover {
-    background-color: #f0f0f0;
-  }
-  
-  button:focus {
-    outline: none;
-  }
-  
-  button[style] {
-    margin-top: 20px;
-  }
-  
-  .modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .modal-content {
-    background: white;
-    padding: 25px;
-    border-radius: 8px;
-    width: 400px;
-    text-align: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
+}
+
+/* Botón de cierre */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-weight: bold;
+  color: #666;
+}
+
+.close:hover {
+  color: black;
+}
+
+.modal-ver {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content-ver {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  width: 400px;
+  text-align: left;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}

@@ -4,7 +4,7 @@
   <form (ngSubmit)="crearRol()" #rolForm="ngForm">
     <div class="form-group">
       <label for="nombre">Nombre:</label>
-      <input 
+      <input
         id="nombre"
         [(ngModel)]="rol.nombre"
         name="nombre"
@@ -22,7 +22,7 @@
 
     <div class="form-group">
       <label for="descripcion">Descripción:</label>
-      <input 
+      <input
         id="descripcion"
         [(ngModel)]="rol.descripcion"
         name="descripcion"
@@ -40,8 +40,14 @@
 
     <div class="form-group">
       <label for="permisos">Permisos:</label>
-      <select id="permisos" [(ngModel)]="permisoSeleccionado" name="permisos" class="form-control">
-        <option *ngFor="let permiso of permisos" [ngValue]="permiso">
+      <select
+      id="permisos"
+      [(ngModel)]="permisoSeleccionado"
+      name="permisos"
+      class="form-control">
+        <option
+        *ngFor="let permiso of permisos"
+        [ngValue]="permiso">
           {{ permiso.nombre }}
         </option>
       </select>
@@ -49,14 +55,14 @@
        <button type="button" (click)="addPermisoToSelected(permisoSeleccionado)" class="add-btn">
            Añadir Permiso
         </button>
-      </div>          
+      </div>
     </div>
 
     <div class="form-group">
       <label>Permisos seleccionados:</label>
       <ul>
         <li *ngFor="let permiso of selectedPermisos">
-          {{ permiso.nombre }} 
+          {{ permiso.nombre }}
           <button type="button" (click)="removePermisoFromSelected(permiso)">Eliminar</button>
         </li>
       </ul>

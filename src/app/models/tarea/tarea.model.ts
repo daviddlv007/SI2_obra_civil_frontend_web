@@ -13,4 +13,5 @@ export interface Tarea {
       nombre: string;
       [key: string]: any; // Para otras propiedades que no necesitamos mostrar
     };
+    
   }

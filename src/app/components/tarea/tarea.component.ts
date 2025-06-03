@@ -9,6 +9,14 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FilterService } from '../../services/filter/filter.service';
 import { PaginationService } from '../../services/pagination/pagination.service';
+import { ServicioTareaService } from '../../services/servicio-tarea/servicio-tarea.service';
+import { ServicioTarea } from '../../models/servicio-tarea/servicio-tarea.model';
+import { EmpleadoTarea } from '../../models/empleado-tarea/empleado-tarea.model';
+import { EmpleadoTareaService } from '../../services/empleado-tarea/empleado-tarea.service';
+import { EquipoTarea } from '../../models/equipo-tarea/equipo-tarea.mode';
+import { EquipoTareaService } from '../../services/equipo-tarea/equipo-tarea.service';
+import { MaterialTareaService } from '../../services/material-tarea/material-tarea.service';
+import { MaterialTarea } from '../../models/material-tarea/material-tarea.model';
 
 @Component({
   selector: 'app-tarea',
@@ -21,6 +29,7 @@ export class TareaComponent {
   tareas: Tarea[] = [];
   tareasFiltradas: Tarea[] = [];
   tareasPaginadas: Tarea[] = [];
+  serviciosTarea: ServicioTarea[] = [];
   textoBusqueda: string = '';
   paginaActual: number = 1;
   elementosPorPagina: number = 5;
@@ -28,12 +37,28 @@ export class TareaComponent {
   mostrarModal: boolean = false;
   tareaAEliminarId: number | null = null;
 
+    // Modal de ver servicios vinculados
+  mostrarModalServicios: boolean = false;
+  mostrarModalEmpleados: boolean = false;
+  empleadosTarea: EmpleadoTarea[] = [];
+
+  mostrarModalMateriales: boolean = false;
+  materialesTarea: MaterialTarea[] = [];
+
+  mostrarModalEquipos: boolean = false;
+  equiposTarea: EquipoTarea[] = [];
+
+
   constructor(
     private tareaService: TareaService,
     private router: Router,
     private filterService: FilterService,
-    private paginationService: PaginationService
-  ) {}
+    private paginationService: PaginationService,
+    private servicioTareaService: ServicioTareaService,
+    private empleadoTareaService: EmpleadoTareaService,
+    private materialTareaService: MaterialTareaService,
+    private equipoTareaService: EquipoTareaService
+    ) {}
 
   ngOnInit() {
     this.obtenerTareas();
@@ -111,4 +136,54 @@ export class TareaComponent {
     );
     this.tareasPaginadas = paginacion.paginatedData;
   }
+
+  verServiciosPorTarea(idTarea: number): void {
+    this.servicioTareaService.obtenerServicioTareas().subscribe((data) => {
+      this.serviciosTarea = data.filter(st => st.tarea?.id === idTarea);
+      console.log('Respuesta servicios:', this.serviciosTarea);
+      this.mostrarModalServicios = true;
+    });
+  }
+
+  cerrarModalServicios(): void {
+    this.mostrarModalServicios = false;
+    this.serviciosTarea = [];
+  }
+
+  verEmpleadosPorTarea(idTarea: number): void {
+    this.empleadoTareaService.obtenerEmpleadoTareas().subscribe((data) => {
+      this.empleadosTarea = data.filter(et => et.tarea?.id === idTarea);
+      this.mostrarModalEmpleados = true;
+    });
+  }
+
+  verEquiposPorTarea(idTarea: number): void {
+    this.equipoTareaService.obtenerEquipoTareas().subscribe((data) => {
+      this.equiposTarea = data.filter(eq => eq.tarea?.id === idTarea);
+      this.mostrarModalEquipos = true;
+    });
+  }
+
+  cerrarModalEquipos(): void {
+    this.mostrarModalEquipos = false;
+    this.equiposTarea = [];
+  }
+
+  cerrarModalEmpleados(): void {
+    this.mostrarModalEmpleados = false;
+    this.empleadosTarea = [];
+}
+
+verMaterialesPorTarea(idTarea: number): void {
+  this.materialTareaService.obtenerMaterialTareas().subscribe((data) => {
+    this.materialesTarea = data.filter(mt => mt.tarea?.id === idTarea);
+    this.mostrarModalMateriales = true;
+  });
+}
+
+cerrarModalMateriales(): void {
+  this.mostrarModalMateriales = false;
+  this.materialesTarea = [];
+}
+
 }
