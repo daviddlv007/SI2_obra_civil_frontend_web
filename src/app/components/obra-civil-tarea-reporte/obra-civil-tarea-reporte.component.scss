@@ -52,27 +52,37 @@
       }
     }
   
-    .acciones {
-      margin-top: 1.5rem;
-  
-      button {
-        margin-right: 1rem;
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 5px;
-        background-color: #28a745;
-        color: white;
-        cursor: pointer;
-      }
-  
-      button:last-child {
-        background-color: #dc3545;
-      }
-  
-      button:hover {
-        opacity: 0.9;
-      }
-    }
+.acciones {
+  margin-top: 1.5rem;
+
+  button {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    background-color: #28a745; // Excel por defecto
+    transition: background-color 0.3s ease, opacity 0.2s;
+  }
+
+  button:nth-child(1) {
+    background-color: #28a745; // Verde (Excel)
+  }
+
+  button:nth-child(2) {
+    background-color: #dc3545; // Rojo (PDF)
+  }
+
+  button:nth-child(3) {
+    background-color: #007bff; // Azul (HTML)
+  }
+
+  button:hover {
+    opacity: 0.9;
+  }
+}
+
   }
   .tabla-responsive {
     width: 100%;

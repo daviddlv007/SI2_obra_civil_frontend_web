@@ -1,0 +1,98 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <!-- Título y Botón para Crear Nueva Compra -->
+            <div class="row mb-3">
+              <div class="col-12 col-md-6">
+                <h4 class="m-0">Gestión de Compras</h4>
+              </div>
+              <div class="col-12 col-md-6 text-md-end">
+                <button class="btn btn-primary" (click)="irACrearCompra()">
+                  <i class="bi bi-plus-circle"></i> Nueva Compra
+                </button>
+              </div>
+            </div>
+
+            <!-- Compras -->
+            <div
+              class="tab-pane fade show active"
+              id="material"
+              role="tabpanel"
+              aria-labelledby="material-tab"
+            >
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar compras..."
+                  [(ngModel)]="textoBusqueda"
+                  (input)="filtrarcCompras()"
+                />
+              </div>
+
+              <div style="max-height: 400px; overflow-y: auto">
+                <table class="table table-bordered table-striped">
+                  <thead class="table-primary">
+                    <tr>
+                      <th>Proveedor</th>
+                      <th>Fecha</th>
+                      <th>Total</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let c of comprasFiltrados">
+                      <td>{{ c.proveedor.empresa }}</td>
+                      <td>{{ c.fecha }}</td>
+                      <td>{{ c.total }} $</td>
+
+                      <td class="text-center">
+                        <button
+                          class="btn btn-info btn-sm me-1"
+                          (click)="irAVerDetalleCompra(c.id ?? 0)"
+                        >
+                          <i class="bi bi-eye"></i> Ver detalle
+                        </button>
+                        <button
+                          class="btn btn-warning btn-sm me-1"
+                          (click)="irAVerDetalleCompra(c.id ?? 0)"
+                        >
+                          <i class="bi bi-eyedropper"></i> Editar
+                        </button>
+                        <button
+                          class="btn btn-danger btn-sm me-1"
+                          (click)="irAVerDetalleCompra(c.id ?? 0)"
+                        >
+                          <i class="bi bi-x-circle"></i> Cancelar
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- Paginación -->
+              <div class="paginacion">
+                <button
+                  (click)="cambiarPaginaCompras('previous')"
+                  [disabled]="paginaActual === 1"
+                >
+                  ← Anterior
+                </button>
+                <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+                <button
+                  (click)="cambiarPaginaCompras('next')"
+                  [disabled]="paginaActual === totalPaginas"
+                >
+                  Siguiente →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
