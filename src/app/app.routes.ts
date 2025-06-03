@@ -59,6 +59,7 @@ import { EmpleadoUpdateComponent } from './components/empleado/empleado-update/e
 
 //COMPRAS
 import { CompraListComponent } from './components/compra/compra-list/compra-list.component';
+import { CompraCreateComponent } from './components/compra/compra-create/compra-create.component';
 
 //Dashboard
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
@@ -67,11 +68,9 @@ import { ObraCivilGanttComponent } from './components/obra-civil-gantt/obra-civi
 
 import { ObraCivilTareaReporteComponent } from './components/obra-civil-tarea-reporte/obra-civil-tarea-reporte.component';
 
-
 import { ProveedorComponent } from './components/proveedor/proveedor.component';
 import { ProveedorCreateComponent } from './components/proveedor/proveedor-create/proveedor-create.component';
 import { ProveedorUpdateComponent } from './components/proveedor/proveedor-update/proveedor-update.component';
-
 
 export const routes: Routes = [
   {
@@ -92,7 +91,8 @@ export const routes: Routes = [
       { path: 'perro-update/:id', component: PerroUpdateComponent },
 
       //COMPRAS
-      { path: 'compras', component: CompraListComponent },
+      { path: 'compra', component: CompraListComponent },
+      { path: 'compra-create', component: CompraCreateComponent },
       //USUARIO
       //Backup-Restore
       { path: 'backup-restore', component: BackupComponent },
@@ -142,10 +142,10 @@ export const routes: Routes = [
       { path: 'empleado-create', component: EmpleadoCreateComponent },
       { path: 'empleado-update/:id', component: EmpleadoUpdateComponent },
 
-    { path: 'proveedor', component: ProveedorComponent },
-    { path: 'proveedor-create', component: ProveedorCreateComponent },
-     { path: 'proveedor-update/:id', component: ProveedorUpdateComponent },
-      
+      { path: 'proveedor', component: ProveedorComponent },
+      { path: 'proveedor-create', component: ProveedorCreateComponent },
+      { path: 'proveedor-update/:id', component: ProveedorUpdateComponent },
+
       //Dashboard
       { path: 'dashboard', component: DashboardComponent },
 

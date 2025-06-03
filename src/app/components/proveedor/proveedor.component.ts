@@ -13,7 +13,7 @@ import { PaginationService } from '../../services/pagination/pagination.service'
   standalone: true,
   imports: [CommonModule, HttpClientModule, FormsModule],
   templateUrl: './proveedor.component.html',
-  styleUrls: ['./proveedor.component.scss']
+  styleUrls: ['./proveedor.component.scss'],
 })
 export class ProveedorComponent {
   proveedores: Proveedor[] = [];
@@ -40,6 +40,7 @@ export class ProveedorComponent {
 
   obtenerProveedores(): void {
     this.proveedorService.obtenerProveedores().subscribe((data) => {
+      console.log('Proveedores', data);
       this.proveedores = data;
       this.aplicarFiltros();
     });
@@ -84,7 +85,7 @@ export class ProveedorComponent {
 
     // Filtro por estado
     if (this.estadoSeleccionado !== 'Todos') {
-      resultado = resultado.filter(p => p.estado === this.estadoSeleccionado);
+      resultado = resultado.filter((p) => p.estado === this.estadoSeleccionado);
     }
 
     this.proveedoresFiltrados = resultado;
