@@ -10,7 +10,7 @@ import { Proveedor } from '../../../models/proveedor/proveedor.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './proveedor-update.component.html',
-  styleUrl: './proveedor-update.component.scss'
+  styleUrl: './proveedor-update.component.scss',
 })
 export class ProveedorUpdateComponent implements OnInit {
   proveedor: Proveedor = {
@@ -22,11 +22,14 @@ export class ProveedorUpdateComponent implements OnInit {
     ciudad: '',
     pais: '',
     empresa: '',
-    estado: 'Activo'
+    tipoProveedor: 'MATERIAL',
+    estado: 'Activo',
   };
 
   estados: string[] = ['Activo', 'Inactivo'];
   id!: number;
+
+  tiposProveedor: string[] = ['MATERIAL', 'EQUIPO', 'SERVICIO', 'OTROS'];
 
   constructor(
     private route: ActivatedRoute,
@@ -46,9 +49,11 @@ export class ProveedorUpdateComponent implements OnInit {
   }
 
   actualizarProveedor(): void {
-    this.proveedorService.actualizarProveedor(this.id, this.proveedor).subscribe(() => {
-      this.router.navigate(['/proveedor']);
-    });
+    this.proveedorService
+      .actualizarProveedor(this.id, this.proveedor)
+      .subscribe(() => {
+        this.router.navigate(['/proveedor']);
+      });
   }
 
   cancelar(): void {

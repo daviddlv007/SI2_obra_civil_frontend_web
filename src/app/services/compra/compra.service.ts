@@ -16,6 +16,10 @@ export class CompraService {
     return this.http.get<Compra[]>(`${this.apiUrl}/compras`);
   }
 
+  obtenerComprasDesc(): Observable<Compra[]> {
+    return this.http.get<Compra[]>(`${this.apiUrl}/compras/ordenadas`);
+  }
+
   obtenerCompraPorId(id: number): Observable<Compra> {
     return this.http.get<Compra>(`${this.apiUrl}/compras/${id}`);
   }

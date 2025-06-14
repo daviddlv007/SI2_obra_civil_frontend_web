@@ -393,7 +393,11 @@
             />
           </div>
 
-          <div class="alert alert-success" role="alert">
+          <div
+            *ngIf="proveedorID != null"
+            class="alert alert-success"
+            role="alert"
+          >
             Proveedor seleccionado: {{ proveedorID }}
           </div>
 
@@ -403,6 +407,7 @@
                 <tr>
                   <th>ID</th>
                   <th>Proveedor</th>
+                  <th>Tipo</th>
                   <th class="text-center">Acciones</th>
                 </tr>
               </thead>
@@ -410,7 +415,19 @@
                 <tr *ngFor="let p of proveedoresFiltrados">
                   <td>{{ p.id }}</td>
                   <td>{{ p.empresa }}</td>
-
+                  <td>
+                    <span
+                      class="badge rounded-pill"
+                      [ngClass]="{
+                        'bg-primary text-white': p.tipoProveedor === 'MATERIAL',
+                        'bg-info text-dark': p.tipoProveedor === 'EQUIPO',
+                        'bg-success text-white': p.tipoProveedor === 'SERVICIO',
+                        'bg-secondary text-white': p.tipoProveedor === 'OTROS'
+                      }"
+                    >
+                      {{ p.tipoProveedor?.toLowerCase() }}
+                    </span>
+                  </td>
                   <td class="text-center">
                     <button
                       class="btn btn-outline-success btn-sm me-1"
