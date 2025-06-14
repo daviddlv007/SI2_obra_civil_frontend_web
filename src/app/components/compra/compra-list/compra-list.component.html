@@ -10,7 +10,29 @@
                 <h4 class="m-0">Gestión de Compras</h4>
               </div>
               <div class="col-12 col-md-6 text-md-end">
-                <button class="btn btn-primary" (click)="irACrearCompra()">
+                <button
+                  class="btn btn-primary me-2"
+                  (click)="irACrearCompraMaterial()"
+                >
+                  <i class="bi bi-box-seam"></i> Material
+                </button>
+                <button
+                  class="btn btn-primary me-2"
+                  (click)="irACrearCompraEquipo()"
+                >
+                  <i class="bi bi-pc-display"></i> Equipo
+                </button>
+                <button
+                  class="btn btn-primary"
+                  (click)="irACrearCompraServicio()"
+                >
+                  <i class="bi bi-tools"></i> Servicio
+                </button>
+                <button
+                  hidden
+                  class="btn btn-primary"
+                  (click)="irACrearCompra()"
+                >
                   <i class="bi bi-plus-circle"></i> Nueva Compra
                 </button>
               </div>
@@ -37,18 +59,55 @@
                 <table class="table table-bordered table-striped">
                   <thead class="table-primary">
                     <tr>
-                      <th>Proveedor</th>
+                      <th>Nro Compra</th>
                       <th>Fecha</th>
                       <th>Total</th>
+                      <th>Estado</th>
+                      <th>Tipo Compra</th>
+
                       <th class="text-center">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let c of comprasFiltrados">
-                      <td>{{ c.proveedor.empresa }}</td>
+                    <tr *ngFor="let c of comprasPaginados">
+                      <td>{{ c.numeroCompra }}</td>
                       <td>{{ c.fecha }}</td>
                       <td>{{ c.total }} $</td>
+                      <!-- Estado de la compra con fondo suave solo en el texto -->
+                      <td>
+                        <span
+                          class="badge rounded-pill"
+                          [ngClass]="{
+                            'bg-warning text-dark':
+                              c.estadoCompra === 'PENDIENTE',
+                            'bg-success text-white':
+                              c.estadoCompra === 'APROBADO',
+                            'bg-danger text-white':
+                              c.estadoCompra === 'CANCELADA'
+                          }"
+                        >
+                          {{ c.estadoCompra.toLowerCase() }}
+                        </span>
+                      </td>
 
+                      <!-- Tipo de proveedor con fondo suave solo en el texto -->
+                      <td>
+                        <span
+                          class="badge rounded-pill"
+                          [ngClass]="{
+                            'bg-primary text-white':
+                              c.proveedor.tipoProveedor === 'MATERIAL',
+                            'bg-info text-dark':
+                              c.proveedor.tipoProveedor === 'EQUIPO',
+                            'bg-secondary text-white':
+                              c.proveedor.tipoProveedor === 'SERVICIO',
+                            'bg-success text-white':
+                              c.proveedor.tipoProveedor === 'OTROS'
+                          }"
+                        >
+                          {{ c.proveedor.tipoProveedor?.toLowerCase() }}
+                        </span>
+                      </td>
                       <td class="text-center">
                         <button
                           class="btn btn-info btn-sm me-1"

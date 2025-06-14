@@ -25,7 +25,7 @@ export class CompraListComponent {
   textoBusqueda: string = '';
   //estadoSeleccionado: string = 'Todos'; // Nuevo
   paginaActual: number = 1;
-  elementosPorPagina: number = 5;
+  elementosPorPagina: number = 6;
   totalPaginas: number = 0;
   //mostrarModal: boolean = false;
   //proveedorAEliminarId: number | null = null;
@@ -43,7 +43,7 @@ export class CompraListComponent {
 
   //COMPRAS
   obtenerCompras(): void {
-    this.compraService.obtenerCompras().subscribe((data) => {
+    this.compraService.obtenerComprasDesc().subscribe((data) => {
       console.log('Compras', data);
       this.compras = data;
       this.filtrarcCompras();
@@ -95,6 +95,18 @@ export class CompraListComponent {
   }*/
   irACrearCompra(): void {
     this.router.navigate(['/compra-create']);
+  }
+
+  irACrearCompraMaterial(): void {
+    this.router.navigate(['/compra-material-create']);
+  }
+
+  irACrearCompraEquipo(): void {
+    this.router.navigate(['/compra-equipo-create']);
+  }
+
+  irACrearCompraServicio(): void {
+    this.router.navigate(['/compra-servicio-create']);
   }
 
   irAVerDetalleCompra(id: number): void {

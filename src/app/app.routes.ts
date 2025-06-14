@@ -71,6 +71,9 @@ import { ObraCivilTareaReporteComponent } from './components/obra-civil-tarea-re
 import { ProveedorComponent } from './components/proveedor/proveedor.component';
 import { ProveedorCreateComponent } from './components/proveedor/proveedor-create/proveedor-create.component';
 import { ProveedorUpdateComponent } from './components/proveedor/proveedor-update/proveedor-update.component';
+import { CompraMaterialCreateComponent } from './components/compra/compra-material-create/compra-material-create.component';
+import { CompraEquipoCreateComponent } from './components/compra/compra-equipo-create/compra-equipo-create.component';
+import { CompraServicioCreateComponent } from './components/compra/compra-servicio-create/compra-servicio-create.component';
 
 export const routes: Routes = [
   {
@@ -93,6 +96,17 @@ export const routes: Routes = [
       //COMPRAS
       { path: 'compra', component: CompraListComponent },
       { path: 'compra-create', component: CompraCreateComponent },
+
+      {
+        path: 'compra-material-create',
+        component: CompraMaterialCreateComponent,
+      },
+      { path: 'compra-equipo-create', component: CompraEquipoCreateComponent },
+      {
+        path: 'compra-servicio-create',
+        component: CompraServicioCreateComponent,
+      },
+
       //USUARIO
       //Backup-Restore
       { path: 'backup-restore', component: BackupComponent },

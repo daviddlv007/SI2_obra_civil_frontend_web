@@ -8,5 +8,6 @@ export interface Proveedor {
   ciudad?: string;
   pais?: string;
   empresa?: string;
+  tipoProveedor?: string;
   estado?: string; // Ej: "Activo" o "Inactivo"
 }
