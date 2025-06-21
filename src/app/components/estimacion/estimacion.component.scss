@@ -1,0 +1,65 @@
+/* src/app/components/estimacion/estimacion.component.scss */
+
+.estimacion-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+
+  input,
+  select {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+}
+
+.acciones {
+  margin-top: 1rem;
+  text-align: right;
+
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+}
+
+.error-msg {
+  margin-top: 0.5rem;
+  color: red;
+}
+
+.resultado {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 4px;
+
+  h3 {
+    margin-top: 0;
+  }
+
+  .detalle-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+      background: #ddd;
+      text-align: left;
+    }
+
+    td,
+    th {
+      padding: 0.5rem;
+    }
+  }
+}
+

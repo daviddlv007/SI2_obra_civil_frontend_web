@@ -67,6 +67,8 @@ import { ObraCivilGanttComponent } from './components/obra-civil-gantt/obra-civi
 
 import { ObraCivilTareaReporteComponent } from './components/obra-civil-tarea-reporte/obra-civil-tarea-reporte.component';
 
+import { EstimacionComponent } from './components/estimacion/estimacion.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -142,6 +144,9 @@ export const routes: Routes = [
 
       { path: 'obra-civil-gantt/:id', component: ObraCivilGanttComponent }, 
       { path: 'obra-civil-tarea-reporte/:id_obra', component: ObraCivilTareaReporteComponent },
+
+      { path: 'estimacion', component: EstimacionComponent },
+
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 

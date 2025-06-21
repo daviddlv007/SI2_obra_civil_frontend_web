@@ -28,6 +28,7 @@ export class SidebarComponent {
       children: [
         { title: 'Obras', route: '/obra-civil' },
         { title: 'Tareas', route: '/tarea' },
+        { title: 'Calculadora de Costos', route: '/estimacion' },
       ],
     },
     {
