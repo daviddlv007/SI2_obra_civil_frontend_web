@@ -14,26 +14,26 @@ export class ServicioTareaService {
 
   // Obtener todas las relaciones entre servicio y tarea
   obtenerServicioTareas(): Observable<ServicioTarea[]> {
-    return this.http.get<ServicioTarea[]>(`${this.apiUrl}/servicio-tarea`);
+    return this.http.get<ServicioTarea[]>(`${this.apiUrl}/servicios-tareas`);
   }
 
   // Obtener una relación entre servicio y tarea por su ID
   obtenerServicioTareaPorId(id: number): Observable<ServicioTarea> {
-    return this.http.get<ServicioTarea>(`${this.apiUrl}/servicio-tarea/${id}`);
+    return this.http.get<ServicioTarea>(`${this.apiUrl}/servicios-tareas/${id}`);
   }
 
   // Crear una nueva relación entre servicio y tarea
   crearServicioTarea(servicioTarea: ServicioTarea): Observable<ServicioTarea> {
-    return this.http.post<ServicioTarea>(`${this.apiUrl}/servicio-tarea`, servicioTarea);
+    return this.http.post<ServicioTarea>(`${this.apiUrl}/servicios-tareas`, servicioTarea);
   }
 
   // Actualizar una relación entre servicio y tarea existente
   actualizarServicioTarea(id: number, servicioTarea: ServicioTarea): Observable<ServicioTarea> {
-    return this.http.put<ServicioTarea>(`${this.apiUrl}/servicio-tarea/${id}`, servicioTarea);
+    return this.http.put<ServicioTarea>(`${this.apiUrl}/servicios-tareas/${id}`, servicioTarea);
   }
 
   // Eliminar una relación entre servicio y tarea
   eliminarServicioTarea(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/servicio-tarea/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/servicios-tareas/${id}`);
   }
 }

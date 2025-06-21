@@ -13,7 +13,7 @@ export interface Servicio {
 }
 
 export interface ServicioTarea {
-  id?: number;            
+  id?: number;
   tareaId?: number;       // ID de la tarea
   servicioId?: number;    // ID del servicio
   cantidad?: number;      // Cantidad del servicio

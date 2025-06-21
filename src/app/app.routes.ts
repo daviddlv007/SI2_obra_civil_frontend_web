@@ -12,7 +12,6 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
-
 //USUARIO
 //permiso
 import { PermisoListComponent } from './components/administrador/permiso/permiso-list/permiso-list.component';
@@ -26,8 +25,6 @@ import { RolUpdateComponent } from './components/rol/rol-update/rol-update.compo
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioCreateComponent } from './components/usuario/usuario-create/usuario-create.component';
 import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usuario-update.component';
-
-
 
 import { MaterialComponent } from './components/material/material.component';
 import { MaterialCreateComponent } from './components/material/material-create/material-create.component';
@@ -60,12 +57,23 @@ import { EmpleadoComponent } from './components/empleado/empleado.component';
 import { EmpleadoCreateComponent } from './components/empleado/empleado-create/empleado-create.component';
 import { EmpleadoUpdateComponent } from './components/empleado/empleado-update/empleado-update.component';
 
+//COMPRAS
+import { CompraListComponent } from './components/compra/compra-list/compra-list.component';
+import { CompraCreateComponent } from './components/compra/compra-create/compra-create.component';
+
 //Dashboard
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
 
 import { ObraCivilGanttComponent } from './components/obra-civil-gantt/obra-civil-gantt.component';
 
 import { ObraCivilTareaReporteComponent } from './components/obra-civil-tarea-reporte/obra-civil-tarea-reporte.component';
+
+import { ProveedorComponent } from './components/proveedor/proveedor.component';
+import { ProveedorCreateComponent } from './components/proveedor/proveedor-create/proveedor-create.component';
+import { ProveedorUpdateComponent } from './components/proveedor/proveedor-update/proveedor-update.component';
+import { CompraMaterialCreateComponent } from './components/compra/compra-material-create/compra-material-create.component';
+import { CompraEquipoCreateComponent } from './components/compra/compra-equipo-create/compra-equipo-create.component';
+import { CompraServicioCreateComponent } from './components/compra/compra-servicio-create/compra-servicio-create.component';
 
 import { EstimacionComponent } from './components/estimacion/estimacion.component';
 
@@ -86,6 +94,20 @@ export const routes: Routes = [
       { path: 'perro', component: PerroComponent },
       { path: 'perro-create', component: PerroCreateComponent },
       { path: 'perro-update/:id', component: PerroUpdateComponent },
+
+      //COMPRAS
+      { path: 'compra', component: CompraListComponent },
+      { path: 'compra-create', component: CompraCreateComponent },
+
+      {
+        path: 'compra-material-create',
+        component: CompraMaterialCreateComponent,
+      },
+      { path: 'compra-equipo-create', component: CompraEquipoCreateComponent },
+      {
+        path: 'compra-servicio-create',
+        component: CompraServicioCreateComponent,
+      },
 
       //USUARIO
       //Backup-Restore
@@ -115,45 +137,47 @@ export const routes: Routes = [
       { path: 'material', component: MaterialComponent },
       { path: 'material-create', component: MaterialCreateComponent },
       { path: 'material-update/:id', component: MaterialUpdateComponent },
-      
+
       { path: 'equipo', component: EquipoComponent },
       { path: 'equipo-create', component: EquipoCreateComponent },
       { path: 'equipo-update/:id', component: EquipoUpdateComponent },
-      
-
 
       // PROYECTO - OBRA CIVIL
       { path: 'obra-civil', component: ObracivilListComponent },
       { path: 'obra-civil-create', component: ObracivilCreateComponent },
       { path: 'obra-civil-update/:id', component: ObracivilUpdateComponent },
       { path: 'obra-civil-show/:id', component: ObracivilShowComponent },
-      
+
       // SERVICIO
-       { path: 'servicio', component: ServicioComponent },
-       { path: 'servicio-create', component: ServicioCreateComponent },
-       { path: 'servicio-update/:id', component: ServicioUpdateComponent },
+      { path: 'servicio', component: ServicioComponent },
+      { path: 'servicio-create', component: ServicioCreateComponent },
+      { path: 'servicio-update/:id', component: ServicioUpdateComponent },
 
+      //EMPLEADO
+      { path: 'empleado', component: EmpleadoComponent },
+      { path: 'empleado-create', component: EmpleadoCreateComponent },
+      { path: 'empleado-update/:id', component: EmpleadoUpdateComponent },
 
-       //EMPLEADO
-       { path: 'empleado', component: EmpleadoComponent },
-       { path: 'empleado-create', component: EmpleadoCreateComponent },
-       { path: 'empleado-update/:id', component: EmpleadoUpdateComponent },
-      
+      { path: 'proveedor', component: ProveedorComponent },
+      { path: 'proveedor-create', component: ProveedorCreateComponent },
+      { path: 'proveedor-update/:id', component: ProveedorUpdateComponent },
+
       //Dashboard
       { path: 'dashboard', component: DashboardComponent },
 
-      { path: 'obra-civil-gantt/:id', component: ObraCivilGanttComponent }, 
-      { path: 'obra-civil-tarea-reporte/:id_obra', component: ObraCivilTareaReporteComponent },
+      { path: 'obra-civil-gantt/:id', component: ObraCivilGanttComponent },
+      {
+        path: 'obra-civil-tarea-reporte/:id_obra',
+        component: ObraCivilTareaReporteComponent,
+      },
 
       { path: 'estimacion', component: EstimacionComponent },
 
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-
     ],
   },
 
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: 'dashboard' },
-
 ];

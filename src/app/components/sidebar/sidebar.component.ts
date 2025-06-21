@@ -41,10 +41,23 @@ export class SidebarComponent {
         { title: 'Equipos', route: '/equipo' },
       ],
     },
+    /*{
+      title: 'Compras',route:'/Proveedores'
+      expanded: false,
+      children: [],
+    },*/
+    /*  {
+      title: 'Proveedores',
+      expanded: false,
+      children: [],
+    },*/
     {
       title: 'Compras',
       expanded: false,
-      children: [],
+      children: [
+        { title: 'Proveedores', route: '/proveedor' },
+        { title: 'compra', route: '/compra' },
+      ],
     },
     {
       title: 'Sistema',

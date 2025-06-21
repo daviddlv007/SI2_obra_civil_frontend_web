@@ -1,5 +1,5 @@
 .form-container {
-  max-width: 400px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f9f9f9;
@@ -15,6 +15,7 @@ h2 {
 
 .form-group {
   margin-bottom: 15px;
+  position: relative;
 }
 
 label {
@@ -50,18 +51,18 @@ label {
   gap: 10px;
 }
 
-.submit-btn, .cancel-btn {
+.submit-btn, .cancel-btn, .add-btn {
   width: 48%;
   padding: 10px;
   font-size: 16px;
   border-radius: 4px;
   cursor: pointer;
+  border: none;
 }
 
 .submit-btn {
   background-color: #28a745;
   color: white;
-  border: none;
 }
 
 .submit-btn:disabled {
@@ -76,9 +77,72 @@ label {
 .cancel-btn {
   background-color: #dc3545;
   color: white;
-  border: none;
 }
 
 .cancel-btn:hover {
   background-color: #c82333;
 }
+
+.add-btn {
+  width: auto;
+  min-width: 120px;
+  background-color: #007bff;
+  color: white;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+}
+
+.add-btn:hover {
+  background-color: #0056b3;
+}
+
+.add-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+li button {
+  background-color: #fd7e14;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+li button:hover {
+  background-color: #e96a0c;
+}
+
+.sugerencias {
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.leter {
+  color: #4b575d;
+  font-style: arial;
+  font-size: 0.9rem;       /* Tamaño de letra un poco más chico */
+  text-decoration: underline;  /* Subrayado */
+}
+

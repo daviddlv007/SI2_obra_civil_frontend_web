@@ -1,0 +1,299 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <!-- Título y Botón para Crear Nueva Compra -->
+            <div class="row mb-3">
+              <div class="col-12 col-md-6">
+                <h4 class="m-0">Compra de Materiales</h4>
+              </div>
+              <div class="col-12 col-md-6 text-md-end">
+                <button class="btn btn-secondary me-2" (click)="irACompras()">
+                  <i class="bi bi-arrow-left"></i> Volver
+                </button>
+                <button class="btn btn-primary" (click)="irACrearCompra()">
+                  <i class="bi bi-plus-circle"></i> Crear Material
+                </button>
+              </div>
+            </div>
+
+            <!-- Materiales -->
+            <div>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar materiales..."
+                  [(ngModel)]="textoBusqueda"
+                  (input)="filtrarMateriales()"
+                />
+              </div>
+
+              <div style="max-height: 400px; overflow-y: auto">
+                <table class="table table-bordered table-striped">
+                  <thead class="table-primary">
+                    <tr>
+                      <th>Cód. Inventario</th>
+                      <th>Nombre</th>
+                      <th>Unidad Medida</th>
+                      <th>Precio Unitario</th>
+                      <th>Stock Actual</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let m of materialesFiltrados">
+                      <td>{{ m.codigoInventario }}</td>
+                      <td>{{ m.nombre }}</td>
+                      <td>{{ m.unidadMedida }}</td>
+                      <td>{{ m.precioUnitario | currency }}</td>
+                      <td [class.text-danger]="m.stockActual < m.stockMinimo">
+                        {{ m.stockActual }}
+                        <span
+                          *ngIf="m.stockActual < m.stockMinimo"
+                          class="badge bg-warning"
+                          >Mín: {{ m.stockMinimo }}</span
+                        >
+                      </td>
+                      <td class="text-center">
+                        <button
+                          class="btn btn-primary btn-sm me-1"
+                          (click)="agregarACarrito(m, 'material')"
+                        >
+                          <i class="bi bi-cart-plus"></i> Comprar
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- Paginación -->
+              <div hidden class="paginacion">
+                <button
+                  (click)="cambiarPaginaMateriales('previous')"
+                  [disabled]="paginaActual === 1"
+                >
+                  ← Anterior
+                </button>
+                <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+                <button
+                  (click)="cambiarPaginaMateriales('next')"
+                  [disabled]="paginaActual === totalPaginas"
+                >
+                  Siguiente →
+                </button>
+              </div>
+            </div>
+
+            <!-- Seleccionar Proveedor -->
+            <div class="col-12 text-md-end" *ngIf="carrito.length > 0">
+              <button
+                class="btn btn-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#proveedorModal"
+                (click)="seleccionarProveedor()"
+              >
+                <i class="bi bi-check-circle"></i> Seleccionar proveedor
+              </button>
+            </div>
+
+            <!-- Carrito de compras -->
+            <div class="card mt-4" *ngIf="carrito.length > 0">
+              <div class="card-header bg-primary text-white">
+                <h5 class="m-0">
+                  <i class="bi bi-cart"></i> Carrito de Compras
+                </h5>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Tipo</th>
+                        <th>Item</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of carrito; let i = index">
+                        <td>{{ item.tipo | titlecase }}</td>
+                        <td>{{ item.nombre }}</td>
+                        <td>
+                          <input
+                            type="number"
+                            class="form-control form-control-sm"
+                            style="width: 80px"
+                            min="1"
+                            [(ngModel)]="item.cantidad"
+                            (change)="actualizarSubtotal(item)"
+                          />
+                        </td>
+                        <td>{{ item.precioUnitario | currency }}</td>
+                        <td>{{ item.subtotal | currency }}</td>
+                        <td class="text-center">
+                          <button
+                            class="btn btn-danger btn-sm"
+                            (click)="eliminarDelCarrito(i)"
+                          >
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="4" class="text-end fw-bold">Total:</td>
+                        <td colspan="2" class="fw-bold">
+                          {{ calcularTotal() | currency }}
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="d-flex justify-content-end mt-3">
+                  <button
+                    class="btn btn-success me-2"
+                    (click)="confirmarCompra()"
+                  >
+                    <i class="bi bi-check-circle"></i> Confirmar Compra
+                  </button>
+                  <button class="btn btn-secondary" (click)="vaciarCarrito()">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal de Proveedor -->
+<div
+  class="modal fade"
+  id="proveedorModal"
+  tabindex="-1"
+  aria-labelledby="proveedorModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="proveedorModalLabel">
+          Seleccione un Proveedor
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Proveedor -->
+        <div
+          class="tab-pane fade show active"
+          id="proveedor"
+          role="tabpanel"
+          aria-labelledby="material-tab"
+        >
+          <div class="mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar proveedor..."
+              [(ngModel)]="textoBusqueda"
+              (input)="filtrarProveedores()"
+            />
+          </div>
+
+          <div
+            *ngIf="proveedorID != null"
+            class="alert alert-success"
+            role="alert"
+          >
+            Proveedor seleccionado: {{ proveedorID }}
+          </div>
+
+          <div style="max-height: 400px; overflow-y: auto">
+            <table class="table table-bordered table-striped">
+              <thead class="table-primary">
+                <tr>
+                  <th>ID</th>
+                  <th>Proveedor</th>
+                  <th>Tipo</th>
+                  <th class="text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let p of proveedoresFiltrados">
+                  <td>{{ p.id }}</td>
+                  <td>{{ p.empresa }}</td>
+                  <td>
+                    <span
+                      class="badge rounded-pill"
+                      [ngClass]="{
+                        'bg-primary text-white': p.tipoProveedor === 'MATERIAL',
+                        'bg-info text-dark': p.tipoProveedor === 'EQUIPO',
+                        'bg-success text-white': p.tipoProveedor === 'SERVICIO',
+                        'bg-secondary text-white': p.tipoProveedor === 'OTROS'
+                      }"
+                    >
+                      {{ p.tipoProveedor?.toLowerCase() }}
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <button
+                      class="btn btn-outline-success btn-sm me-1"
+                      (click)="seleccionarProveedorID(p.id ?? 0)"
+                    >
+                      <i class="bi bi-check"></i> OK
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Paginación -->
+          <div hidden class="paginacion">
+            <button
+              (click)="cambiarPaginaProveedores('previous')"
+              [disabled]="paginaActual === 1"
+            >
+              ← Anterior
+            </button>
+            <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+            <button
+              (click)="cambiarPaginaProveedores('next')"
+              [disabled]="paginaActual === totalPaginas"
+            >
+              Siguiente →
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle mr-1"></i>
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="proveedorConfirmado()"
+          data-bs-dismiss="modal"
+        >
+          <i class="bi bi-check-circle mr-1"></i>
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

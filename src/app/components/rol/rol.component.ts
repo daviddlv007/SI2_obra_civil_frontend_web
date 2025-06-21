@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FilterService } from '../../services/filter/filter.service';
 import { PaginationService } from '../../services/pagination/pagination.service';
 
+
 @Component({
   selector: 'app-rol',
   standalone: true,
