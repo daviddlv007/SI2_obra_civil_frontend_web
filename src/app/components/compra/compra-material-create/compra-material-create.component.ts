@@ -1,19 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
-import { MaterialService } from '../../../services/material/material.service';
-import { Material } from '../../../models/material/material.model';
 import { Router } from '@angular/router';
 import { FilterService } from '../../../services/filter/filter.service';
 import { PaginationService } from '../../../services/pagination/pagination.service';
+import { Material } from '../../../models/material/material.model';
+import { MaterialService } from '../../../services/material/material.service';
 import { Proveedor } from '../../../models/proveedor/proveedor.model';
 import { ProveedorService } from '../../../services/proveedor/proveedor.service';
 import { CompraService } from '../../../services/compra/compra.service';
 import { CompraMaterialService } from '../../../services/compra-material/compra-material.service';
 import { Compra } from '../../../models/compra/compra.model';
 //import { CompraMaterial } from '../../../models/compra-material/compra-material.model';
+
+declare var bootstrap: any; // para acceder a la instancia de modal de Bootstrap
 
 @Component({
   selector: 'app-compra-material-create',
@@ -23,7 +25,7 @@ import { Compra } from '../../../models/compra/compra.model';
   styleUrl: './compra-material-create.component.scss',
 })
 export class CompraMaterialCreateComponent {
-  //compra: Compra | null = null;
+  @ViewChild('modalCrearMaterial') modalCrearMaterial!: ElementRef;
   // material
   materiales: Material[] = [];
   materialesFiltrados: Material[] = [];
@@ -89,6 +91,17 @@ export class CompraMaterialCreateComponent {
 
   ///////////////////////////////////////////////////////////
 
+  nuevoMaterial: Material = {
+    codigoInventario: '',
+    nombre: '',
+    descripcion: '',
+    unidadMedida: '',
+    precioUnitario: 0,
+    stockActual: 0,
+    stockMinimo: 0,
+    categoria: '',
+  };
+
   constructor(
     private materialService: MaterialService,
     private proveedorService: ProveedorService,
@@ -104,10 +117,61 @@ export class CompraMaterialCreateComponent {
     this.obtenerProveedores();
   }
 
-  //MATERIALES
+  // MATERIALES
+  //Crear Material
+  validarYCrearMaterial(form: any): void {
+    if (form.invalid) {
+      alert('Todos los campos son obligatorios!!!');
+      console.warn('Formulario inválido');
+      return;
+    }
+    this.crearMaterial();
+    console.log('Material creado: crearMaterial');
+    this.cerrarModalCrearMaterial();
+    console.log('Material creado: cerrarModalCrearMaterial');
+    this.obtenerMateriales();
+    console.log('Material creado: obtenerMateriales');
+    this.limpiarFormularioMaterial(form);
+    console.log('Material creado: limpiarFormularioMaterial');
+  }
+
+  crearMaterial(): void {
+    this.materialService.crearMaterial(this.nuevoMaterial).subscribe({
+      next: (materialCreado) => {
+        console.log('Material creado:', materialCreado);
+        //this.equipos.push(materialCreado);
+      },
+      error: (err) => {
+        console.error('Error al crear el material:', err);
+      },
+    });
+  }
+
+  limpiarFormularioMaterial(form: any): void {
+    form.resetForm(); // limpia formulario
+    this.nuevoMaterial = {
+      codigoInventario: '',
+      nombre: '',
+      descripcion: '',
+      unidadMedida: '',
+      precioUnitario: 0,
+      stockActual: 0,
+      stockMinimo: 0,
+      categoria: '',
+    };
+  }
+
+  cerrarModalCrearMaterial(): void {
+    const modal = bootstrap.Modal.getInstance(
+      this.modalCrearMaterial.nativeElement
+    );
+    modal.hide(); // Cierra el modal
+  }
+
+  // Obtener Materiales
   obtenerMateriales(): void {
     this.materialService.obtenerMateriales().subscribe((data) => {
-      console.log('Materiales', data);
+      //console.log('Materiales', data);
       this.materiales = data;
       this.filtrarMateriales();
     });
@@ -152,7 +216,7 @@ export class CompraMaterialCreateComponent {
     this.materialesPaginados = paginacion.paginatedData;
   }
 
-  //PROVEEDOR Proveedores proveedor proveedores
+  // Proveedores
   obtenerProveedores(): void {
     this.proveedorService
       .obtenerProveedoresPorTipoMaterial()
@@ -241,10 +305,9 @@ export class CompraMaterialCreateComponent {
     this.carrito = [];
   }
 
+  //Realizar Compra
   confirmarCompra() {
-    // Aquí iría la lógica para guardar la compra
-
-    console.log('Compra confirmada:', this.carrito);
+    console.log('Carrito confirmada:', this.carrito);
     console.log('Total:', this.total);
     console.log('IDProveedor:', this.proveedorID);
 
@@ -253,7 +316,7 @@ export class CompraMaterialCreateComponent {
     } else {
       this.cargarCompra();
       this.crearCompra();
-      this.vaciarCarrito();
+      //this.vaciarCarrito();
       alert('Compra registrada correctamente');
       this.router.navigate(['/compra']);
     }
@@ -261,21 +324,7 @@ export class CompraMaterialCreateComponent {
 
   cargarCompra() {
     this.compra.total = this.total!;
-    this.compra.proveedorId = this.proveedorID!;
-
-    this.compra.proveedor.id = this.proveedorSeleccionado.id!;
-    this.compra.proveedor.ciudad = this.proveedorSeleccionado.ciudad;
-    this.compra.proveedor.correo = this.proveedorSeleccionado.correo;
-    this.compra.proveedor.direccion = this.proveedorSeleccionado.direccion;
-    this.compra.proveedor.empresa = this.proveedorSeleccionado.empresa;
-    this.compra.proveedor.estado = this.proveedorSeleccionado.estado;
-    this.compra.proveedor.nitCi = this.proveedorSeleccionado.nitCi;
-    this.compra.proveedor.nombreCompleto =
-      this.proveedorSeleccionado.nombreCompleto;
-    this.compra.proveedor.pais = this.proveedorSeleccionado.pais;
-    this.compra.proveedor.telefono = this.proveedorSeleccionado.telefono;
-    this.compra.proveedor.tipoProveedor =
-      this.proveedorSeleccionado.tipoProveedor;
+    this.compra.proveedor = this.proveedorSeleccionado;
   }
 
   compraNueva!: Compra;
@@ -285,6 +334,7 @@ export class CompraMaterialCreateComponent {
     this.compraService.crearCompra(this.compra).subscribe((compraCreada) => {
       this.compraNueva = compraCreada;
 
+      //console.log('Carritoooo:', this.carrito);
       // Por cada item del carrito, crea una CompraMaterial
       this.carrito.forEach((item) => {
         const material: Material = {
@@ -298,7 +348,7 @@ export class CompraMaterialCreateComponent {
           stockMinimo: item.stockMinimo,
           categoria: item.categoria,
         };
-
+        //console.log('forEach:', material);
         const compraMaterial = {
           compra: this.compraNueva,
           material: material,
@@ -315,17 +365,11 @@ export class CompraMaterialCreateComponent {
       });
 
       console.log('Compra creada:', this.compraNueva);
-      // Por ejemplo, navegar o usarla en otra parte
-      //this.router.navigate(['/compra']);
     });
   }
 
-  irACrearCompra() {
-    // Navegar a formulario de creación de compra
-    console.log('Navegar a crear compra');
-  }
-
-  irACompras(): void {
+  // Otros Metodos
+  volverACompras(): void {
     this.router.navigate(['/compra']);
   }
 

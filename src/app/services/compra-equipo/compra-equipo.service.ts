@@ -40,4 +40,10 @@ export class CompraEquipoService {
   eliminarCompraEquipo(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/compra-equipo/${id}`);
   }
+
+  obtenerComprasPorId(id: number): Observable<CompraEquipo[]> {
+    return this.http.get<CompraEquipo[]>(
+      `${this.apiUrl}/compra-equipo/compras/${id}`
+    );
+  }
 }

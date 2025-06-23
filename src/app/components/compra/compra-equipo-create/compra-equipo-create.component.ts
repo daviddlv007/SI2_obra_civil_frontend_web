@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
-import { Material } from '../../../models/material/material.model';
 import { Router } from '@angular/router';
 import { FilterService } from '../../../services/filter/filter.service';
 import { PaginationService } from '../../../services/pagination/pagination.service';
@@ -16,6 +15,8 @@ import { CompraEquipoService } from '../../../services/compra-equipo/compra-equi
 import { Compra } from '../../../models/compra/compra.model';
 //import { CompraMaterial } from '../../../models/compra-material/compra-material.model';
 
+declare var bootstrap: any; // para acceder a la instancia de modal de Bootstrap
+
 @Component({
   selector: 'app-compra-equipo-create',
   standalone: true,
@@ -24,6 +25,7 @@ import { Compra } from '../../../models/compra/compra.model';
   styleUrl: './compra-equipo-create.component.scss',
 })
 export class CompraEquipoCreateComponent {
+  @ViewChild('modalCrearEquipo') modalCrearEquipo!: ElementRef;
   // equipos
   equipos: Equipo[] = [];
   equiposFiltrados: Equipo[] = [];
@@ -89,6 +91,16 @@ export class CompraEquipoCreateComponent {
 
   ///////////////////////////////////////////////////////////
 
+  nuevoEquipo: Equipo = {
+    codigoActivo: '',
+    nombre: '',
+    descripcion: '',
+    unidadMedida: '',
+    tipoEquipo: '',
+    precioUnitario: 0,
+    fechaAdquisicion: this.hoy,
+  };
+
   constructor(
     private equipoService: EquipoService,
     private proveedorService: ProveedorService,
@@ -105,6 +117,56 @@ export class CompraEquipoCreateComponent {
   }
 
   //EQUIPOS
+  //Crear Equipo
+  validarYCrearEquipo(form: any): void {
+    if (form.invalid) {
+      alert('Todos los campos son obligatorios!!!');
+      console.warn('Formulario inválido');
+      return;
+    }
+    this.crearEquipo();
+    console.log('Equipo creado: crearEquipo');
+    this.cerrarModalCrearEqipo();
+    console.log('Equipo creado: cerrarModalCrearEqipo');
+    this.obtenerEquipos();
+    console.log('Equipo creado: obtenerEquipos');
+    this.limpiarFormularioEquipo(form);
+    console.log('Equipo creado: limpiarFormularioEquipo');
+  }
+
+  crearEquipo(): void {
+    this.equipoService.crearEquipo(this.nuevoEquipo).subscribe({
+      next: (equipoCreado) => {
+        console.log('Equipo creado:', equipoCreado);
+        //this.equipos.push(equipoCreado);
+      },
+      error: (err) => {
+        console.error('Error al crear el equipo:', err);
+      },
+    });
+  }
+
+  limpiarFormularioEquipo(form: any): void {
+    form.resetForm(); // limpia formulario
+    this.nuevoEquipo = {
+      codigoActivo: '',
+      nombre: '',
+      descripcion: '',
+      unidadMedida: '',
+      tipoEquipo: '',
+      precioUnitario: 0,
+      fechaAdquisicion: this.hoy,
+    };
+  }
+
+  cerrarModalCrearEqipo(): void {
+    const modal = bootstrap.Modal.getInstance(
+      this.modalCrearEquipo.nativeElement
+    );
+    modal.hide(); // Cierra el modal
+  }
+
+  // Obtener Equipos
   obtenerEquipos(): void {
     this.equipoService.obtenerEquipos().subscribe((data) => {
       this.equipos = data;
@@ -240,9 +302,8 @@ export class CompraEquipoCreateComponent {
     this.carrito = [];
   }
 
+  //Realizar Compra
   confirmarCompra() {
-    // Aquí iría la lógica para guardar la compra
-
     console.log('Compra confirmada:', this.carrito);
     console.log('Total:', this.total);
     console.log('IDProveedor:', this.proveedorID);
@@ -252,29 +313,14 @@ export class CompraEquipoCreateComponent {
     } else {
       this.cargarCompra();
       this.crearCompra();
-      this.vaciarCarrito();
       alert('Compraregistrada correctamente');
-      this.router.navigate(['compra']);
+      this.router.navigate(['/compra']);
     }
   }
 
   cargarCompra() {
     this.compra.total = this.total!;
-    this.compra.proveedorId = this.proveedorID!;
-
-    this.compra.proveedor.id = this.proveedorSeleccionado.id!;
-    this.compra.proveedor.ciudad = this.proveedorSeleccionado.ciudad;
-    this.compra.proveedor.correo = this.proveedorSeleccionado.correo;
-    this.compra.proveedor.direccion = this.proveedorSeleccionado.direccion;
-    this.compra.proveedor.empresa = this.proveedorSeleccionado.empresa;
-    this.compra.proveedor.estado = this.proveedorSeleccionado.estado;
-    this.compra.proveedor.nitCi = this.proveedorSeleccionado.nitCi;
-    this.compra.proveedor.nombreCompleto =
-      this.proveedorSeleccionado.nombreCompleto;
-    this.compra.proveedor.pais = this.proveedorSeleccionado.pais;
-    this.compra.proveedor.telefono = this.proveedorSeleccionado.telefono;
-    this.compra.proveedor.tipoProveedor =
-      this.proveedorSeleccionado.tipoProveedor;
+    this.compra.proveedor = this.proveedorSeleccionado;
   }
 
   compraNueva!: Compra;
@@ -319,12 +365,13 @@ export class CompraEquipoCreateComponent {
     });
   }
 
-  irACrearCompra() {
+  /*irACrearCompra() {
     // Navegar a formulario de creación de compra
     console.log('Navegar a crear compra');
-  }
+  }*/
 
-  irACompras(): void {
+  //Otros Metodos
+  volverACompras(): void {
     this.router.navigate(['/compra']);
   }
 
@@ -339,9 +386,6 @@ export class CompraEquipoCreateComponent {
     this.obtenerProveedorPorId(id);
   }
 
-  //proveedorSeleccionado(proveedorr: Proveedor) {
-  //
-  //}
   obtenerProveedorPorId(id: number): void {
     this.proveedorService.obtenerProveedorPorId(id).subscribe((data) => {
       this.proveedorSeleccionado = data;

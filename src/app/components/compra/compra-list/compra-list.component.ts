@@ -50,6 +50,25 @@ export class CompraListComponent {
     });
   }
 
+  cambiarEstado(id: number, nuevoEstado: string): void {
+    if (
+      confirm(
+        `¿Estás seguro de cambiar el estado a ${nuevoEstado.toLowerCase()}?`
+      )
+    ) {
+      this.compraService.cambiarEstadoCompra(id, nuevoEstado).subscribe({
+        next: () => {
+          // Actualizar la lista de compras
+          this.obtenerCompras();
+        },
+        error: (err) => {
+          console.error('Error al cambiar el estado:', err);
+        },
+      });
+      //console.log('Nuevo estado:', nuevoEstado);
+    }
+  }
+
   filtrarcCompras(): void {
     let resultado = [...this.compras];
 
@@ -109,19 +128,24 @@ export class CompraListComponent {
     this.router.navigate(['/compra-servicio-create']);
   }
 
-  irAVerDetalleCompra(id: number): void {
+  irAVerDetalleCompra(id: number, tipo: string): void {
     console.log('Navegar a detalle compra');
-    //this.router.navigate([`/empleado-update/${id}`]);
+    this.router.navigate([`/compra-detalle/${id}/${tipo}`]);
   }
 
   irAEditarCompra(id: number): void {
     console.log('Navegar a editar compra');
-    //this.router.navigate([`/empleado-update/${id}`]);
+    this.router.navigate([`/compra-update/${id}`]);
   }
 
   confirmarEliminarCompra(id: number): void {
     //this.empleadoAEliminarId = id;
     //this.mostrarModal = true;
     console.log('Navegar a eliminar compra');
+  }
+
+  // Reportes
+  irAReportes(): void {
+    this.router.navigate(['/compra-reportes']);
   }
 }
