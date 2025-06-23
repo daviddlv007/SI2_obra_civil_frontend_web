@@ -91,6 +91,8 @@ export class CompraShowComponent implements OnInit {
   }*/
 
   obtenerDetalleCompras(): void {
+    console.log('ID:', this.ID);
+    console.log('TIPO:', this.TIPO);
     if (!this.ID) return;
 
     switch (this.TIPO) {
