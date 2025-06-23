@@ -5,6 +5,6 @@ export interface Equipo {
   descripcion?: string;
   unidadMedida: string;
   tipoEquipo: string;
-  precioUnitario: number; // mapeado desde BigDecimal
-  fechaAdquisicion: string; // usar formato 'YYYY-MM-DD'
+  precioUnitario: number;
+  fechaAdquisicion: string;
 }

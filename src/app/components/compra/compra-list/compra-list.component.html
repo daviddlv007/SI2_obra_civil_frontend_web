@@ -23,17 +23,13 @@
                   <i class="bi bi-pc-display"></i> Equipo
                 </button>
                 <button
-                  class="btn btn-primary"
+                  class="btn btn-primary me-2"
                   (click)="irACrearCompraServicio()"
                 >
                   <i class="bi bi-tools"></i> Servicio
                 </button>
-                <button
-                  hidden
-                  class="btn btn-primary"
-                  (click)="irACrearCompra()"
-                >
-                  <i class="bi bi-plus-circle"></i> Nueva Compra
+                <button class="btn btn-secondary" (click)="irAReportes()">
+                  <i class="bi bi-file-earmark-text"></i> Reportes
                 </button>
               </div>
             </div>
@@ -61,9 +57,9 @@
                     <tr>
                       <th>Nro Compra</th>
                       <th>Fecha</th>
-                      <th>Total</th>
-                      <th>Estado</th>
+                      <th>Total ($us)</th>
                       <th>Tipo Compra</th>
+                      <th>Estado</th>
 
                       <th class="text-center">Acciones</th>
                     </tr>
@@ -71,25 +67,8 @@
                   <tbody>
                     <tr *ngFor="let c of comprasPaginados">
                       <td>{{ c.numeroCompra }}</td>
-                      <td>{{ c.fecha }}</td>
-                      <td>{{ c.total }} $</td>
-                      <!-- Estado de la compra con fondo suave solo en el texto -->
-                      <td>
-                        <span
-                          class="badge rounded-pill"
-                          [ngClass]="{
-                            'bg-warning text-dark':
-                              c.estadoCompra === 'PENDIENTE',
-                            'bg-success text-white':
-                              c.estadoCompra === 'APROBADO',
-                            'bg-danger text-white':
-                              c.estadoCompra === 'CANCELADA'
-                          }"
-                        >
-                          {{ c.estadoCompra.toLowerCase() }}
-                        </span>
-                      </td>
-
+                      <td>{{ c.fecha | date : "dd-MM-yyyy" }}</td>
+                      <td class="text-end">{{ c.total }}</td>
                       <!-- Tipo de proveedor con fondo suave solo en el texto -->
                       <td>
                         <span
@@ -108,22 +87,76 @@
                           {{ c.proveedor.tipoProveedor?.toLowerCase() }}
                         </span>
                       </td>
+                      <!-- Estado de la compra con fondo suave solo en el texto -->
+                      <td>
+                        <div class="dropdown">
+                          <button
+                            class="btn btn-sm dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            [ngClass]="{
+                              'btn-warning text-dark':
+                                c.estadoCompra === 'PENDIENTE',
+                              'btn-success text-white':
+                                c.estadoCompra === 'APROBADO',
+                              'btn-danger text-white':
+                                c.estadoCompra === 'CANCELADA'
+                            }"
+                          >
+                            {{ c.estadoCompra.toLowerCase() }}
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <button
+                                class="dropdown-item"
+                                (click)="cambiarEstado(c.id!, 'PENDIENTE')"
+                              >
+                                Pendiente
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                class="dropdown-item"
+                                (click)="cambiarEstado(c.id!, 'APROBADO')"
+                              >
+                                Aprobado
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                class="dropdown-item"
+                                (click)="cambiarEstado(c.id!, 'CANCELADA')"
+                              >
+                                Cancelada
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </td>
+
                       <td class="text-center">
                         <button
                           class="btn btn-info btn-sm me-1"
-                          (click)="irAVerDetalleCompra(c.id ?? 0)"
+                          (click)="
+                            irAVerDetalleCompra(
+                              c.id ?? 0,
+                              c.proveedor.tipoProveedor!
+                            )
+                          "
                         >
                           <i class="bi bi-eye"></i> Ver detalle
                         </button>
                         <button
                           class="btn btn-warning btn-sm me-1"
-                          (click)="irAVerDetalleCompra(c.id ?? 0)"
+                          (click)="irAEditarCompra(c.id ?? 0)"
                         >
                           <i class="bi bi-eyedropper"></i> Editar
                         </button>
                         <button
+                          hidden
                           class="btn btn-danger btn-sm me-1"
-                          (click)="irAVerDetalleCompra(c.id ?? 0)"
+                          (click)="confirmarEliminarCompra(c.id ?? 0)"
                         >
                           <i class="bi bi-x-circle"></i> Cancelar
                         </button>

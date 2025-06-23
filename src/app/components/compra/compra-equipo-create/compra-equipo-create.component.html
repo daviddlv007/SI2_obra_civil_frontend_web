@@ -10,10 +10,17 @@
                 <h4 class="m-0">Compra de Equipos</h4>
               </div>
               <div class="col-12 col-md-6 text-md-end">
-                <button class="btn btn-secondary me-2" (click)="irACompras()">
+                <button
+                  class="btn btn-secondary me-2"
+                  (click)="volverACompras()"
+                >
                   <i class="bi bi-arrow-left"></i> Volver
                 </button>
-                <button class="btn btn-primary" (click)="irACrearCompra()">
+                <button
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                >
                   <i class="bi bi-plus-circle"></i> Crear Equipo
                 </button>
               </div>
@@ -93,9 +100,9 @@
             <!-- Carrito de compras -->
             <div class="card mt-4" *ngIf="carrito.length > 0">
               <div class="card-header bg-primary text-white">
-                <h5 class="m-0">
+                <h6 class="m-0">
                   <i class="bi bi-cart"></i> Carrito de Compras
-                </h5>
+                </h6>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -285,6 +292,184 @@
           Confirmar
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Crear Equipo-->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+  #modalCrearEquipo
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form #form="ngForm" (ngSubmit)="validarYCrearEquipo(form)">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            Registrar Equipo
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            (click)="limpiarFormularioEquipo(form)"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Código Activo -->
+          <div class="mb-3">
+            <label for="codigoActivo" class="form-label">Código Activo</label>
+            <input
+              type="text"
+              id="codigoActivo"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.codigoActivo"
+              name="codigoActivo"
+              required
+              #codigoActivo="ngModel"
+            />
+            <div
+              class="text-danger"
+              *ngIf="codigoActivo.invalid && codigoActivo.touched"
+            >
+              Este campo es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input
+              type="text"
+              id="nombre"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.nombre"
+              name="nombre"
+              required
+              #nombre="ngModel"
+            />
+            <div class="text-danger" *ngIf="nombre.invalid && nombre.touched">
+              Este campo es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea
+              id="descripcion"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.descripcion"
+              name="descripcion"
+              required
+              #descripcion="ngModel"
+            ></textarea>
+            <div
+              class="text-danger"
+              *ngIf="descripcion.invalid && descripcion.touched"
+            >
+              Este campo es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="unidadMedida" class="form-label"
+              >Unidad de Medida</label
+            >
+            <input
+              type="text"
+              id="unidadMedida"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.unidadMedida"
+              name="unidadMedida"
+              required
+              #unidadMedida="ngModel"
+            />
+            <div
+              class="text-danger"
+              *ngIf="unidadMedida.invalid && unidadMedida.touched"
+            >
+              Este campo es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="tipoEquipo" class="form-label">Tipo de Equipo</label>
+            <input
+              type="text"
+              id="tipoEquipo"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.tipoEquipo"
+              name="tipoEquipo"
+              required
+              #tipoEquipo="ngModel"
+            />
+            <div
+              class="text-danger"
+              *ngIf="tipoEquipo.invalid && tipoEquipo.touched"
+            >
+              Este campo es obligatorio.
+            </div>
+          </div>
+
+          <!-- Precio Unitario -->
+          <div class="mb-3">
+            <label for="precioUnitario" class="form-label"
+              >Precio Unitario</label
+            >
+            <input
+              type="number"
+              id="precioUnitario"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.precioUnitario"
+              name="precioUnitario"
+              required
+              min="0.01"
+              step="0.01"
+              #precioUnitario="ngModel"
+            />
+            <div
+              class="text-danger"
+              *ngIf="precioUnitario.invalid && precioUnitario.touched"
+            >
+              Debe ser mayor a 0.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="fechaAdquisicion" class="form-label"
+              >Fecha de Adquisición</label
+            >
+            <input
+              type="date"
+              id="fechaAdquisicion"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.fechaAdquisicion"
+              name="fechaAdquisicion"
+              [max]="hoy"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="limpiarFormularioEquipo(form)"
+            data-bs-dismiss="modal"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
-import { Material } from '../../../models/material/material.model';
 import { Router } from '@angular/router';
 import { FilterService } from '../../../services/filter/filter.service';
 import { PaginationService } from '../../../services/pagination/pagination.service';
@@ -16,6 +15,8 @@ import { CompraServicioService } from '../../../services/compra-servicio/compra-
 import { Compra } from '../../../models/compra/compra.model';
 //import { CompraMaterial } from '../../../models/compra-material/compra-material.model';
 
+declare var bootstrap: any; // para acceder a la instancia de modal de Bootstrap
+
 @Component({
   selector: 'app-compra-servicio-create',
   standalone: true,
@@ -24,6 +25,7 @@ import { Compra } from '../../../models/compra/compra.model';
   styleUrl: './compra-servicio-create.component.scss',
 })
 export class CompraServicioCreateComponent {
+  @ViewChild('modalCrearServicio') modalCrearServicio!: ElementRef;
   // servicios
   servicios: Servicio[] = [];
   serviciosFiltrados: Servicio[] = [];
@@ -47,7 +49,7 @@ export class CompraServicioCreateComponent {
   mostrarModal: boolean = false;
   //proveedorAEliminarId: number | null = null;
 
-  compraID: number | null = null;
+  //compraID: number | null = null;
 
   proveedorID: number | null = null;
   total: number | null = null;
@@ -90,6 +92,14 @@ export class CompraServicioCreateComponent {
 
   ///////////////////////////////////////////////////////////
 
+  nuevoServicio: Servicio = {
+    codigoServicio: '',
+    nombre: '',
+    descripcion: '',
+    precioUnitario: 0,
+    duracionEstimada: 0,
+  };
+
   constructor(
     private servicioService: ServicioService,
     private proveedorService: ProveedorService,
@@ -106,6 +116,55 @@ export class CompraServicioCreateComponent {
   }
 
   //SERVICIOS
+
+  //Crear Servicio
+  validarYCrearServicio(form: any): void {
+    if (form.invalid) {
+      alert('Todos los campos son obligatorios!!!');
+      console.warn('Formulario inválido');
+      return;
+    }
+    this.crearServicio();
+    console.log('Servicio creado: crearServicio');
+    this.cerrarModalCrearServicio();
+    console.log('Servicio creado: cerrarModalCrearServicio');
+    this.obtenerServicios();
+    console.log('Servicio creado: obtenerServicio');
+    this.limpiarFormularioServicio(form);
+    console.log('Servicio creado: limpiarFormularioServicio');
+  }
+
+  crearServicio(): void {
+    this.servicioService.crearServicio(this.nuevoServicio).subscribe({
+      next: (servicioCreado) => {
+        console.log('Servicio creado:', servicioCreado);
+        //this.servicio.push(servicioCreado);
+      },
+      error: (err) => {
+        console.error('Error al crear el material:', err);
+      },
+    });
+  }
+
+  limpiarFormularioServicio(form: any): void {
+    form.resetForm(); // limpia formulario
+    this.nuevoServicio = {
+      codigoServicio: '',
+      nombre: '',
+      descripcion: '',
+      precioUnitario: 0,
+      duracionEstimada: 0,
+    };
+  }
+
+  cerrarModalCrearServicio(): void {
+    const modal = bootstrap.Modal.getInstance(
+      this.modalCrearServicio.nativeElement
+    );
+    modal.hide(); // Cierra el modal
+  }
+
+  // Obtener Servicios
   obtenerServicios(): void {
     this.servicioService.obtenerServicios().subscribe((data) => {
       this.servicios = data;
@@ -152,7 +211,7 @@ export class CompraServicioCreateComponent {
     this.serviciosPaginados = paginacion.paginatedData;
   }
 
-  //PROVEEDOR Proveedores proveedor proveedores
+  //Proveedore
   obtenerProveedores(): void {
     this.proveedorService
       .obtenerProveedoresPorTipoServicio()
@@ -253,7 +312,6 @@ export class CompraServicioCreateComponent {
     } else {
       this.cargarCompra();
       this.crearCompra();
-      this.vaciarCarrito();
       alert('Compra registrada correctamente');
       this.router.navigate(['/compra']);
     }
@@ -261,21 +319,7 @@ export class CompraServicioCreateComponent {
 
   cargarCompra() {
     this.compra.total = this.total!;
-    this.compra.proveedorId = this.proveedorID!;
-
-    this.compra.proveedor.id = this.proveedorSeleccionado.id!;
-    this.compra.proveedor.ciudad = this.proveedorSeleccionado.ciudad;
-    this.compra.proveedor.correo = this.proveedorSeleccionado.correo;
-    this.compra.proveedor.direccion = this.proveedorSeleccionado.direccion;
-    this.compra.proveedor.empresa = this.proveedorSeleccionado.empresa;
-    this.compra.proveedor.estado = this.proveedorSeleccionado.estado;
-    this.compra.proveedor.nitCi = this.proveedorSeleccionado.nitCi;
-    this.compra.proveedor.nombreCompleto =
-      this.proveedorSeleccionado.nombreCompleto;
-    this.compra.proveedor.pais = this.proveedorSeleccionado.pais;
-    this.compra.proveedor.telefono = this.proveedorSeleccionado.telefono;
-    this.compra.proveedor.tipoProveedor =
-      this.proveedorSeleccionado.tipoProveedor;
+    this.compra.proveedor = this.proveedorSeleccionado;
   }
 
   compraNueva!: Compra;
@@ -317,12 +361,8 @@ export class CompraServicioCreateComponent {
     });
   }
 
-  irACrearCompra() {
-    // Navegar a formulario de creación de compra
-    console.log('Navegar a crear compra');
-  }
-
-  irACompras(): void {
+  // Otros Metodos
+  volverACompras(): void {
     this.router.navigate(['/compra']);
   }
 

@@ -1,0 +1,207 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <div class="container">
+              <div class="col-12 col-md-6">
+                <h5 class="mb-3">Detalle de la Compra</h5>
+              </div>
+              <div class="row mb-4">
+                <div class="col-md-6">
+                  <div class="card bg-light p-3 h-100">
+                    <h6 class="mb-3">Información de la Compra</h6>
+                    <p>
+                      <strong
+                        ><i class="bi bi-receipt me-2"></i> ID de
+                        Compra:</strong
+                      >
+                      #12345
+                    </p>
+                    <p>
+                      <strong
+                        ><i class="bi bi-calendar me-2"></i> Fecha:</strong
+                      >
+                      15/06/2025
+                    </p>
+                    <p>
+                      <strong
+                        ><i class="bi bi-person me-2"></i> Cliente:</strong
+                      >
+                      Juan Pérez
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card bg-light p-3 h-100">
+                    <h6 class="mb-3">Detalles de Pago</h6>
+                    <p>
+                      <strong
+                        ><i class="bi bi-currency-dollar me-2"></i>
+                        Total:</strong
+                      >
+                      $100.00
+                    </p>
+                    <p>
+                      <strong
+                        ><i class="bi bi-credit-card me-2"></i> Método de
+                        Pago:</strong
+                      >
+                      Tarjeta de Crédito
+                    </p>
+                    <p>
+                      <strong
+                        ><i class="bi bi-check-circle me-2"></i> Estado:</strong
+                      >
+                      <span class="badge bg-success">Pagado</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <h6 class="mt-4 mb-3 border-bottom pb-2">
+                <i class="bi bi-cart me-2"></i> Productos
+              </h6>
+              <div class="table-responsive">
+                <table
+                  class="table table-striped table-hover table-bordered"
+                  id="purchase-table"
+                >
+                  <thead class="table-primary">
+                    <tr>
+                      <th>Producto</th>
+                      <th class="text-center">Cantidad</th>
+                      <th class="text-end">Precio Unitario</th>
+                      <th class="text-end">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Producto A</td>
+                      <td class="text-center">2</td>
+                      <td class="text-end">$20.00</td>
+                      <td class="text-end">$40.00</td>
+                    </tr>
+                    <tr>
+                      <td>Producto B</td>
+                      <td class="text-center">1</td>
+                      <td class="text-end">$60.00</td>
+                      <td class="text-end">$60.00</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th colspan="3" class="text-end">Total:</th>
+                      <th class="text-end">$100.00</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+              <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-primary" (click)="volverACompras()">
+                  <i class="bi bi-arrow-left me-2"></i>Volver
+                </a>
+                <div class="btn-group">
+                  <button
+                    hidden
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="volverACompras()"
+                  >
+                    <i class="bi bi-file-excel me-2"></i>Volver
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    (click)="exportToExcel()"
+                  >
+                    <i class="bi bi-file-excel me-2"></i>Excel
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="exportToPDF()"
+                  >
+                    <i class="bi bi-file-pdf me-2"></i>PDF
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="print()"
+                  >
+                    <i class="bi bi-printer me-2"></i>Imprimir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contenido normal de la página -->
+<div class="print-content d-none">
+  <!-- Este div será lo que se imprima -->
+  <div class="boleta-container p-4">
+    <div class="text-center mb-4">
+      <h3 class="mb-0">Tienda XYZ</h3>
+      <p class="mb-0">Av. Principal 123 - Tel: 555-1234</p>
+      <h4 class="mt-3">COMPROBANTE DE COMPRA</h4>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-6">
+        <p><strong>N° Compra:</strong> #12345</p>
+        <p><strong>Fecha:</strong> 15/06/2025</p>
+      </div>
+      <div class="col-6 text-end">
+        <p><strong>Cliente:</strong> Juan Pérez</p>
+      </div>
+    </div>
+
+    <table class="table table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>Producto</th>
+          <th class="text-center">Cantidad</th>
+          <th class="text-end">P. Unitario</th>
+          <th class="text-end">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Producto A</td>
+          <td class="text-center">2</td>
+          <td class="text-end">$20.00</td>
+          <td class="text-end">$40.00</td>
+        </tr>
+        <tr>
+          <td>Producto B</td>
+          <td class="text-center">1</td>
+          <td class="text-end">$60.00</td>
+          <td class="text-end">$60.00</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="3" class="text-end">TOTAL:</th>
+          <th class="text-end">$100.00</th>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="mt-4 text-center">
+      <p>¡Gracias por su compra!</p>
+      <p class="text-muted">Este comprobante no es válido como factura</p>
+    </div>
+  </div>
+</div>
+
+<!-- Botón de impresión -->
+<button hidden type="button" class="btn btn-secondary" (click)="print()">
+  <i class="bi bi-printer me-2"></i>Imprimir
+</button>
