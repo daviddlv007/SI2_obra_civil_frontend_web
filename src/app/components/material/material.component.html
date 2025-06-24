@@ -13,7 +13,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Encabezado -->
   <section class="encabezado">
     <h2>Gestión de Materiales</h2>
@@ -29,7 +29,7 @@
       </button>
     </div>
   </section>
-  
+
   <!-- Tabla de Materiales -->
   <table>
     <thead>
@@ -49,7 +49,7 @@
         <td>{{ m.codigoInventario }}</td>
         <td>{{ m.nombre }}</td>
         <td>{{ m.unidadMedida }}</td>
-        <td>{{ m.precioUnitario | currency:'USD':'symbol':'1.2-2' }}</td>
+        <td>{{ m.precioUnitario }}</td>
         <td>{{ m.stockActual }}</td>
         <td>{{ m.stockMinimo }}</td>
         <td>{{ m.categoria || 'N/A' }}</td>
@@ -60,11 +60,14 @@
           <button class="btn-eliminar" (click)="confirmarEliminarMaterial(m.id ?? 0)">
             <i class="fa fa-trash"></i> Eliminar
           </button>
+          <button class="btn mt-2 btn-reporte" (click)="generarReporteMaterial(m.id!)">
+            <i class="bi bi-file-earmark-text"></i> Generar Reporte
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
-  
+
   <!-- Paginación -->
   <div class="paginacion">
     <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">
@@ -75,4 +78,3 @@
       Siguiente →
     </button>
   </div>
-  

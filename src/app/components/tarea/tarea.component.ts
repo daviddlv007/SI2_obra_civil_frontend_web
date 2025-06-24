@@ -13,7 +13,7 @@ import { ServicioTareaService } from '../../services/servicio-tarea/servicio-tar
 import { ServicioTarea } from '../../models/servicio-tarea/servicio-tarea.model';
 import { EmpleadoTarea } from '../../models/empleado-tarea/empleado-tarea.model';
 import { EmpleadoTareaService } from '../../services/empleado-tarea/empleado-tarea.service';
-import { EquipoTarea } from '../../models/equipo-tarea/equipo-tarea.mode';
+import { EquipoTarea } from '../../models/equipo-tarea/equipo-tarea.model';
 import { EquipoTareaService } from '../../services/equipo-tarea/equipo-tarea.service';
 import { MaterialTareaService } from '../../services/material-tarea/material-tarea.service';
 import { MaterialTarea } from '../../models/material-tarea/material-tarea.model';
@@ -153,6 +153,7 @@ export class TareaComponent {
   verEmpleadosPorTarea(idTarea: number): void {
     this.empleadoTareaService.obtenerEmpleadoTareas().subscribe((data) => {
       this.empleadosTarea = data.filter(et => et.tarea?.id === idTarea);
+      console.log('Respuesta equipos:', this.serviciosTarea);
       this.mostrarModalEmpleados = true;
     });
   }

@@ -80,6 +80,8 @@ selectedMateriales: { id: number; cantidad: number }[] = [];
           fechaInicio: data.fechaInicio.split('T')[0],
           fechaFin: data.fechaFin.split('T')[0]
         };
+
+
       });
     }
 

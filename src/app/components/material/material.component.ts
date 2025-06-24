@@ -112,4 +112,8 @@ export class MaterialComponent {
     );
     this.materialesPaginados = paginacion.paginatedData;
   }
+
+    generarReporteMaterial(id: number): void {
+    this.router.navigate([`/material-reporte/${id}`]);
+  }
 }

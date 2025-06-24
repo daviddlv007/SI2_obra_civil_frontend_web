@@ -1,0 +1,62 @@
+<div class="reporte-container">
+  <h2 class="titulo-reporte">Reporte de Materiales</h2>
+
+  <form (ngSubmit)="filtrar()" class="formulario">
+    <div class="campo">
+      <label for="categoria">Categoría</label>
+      <select id="categoria" [(ngModel)]="categoria" name="categoria">
+        <option value="">Todas</option>
+        <option *ngFor="let c of categorias" [value]="c">{{ c }}</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="stockBajo">
+        <input type="checkbox" id="stockBajo" [(ngModel)]="soloBajoStock" name="stockBajo" />
+        Mostrar solo materiales con stock bajo
+      </label>
+    </div>
+
+    <div class="campo boton-filtrar">
+      <button type="submit">Filtrar</button>
+    </div>
+  </form>
+
+  <div class="acciones">
+    <button (click)="exportarExcel()">Exportar a Excel</button>
+    <button (click)="exportarPDF()">Exportar a PDF</button>
+    <button (click)="exportarHTML()">Exportar a HTML</button>
+  </div>
+</div>
+
+<div class="tabla">
+  <div class="tabla-responsive">
+    <table *ngIf="materialesFiltrados.length">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Nombre</th>
+          <th>Unidad</th>
+          <th>Precio Unitario</th>
+          <th>Stock</th>
+          <th>Stock Mínimo</th>
+          <th>Categoría</th>
+          <th>Valor Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of materialesFiltrados">
+          <td>{{ m.codigoInventario }}</td>
+          <td>{{ m.nombre }}</td>
+          <td>{{ m.unidadMedida }}</td>
+          <td>{{ m.precioUnitario | number: '1.2-2' }}</td>
+          <td>{{ m.stockActual }}</td>
+          <td>{{ m.stockMinimo }}</td>
+          <td>{{ m.categoria || '-' }}</td>
+          <td>{{ m.precioUnitario * m.stockActual | number: '1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="!materialesFiltrados.length">No se encontraron materiales con los criterios especificados.</p>
+  </div>
+</div>

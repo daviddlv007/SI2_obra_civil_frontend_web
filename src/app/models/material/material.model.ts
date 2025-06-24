@@ -9,4 +9,3 @@ export interface Material {
     stockMinimo: number;
     categoria?: string;
   }
-  

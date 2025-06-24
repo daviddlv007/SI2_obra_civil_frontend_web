@@ -9,7 +9,7 @@ import { PerroComponent } from './components/perro/perro.component';
 import { PerroCreateComponent } from './components/perro/perro-create/perro-create.component';
 import { PerroUpdateComponent } from './components/perro/perro-update/perro-update.component';
 import { LoginComponent } from './components/auth/login/login.component';
-import { AuthGuard } from './guards/auth/auth.guard';
+//import { AuthGuard } from './guards/auth/auth.guard'; //descomentae
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
 //USUARIO
@@ -68,6 +68,8 @@ import { ObraCivilGanttComponent } from './components/obra-civil-gantt/obra-civi
 
 import { ObraCivilTareaReporteComponent } from './components/obra-civil-tarea-reporte/obra-civil-tarea-reporte.component';
 
+import { MaterialReporteComponent } from './components/material-reporte/material-reporte.component';
+
 import { ProveedorComponent } from './components/proveedor/proveedor.component';
 import { ProveedorCreateComponent } from './components/proveedor/proveedor-create/proveedor-create.component';
 import { ProveedorUpdateComponent } from './components/proveedor/proveedor-update/proveedor-update.component';
@@ -76,7 +78,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard], //descomentar
     children: [
       { path: 'persona', component: PersonaComponent },
       { path: 'persona-create', component: PersonaCreateComponent },
@@ -153,6 +155,10 @@ export const routes: Routes = [
       {
         path: 'obra-civil-tarea-reporte/:id_obra',
         component: ObraCivilTareaReporteComponent,
+      },
+      {
+        path: 'material-reporte/:id_material',
+        component: MaterialReporteComponent,
       },
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

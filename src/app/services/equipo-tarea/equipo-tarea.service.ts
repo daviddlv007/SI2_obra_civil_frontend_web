@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EquipoTarea } from '../../models/equipo-tarea/equipo-tarea.mode';
+import { EquipoTarea } from '../../models/equipo-tarea/equipo-tarea.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({

@@ -146,3 +146,23 @@ li button:hover {
   text-decoration: underline;  /* Subrayado */
 }
 
+.cantidad-container,
+.precio-container {
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+
+  input {
+    max-width: 120px;
+    text-align: right;
+  }
+}
+
+.boton-eliminar-container {
+  margin-left: auto; // Empuja el botón a la derecha
+  align-self: flex-end; // Alinea el botón abajo con los inputs
+}
+
+
