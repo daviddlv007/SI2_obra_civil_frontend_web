@@ -27,7 +27,7 @@ import { CompraMaterial } from '../../../models/compra-material/compra-material.
   styleUrl: './compra-create.component.scss',
 })
 export class CompraCreateComponent {
-  compra: Compra | null = null;
+  //compra: Compra | null = null;
   // material
   materiales: Material[] = [];
   materialesFiltrados: Material[] = [];
@@ -63,7 +63,46 @@ export class CompraCreateComponent {
   mostrarModal: boolean = false;
   //proveedorAEliminarId: number | null = null;
 
+  compraID: number | null = null;
+
   proveedorID: number | null = null;
+  total: number | null = null;
+
+  proveedorSeleccionado: Proveedor = {
+    id: 0,
+    nombreCompleto: '',
+    nitCi: '',
+    telefono: '',
+    correo: '',
+    direccion: '',
+    ciudad: '',
+    pais: '',
+    empresa: '',
+    tipoProveedor: '',
+    estado: '',
+  };
+
+  hoy = new Date().toISOString().split('T')[0]; // "2025-06-12"
+
+  compra: Compra = {
+    numeroCompra: 0,
+    fecha: this.hoy,
+    total: 0,
+    estadoCompra: 'APROBADO',
+    proveedor: {
+      id: 0,
+      nombreCompleto: '',
+      nitCi: '',
+      telefono: '',
+      correo: '',
+      direccion: '',
+      ciudad: '',
+      pais: '',
+      empresa: '',
+      tipoProveedor: '',
+      estado: '', // Ej: "Activo" o "Inactivo"
+    },
+  };
 
   ///////////////////////////////////////////////////////////
 
@@ -388,7 +427,10 @@ export class CompraCreateComponent {
   }
 
   calcularTotal(): number {
-    return this.carrito.reduce((total, item) => total + item.subtotal, 0);
+    let tot = this.carrito.reduce((total, item) => total + item.subtotal, 0);
+    this.total = tot;
+    //return this.carrito.reduce((total, item) => total + item.subtotal, 0);
+    return tot;
   }
 
   vaciarCarrito() {
@@ -410,9 +452,107 @@ export class CompraCreateComponent {
 
   confirmarCompra() {
     // Aquí iría la lógica para guardar la compra
+
     console.log('Compra confirmada:', this.carrito);
-    alert('Compra registrada correctamente');
+    console.log('Total:', this.total);
+    console.log('IDProveedor:', this.proveedorID);
+    this.cargarCompra();
+    this.crearCompra();
+    //alert('Compra registrada correctamente');
     //this.vaciarCarrito();
+  }
+
+  cargarCompra() {
+    this.compra.total = this.total!;
+    this.compra.proveedorId = this.proveedorID!;
+
+    this.compra.proveedor.id = this.proveedorSeleccionado.id!;
+    this.compra.proveedor.ciudad = this.proveedorSeleccionado.ciudad;
+    this.compra.proveedor.correo = this.proveedorSeleccionado.correo;
+    this.compra.proveedor.direccion = this.proveedorSeleccionado.direccion;
+    this.compra.proveedor.empresa = this.proveedorSeleccionado.empresa;
+    this.compra.proveedor.estado = this.proveedorSeleccionado.estado;
+    this.compra.proveedor.nitCi = this.proveedorSeleccionado.nitCi;
+    this.compra.proveedor.nombreCompleto =
+      this.proveedorSeleccionado.nombreCompleto;
+    this.compra.proveedor.pais = this.proveedorSeleccionado.pais;
+    this.compra.proveedor.telefono = this.proveedorSeleccionado.telefono;
+    this.compra.proveedor.tipoProveedor =
+      this.proveedorSeleccionado.tipoProveedor;
+  }
+
+  compraNueva!: Compra;
+  material!: Material;
+
+  crearCompra(): void {
+    /*this.compraService.crearCompra(this.compra).subscribe(() => {
+      this.router.navigate(['/compra']); // Redirige al componente principal después de crear
+    });*/
+    /*this.compraService.crearCompra(this.compra).subscribe((nuevaCompra) => {
+      this.compraID =
+        typeof nuevaCompra === 'object' ? nuevaCompra.id! : nuevaCompra!;
+      console.log('ID de la nueva compra:', this.compraID);
+
+      // Ejemplo: redirigir a la vista de detalle de esa compra
+      //this.router.navigate(['/compra']);
+    });*/
+
+    /*this.compraService
+      .crearCompra(this.compra)
+      .subscribe((compraCreada: Compra) => {
+        this.compraNueva = compraCreada;
+
+        console.log('Compra creada:', this.compraNueva);
+        // Por ejemplo, navegar o usarla en otra parte
+        //this.router.navigate(['/permiso']);
+      });*/
+    //this.cargarCompra();
+    this.compraService.crearCompra(this.compra).subscribe((compraCreada) => {
+      this.compraNueva = compraCreada;
+
+      // Por cada item del carrito, crea una CompraMaterial
+      this.carrito.forEach((item) => {
+        /*this.material.id = item.id;
+        this.material.codigoInventario = item.codigoInventario;
+        this.material.nombre = item.nombre;
+        this.material.descripcion = item.descripcion;
+        this.material.unidadMedida = item.unidadMedida;
+        this.material.precioUnitario = item.precioUnitario;
+        this.material.stockActual = item.stockActual;
+        this.material.stockMinimo = item.stockMinimo;
+        this.material.categoria = item.categoria;*/
+
+        const material: Material = {
+          id: item.id,
+          codigoInventario: item.codigoInventario,
+          nombre: item.nombre,
+          descripcion: item.descripcion,
+          unidadMedida: item.unidadMedida,
+          precioUnitario: item.precioUnitario,
+          stockActual: item.stockActual,
+          stockMinimo: item.stockMinimo,
+          categoria: item.categoria,
+        };
+
+        const compraMaterial = {
+          compra: this.compraNueva,
+          material: material,
+          precioUnitario: item.precioUnitario,
+          cantidad: item.cantidad,
+          subTotal: item.subtotal,
+        };
+
+        this.compraMaterialService
+          .crearCompraMaterial(compraMaterial)
+          .subscribe(() => {
+            console.log('CompraMaterial creada para material', item.nombre);
+          });
+      });
+
+      console.log('Compra creada:', this.compraNueva);
+      // Por ejemplo, navegar o usarla en otra parte
+      //this.router.navigate(['/permiso']);
+    });
   }
 
   irACrearCompra() {
@@ -432,6 +572,16 @@ export class CompraCreateComponent {
   seleccionarProveedorID(id: number): void {
     //this.permisoAEliminarId = id; // Guardamos el id de la Permiso a eliminar
     this.proveedorID = id; // Mostramos el modal
+    this.obtenerProveedorPorId(id);
+  }
+
+  //proveedorSeleccionado(proveedorr: Proveedor) {
+  //
+  //}
+  obtenerProveedorPorId(id: number): void {
+    this.proveedorService.obtenerProveedorPorId(id).subscribe((data) => {
+      this.proveedorSeleccionado = data;
+    });
   }
 
   proveedorConfirmado(): void {

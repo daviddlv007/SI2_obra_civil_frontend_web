@@ -25,7 +25,7 @@ export class CompraListComponent {
   textoBusqueda: string = '';
   //estadoSeleccionado: string = 'Todos'; // Nuevo
   paginaActual: number = 1;
-  elementosPorPagina: number = 5;
+  elementosPorPagina: number = 6;
   totalPaginas: number = 0;
   //mostrarModal: boolean = false;
   //proveedorAEliminarId: number | null = null;
@@ -43,11 +43,30 @@ export class CompraListComponent {
 
   //COMPRAS
   obtenerCompras(): void {
-    this.compraService.obtenerCompras().subscribe((data) => {
+    this.compraService.obtenerComprasDesc().subscribe((data) => {
       console.log('Compras', data);
       this.compras = data;
       this.filtrarcCompras();
     });
+  }
+
+  cambiarEstado(id: number, nuevoEstado: string): void {
+    if (
+      confirm(
+        `¿Estás seguro de cambiar el estado a ${nuevoEstado.toLowerCase()}?`
+      )
+    ) {
+      this.compraService.cambiarEstadoCompra(id, nuevoEstado).subscribe({
+        next: () => {
+          // Actualizar la lista de compras
+          this.obtenerCompras();
+        },
+        error: (err) => {
+          console.error('Error al cambiar el estado:', err);
+        },
+      });
+      //console.log('Nuevo estado:', nuevoEstado);
+    }
   }
 
   filtrarcCompras(): void {
@@ -97,19 +116,36 @@ export class CompraListComponent {
     this.router.navigate(['/compra-create']);
   }
 
-  irAVerDetalleCompra(id: number): void {
+  irACrearCompraMaterial(): void {
+    this.router.navigate(['/compra-material-create']);
+  }
+
+  irACrearCompraEquipo(): void {
+    this.router.navigate(['/compra-equipo-create']);
+  }
+
+  irACrearCompraServicio(): void {
+    this.router.navigate(['/compra-servicio-create']);
+  }
+
+  irAVerDetalleCompra(id: number, tipo: string): void {
     console.log('Navegar a detalle compra');
-    //this.router.navigate([`/empleado-update/${id}`]);
+    this.router.navigate([`/compra-detalle/${id}/${tipo}`]);
   }
 
   irAEditarCompra(id: number): void {
     console.log('Navegar a editar compra');
-    //this.router.navigate([`/empleado-update/${id}`]);
+    this.router.navigate([`/compra-update/${id}`]);
   }
 
   confirmarEliminarCompra(id: number): void {
     //this.empleadoAEliminarId = id;
     //this.mostrarModal = true;
     console.log('Navegar a eliminar compra');
+  }
+
+  // Reportes
+  irAReportes(): void {
+    this.router.navigate(['/compra-reportes']);
   }
 }

@@ -1,0 +1,72 @@
+<!-- src/app/components/estimacion/estimacion.component.html -->
+
+<div class="estimacion-container">
+  <h2>Calculadora de Costos de Obra</h2>
+
+  <form (ngSubmit)="submitEstimacion()">
+    <div class="form-group">
+      <label for="superficie">Superficie (m²):</label>
+      <input
+        type="number"
+        id="superficie"
+        name="superficie"
+        [(ngModel)]="superficieM2"
+        min="0"
+        required
+      />
+    </div>
+
+    <div *ngFor="let pc of parametrosConfig" class="form-group">
+      <label [for]="pc.key">{{ pc.label }}:</label>
+      <select
+        [id]="pc.key"
+        name="{{ pc.key }}"
+        [(ngModel)]="parametros[pc.key]"
+        required
+      >
+        <option *ngFor="let opt of pc.options" [value]="opt.value">
+          {{ opt.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="cargando">
+        {{ cargando ? 'Calculando...' : 'Calcular Estimación' }}
+      </button>
+    </div>
+
+    <div *ngIf="errorMsg" class="error-msg">
+      {{ errorMsg }}
+    </div>
+  </form>
+
+  <div *ngIf="respuesta" class="resultado" style="margin-top: 2rem;">
+    <h3>Resultado de la Estimación</h3>
+    <p><strong>Costo por m²:</strong> {{ respuesta.costoPorM2 | number:'1.2-2' }} USD</p>
+    <p><strong>Costo total:</strong> {{ respuesta.costoTotal | number:'1.2-2' }} USD</p>
+
+    <h4>Detalle:</h4>
+    <table class="detalle-table" border="1" cellpadding="4" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Concepto</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of respuesta.detalle | keyvalue">
+          <td>{{ entry.key }}</td>
+          <td>{{ entry.value | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="export-buttons" style="margin-top: 1rem;">
+      <button (click)="exportarExcel()" type="button">Exportar a Excel</button>
+      <button (click)="exportarPDF()" type="button" style="margin-left: 0.5rem;">
+        Exportar a PDF
+      </button>
+    </div>
+  </div>
+</div>

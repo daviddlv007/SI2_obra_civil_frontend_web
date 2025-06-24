@@ -5,5 +5,5 @@ export interface Servicio {
   descripcion?: string;
   precioUnitario?: number;
   duracionEstimada?: number;
-}
 
+}

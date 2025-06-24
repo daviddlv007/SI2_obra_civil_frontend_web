@@ -1,0 +1,226 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <!---->
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <div class="container">
+              <div class="col-12 col-md-6">
+                <h5 class="mb-3">Reportes de Compras</h5>
+              </div>
+              <!-- Filtros -->
+              <div class="row mb-4 g-3">
+                <div class="col-md-3">
+                  <label class="form-label">Fecha Inicio</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    [(ngModel)]="filtros.fechaInicio"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Fecha Fin</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    [(ngModel)]="filtros.fechaFin"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Tipo</label>
+                  <select class="form-select" [(ngModel)]="filtros.tipo">
+                    <option value="">Todos</option>
+                    <option value="MATERIAL">Material</option>
+                    <option value="EQUIPO">Equipo</option>
+                    <option value="SERVICIO">Servicio</option>
+                  </select>
+                </div>
+                <!--<div class="col-md-3">
+                  <label class="form-label">Estado</label>
+                  <select class="form-select" [(ngModel)]="filtros.estado">
+                    <option value="">Todos</option>
+                    <option value="PENDIENTE">Pendiente</option>
+                    <option value="APROBADO">Aprobado</option>
+                    <option value="CANCELADA">Cancelada</option>
+                  </select>
+                </div>-->
+                <div class="col-md-3 d-flex align-items-end gap-2">
+                  <button class="btn btn-primary" (click)="generarReporte()">
+                    <i class="bi bi-filter-circle"></i> Generar
+                  </button>
+                  <button
+                    class="btn btn-success"
+                    (click)="exportarExcel()"
+                    [disabled]="!reporteGenerado"
+                  >
+                    <i class="bi bi-file-earmark-excel"></i> Excel
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    (click)="exportarPDF()"
+                    [disabled]="!reporteGenerado"
+                  >
+                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                  </button>
+                </div>
+              </div>
+
+              <!--<div class="row mb-4 g-3">
+                <div class="col-md-3 d-flex align-items-end gap-2">
+                  <button class="btn btn-primary" (click)="generarReporte()">
+                    <i class="bi bi-filter-circle"></i> Generar
+                  </button>
+                  <button
+                    class="btn btn-success"
+                    (click)="exportarExcel()"
+                    [disabled]="!reporteGenerado"
+                  >
+                    <i class="bi bi-file-earmark-excel"></i> Excel
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    (click)="exportarPDF()"
+                    [disabled]="!reporteGenerado"
+                  >
+                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                  </button>
+                </div>
+              </div>-->
+
+              <!-- Resultados -->
+              <div *ngIf="reporteGenerado">
+                <!-- Resumen -->
+                <div class="row mb-4">
+                  <div class="col-md-4">
+                    <div class="card bg-light">
+                      <div class="card-body text-center">
+                        <h6>Total Gastado</h6>
+                        <h3 class="text-primary">
+                          {{ resumen.totalGastado | currency }}
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card bg-light">
+                      <div class="card-body text-center">
+                        <h6>Compras Aprobadas</h6>
+                        <h3 class="text-success">
+                          {{ resumen.comprasAprobadas }}
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card bg-light">
+                      <div class="card-body text-center">
+                        <h6>Compras Canceladas</h6>
+                        <h3 class="text-danger">
+                          {{ resumen.comprasCanceladas }}
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Gráfico -->
+                <!--<div
+                  
+                  class="chart-container mb-4 p-3 border rounded"
+                  style="
+                    height: 400px;
+                    background-color: white;
+                    position: relative;
+                  "
+                >
+                  <google-chart
+                    *ngIf="reporteGenerado && graficoData.length > 1"
+                    [type]="type"
+                    [data]="graficoData"
+                    [options]="graficoOptions"
+                    [dynamicResize]="true"
+                    style="display: block; width: 100%; height: 100%"
+                  ></google-chart>
+
+                  <div
+                    *ngIf="!reporteGenerado"
+                    class="text-center p-4 text-muted"
+                  >
+                    <i class="bi bi-pie-chart" style="font-size: 2rem"></i>
+                    <p class="mt-2">
+                      Genera un reporte para visualizar el gráfico
+                    </p>
+                  </div>
+                </div>-->
+
+                <div
+                  class="chart-container mb-4 p-3 border rounded"
+                  style="height: 400px; width: 1000px; background-color: white"
+                >
+                  <google-chart
+                    *ngIf="reporteGenerado && chart.data.length > 0"
+                    [type]="chart.type"
+                    [data]="chart.data"
+                    [columns]="chart.columns"
+                    [options]="chart.options"
+                    [dynamicResize]="true"
+                    style="display: block; width: 100%; height: 100%"
+                  ></google-chart>
+
+                  <div
+                    *ngIf="!reporteGenerado"
+                    class="text-center p-4 text-muted"
+                  >
+                    <i class="bi bi-pie-chart" style="font-size: 2rem"></i>
+                    <p class="mt-2">
+                      Genera un reporte para visualizar el gráfico
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Tabla -->
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                      <tr>
+                        <th>N° Compra</th>
+                        <th>Fecha</th>
+                        <th>Proveedor</th>
+                        <th>Tipo</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let c of comprasFiltradas">
+                        <td>{{ c.numeroCompra }}</td>
+                        <td>{{ c.fecha | date : "dd/MM/yyyy" }}</td>
+                        <td>{{ c.proveedor.nombreCompleto }}</td>
+                        <td>{{ c.proveedor.tipoProveedor }}</td>
+                        <td class="text-end">{{ c.total | currency }}</td>
+                        <td>
+                          <span
+                            [ngClass]="{
+                              'badge bg-success': c.estadoCompra === 'APROBADO',
+                              'badge bg-warning':
+                                c.estadoCompra === 'PENDIENTE',
+                              'badge bg-danger': c.estadoCompra === 'CANCELADA'
+                            }"
+                          >
+                            {{ c.estadoCompra }}
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!---->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

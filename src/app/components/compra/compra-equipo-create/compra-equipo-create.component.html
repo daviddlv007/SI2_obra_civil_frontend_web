@@ -1,0 +1,475 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <!-- Título y Botón para Crear Nueva Compra -->
+            <div class="row mb-3">
+              <div class="col-12 col-md-6">
+                <h4 class="m-0">Compra de Equipos</h4>
+              </div>
+              <div class="col-12 col-md-6 text-md-end">
+                <button
+                  class="btn btn-secondary me-2"
+                  (click)="volverACompras()"
+                >
+                  <i class="bi bi-arrow-left"></i> Volver
+                </button>
+                <button
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                >
+                  <i class="bi bi-plus-circle"></i> Crear Equipo
+                </button>
+              </div>
+            </div>
+
+            <!-- Equipos -->
+            <div>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar equipos..."
+                  [(ngModel)]="textoBusqueda"
+                  (input)="filtrarEquipos()"
+                />
+              </div>
+
+              <div style="max-height: 400px; overflow-y: auto">
+                <table class="table table-bordered table-striped">
+                  <thead class="table-primary">
+                    <tr>
+                      <th>Cód. Activo</th>
+                      <th>Nombre</th>
+                      <th>Tipo</th>
+                      <th>Precio Unitario</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let e of equiposFiltrados">
+                      <td>{{ e.codigoActivo }}</td>
+                      <td>{{ e.nombre }}</td>
+                      <td>{{ e.tipoEquipo }}</td>
+                      <td>{{ e.precioUnitario | currency }}</td>
+                      <td class="text-center">
+                        <button
+                          class="btn btn-primary btn-sm me-1"
+                          (click)="agregarACarrito(e, 'equipo')"
+                        >
+                          <i class="bi bi-cart-plus"></i> Comprar
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- Paginación -->
+              <div hidden class="paginacion">
+                <button
+                  (click)="cambiarPaginaEquipos('previous')"
+                  [disabled]="paginaActual === 1"
+                >
+                  ← Anterior
+                </button>
+                <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+                <button
+                  (click)="cambiarPaginaEquipos('next')"
+                  [disabled]="paginaActual === totalPaginas"
+                >
+                  Siguiente →
+                </button>
+              </div>
+            </div>
+
+            <!-- Seleccionar Proveedor -->
+            <div class="col-12 text-md-end" *ngIf="carrito.length > 0">
+              <button
+                class="btn btn-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#proveedorModal"
+                (click)="seleccionarProveedor()"
+              >
+                <i class="bi bi-check-circle"></i> Seleccionar proveedor
+              </button>
+            </div>
+
+            <!-- Carrito de compras -->
+            <div class="card mt-4" *ngIf="carrito.length > 0">
+              <div class="card-header bg-primary text-white">
+                <h6 class="m-0">
+                  <i class="bi bi-cart"></i> Carrito de Compras
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Tipo</th>
+                        <th>Item</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of carrito; let i = index">
+                        <td>{{ item.tipo | titlecase }}</td>
+                        <td>{{ item.nombre }}</td>
+                        <td>
+                          <input
+                            type="number"
+                            class="form-control form-control-sm"
+                            style="width: 80px"
+                            min="1"
+                            [(ngModel)]="item.cantidad"
+                            (change)="actualizarSubtotal(item)"
+                          />
+                        </td>
+                        <td>{{ item.precioUnitario | currency }}</td>
+                        <td>{{ item.subtotal | currency }}</td>
+                        <td class="text-center">
+                          <button
+                            class="btn btn-danger btn-sm"
+                            (click)="eliminarDelCarrito(i)"
+                          >
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="4" class="text-end fw-bold">Total:</td>
+                        <td colspan="2" class="fw-bold">
+                          {{ calcularTotal() | currency }}
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="d-flex justify-content-end mt-3">
+                  <button
+                    class="btn btn-success me-2"
+                    (click)="confirmarCompra()"
+                  >
+                    <i class="bi bi-check-circle"></i> Confirmar Compra
+                  </button>
+                  <button class="btn btn-secondary" (click)="vaciarCarrito()">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal de Proveedor -->
+<div
+  class="modal fade"
+  id="proveedorModal"
+  tabindex="-1"
+  aria-labelledby="proveedorModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="proveedorModalLabel">
+          Seleccione un Proveedor
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Proveedor -->
+        <div
+          class="tab-pane fade show active"
+          id="proveedor"
+          role="tabpanel"
+          aria-labelledby="material-tab"
+        >
+          <div class="mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar proveedor..."
+              [(ngModel)]="textoBusqueda"
+              (input)="filtrarProveedores()"
+            />
+          </div>
+
+          <div
+            *ngIf="proveedorID != null"
+            class="alert alert-success"
+            role="alert"
+          >
+            Proveedor seleccionado: {{ proveedorID }}
+          </div>
+
+          <div style="max-height: 400px; overflow-y: auto">
+            <table class="table table-bordered table-striped">
+              <thead class="table-primary">
+                <tr>
+                  <th>ID</th>
+                  <th>Proveedor</th>
+                  <th>Tipo</th>
+                  <th class="text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let p of proveedoresFiltrados">
+                  <td>{{ p.id }}</td>
+                  <td>{{ p.empresa }}</td>
+                  <td>
+                    <span
+                      class="badge rounded-pill"
+                      [ngClass]="{
+                        'bg-primary text-white': p.tipoProveedor === 'MATERIAL',
+                        'bg-info text-dark': p.tipoProveedor === 'EQUIPO',
+                        'bg-success text-white': p.tipoProveedor === 'SERVICIO',
+                        'bg-secondary text-white': p.tipoProveedor === 'OTROS'
+                      }"
+                    >
+                      {{ p.tipoProveedor?.toLowerCase() }}
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <button
+                      class="btn btn-outline-success btn-sm me-1"
+                      (click)="seleccionarProveedorID(p.id ?? 0)"
+                    >
+                      <i class="bi bi-check"></i> OK
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Paginación -->
+          <div hidden class="paginacion">
+            <button
+              (click)="cambiarPaginaProveedores('previous')"
+              [disabled]="paginaActual === 1"
+            >
+              ← Anterior
+            </button>
+            <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+            <button
+              (click)="cambiarPaginaProveedores('next')"
+              [disabled]="paginaActual === totalPaginas"
+            >
+              Siguiente →
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle mr-1"></i>
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="proveedorConfirmado()"
+          data-bs-dismiss="modal"
+        >
+          <i class="bi bi-check-circle mr-1"></i>
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Crear Equipo-->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+  #modalCrearEquipo
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form #form="ngForm" (ngSubmit)="validarYCrearEquipo(form)">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            Registrar Equipo
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            (click)="limpiarFormularioEquipo(form)"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Código Activo -->
+          <div class="mb-3">
+            <label for="codigoActivo" class="form-label">Código Activo</label>
+            <input
+              type="text"
+              id="codigoActivo"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.codigoActivo"
+              name="codigoActivo"
+              required
+              #codigoActivo="ngModel"
+            />
+            <div
+              class="text-danger"
+              *ngIf="codigoActivo.invalid && codigoActivo.touched"
+            >
+              Este campo es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input
+              type="text"
+              id="nombre"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.nombre"
+              name="nombre"
+              required
+              #nombre="ngModel"
+            />
+            <div class="text-danger" *ngIf="nombre.invalid && nombre.touched">
+              Este campo es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea
+              id="descripcion"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.descripcion"
+              name="descripcion"
+              required
+              #descripcion="ngModel"
+            ></textarea>
+            <div
+              class="text-danger"
+              *ngIf="descripcion.invalid && descripcion.touched"
+            >
+              Este campo es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="unidadMedida" class="form-label"
+              >Unidad de Medida</label
+            >
+            <input
+              type="text"
+              id="unidadMedida"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.unidadMedida"
+              name="unidadMedida"
+              required
+              #unidadMedida="ngModel"
+            />
+            <div
+              class="text-danger"
+              *ngIf="unidadMedida.invalid && unidadMedida.touched"
+            >
+              Este campo es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="tipoEquipo" class="form-label">Tipo de Equipo</label>
+            <input
+              type="text"
+              id="tipoEquipo"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.tipoEquipo"
+              name="tipoEquipo"
+              required
+              #tipoEquipo="ngModel"
+            />
+            <div
+              class="text-danger"
+              *ngIf="tipoEquipo.invalid && tipoEquipo.touched"
+            >
+              Este campo es obligatorio.
+            </div>
+          </div>
+
+          <!-- Precio Unitario -->
+          <div class="mb-3">
+            <label for="precioUnitario" class="form-label"
+              >Precio Unitario</label
+            >
+            <input
+              type="number"
+              id="precioUnitario"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.precioUnitario"
+              name="precioUnitario"
+              required
+              min="0.01"
+              step="0.01"
+              #precioUnitario="ngModel"
+            />
+            <div
+              class="text-danger"
+              *ngIf="precioUnitario.invalid && precioUnitario.touched"
+            >
+              Debe ser mayor a 0.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="fechaAdquisicion" class="form-label"
+              >Fecha de Adquisición</label
+            >
+            <input
+              type="date"
+              id="fechaAdquisicion"
+              class="form-control"
+              [(ngModel)]="nuevoEquipo.fechaAdquisicion"
+              name="fechaAdquisicion"
+              [max]="hoy"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="limpiarFormularioEquipo(form)"
+            data-bs-dismiss="modal"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

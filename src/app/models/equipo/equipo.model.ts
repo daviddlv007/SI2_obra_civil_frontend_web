@@ -1,4 +1,5 @@
 export interface Equipo {
+
     id?: number;                    // autogenerado
     codigoActivo?: string;          // único
     nombre?: string;

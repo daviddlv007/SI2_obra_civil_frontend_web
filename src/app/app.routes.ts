@@ -61,6 +61,13 @@ import { EmpleadoUpdateComponent } from './components/empleado/empleado-update/e
 import { CompraListComponent } from './components/compra/compra-list/compra-list.component';
 import { CompraCreateComponent } from './components/compra/compra-create/compra-create.component';
 
+import { CompraMaterialCreateComponent } from './components/compra/compra-material-create/compra-material-create.component';
+import { CompraEquipoCreateComponent } from './components/compra/compra-equipo-create/compra-equipo-create.component';
+import { CompraServicioCreateComponent } from './components/compra/compra-servicio-create/compra-servicio-create.component';
+
+import { CompraUpdateComponent } from './components/compra/compra-update/compra-update.component';
+import { CompraShowComponent } from './components/compra/compra-show/compra-show.component';
+
 //Dashboard
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
 
@@ -73,6 +80,9 @@ import { MaterialReporteComponent } from './components/material-reporte/material
 import { ProveedorComponent } from './components/proveedor/proveedor.component';
 import { ProveedorCreateComponent } from './components/proveedor/proveedor-create/proveedor-create.component';
 import { ProveedorUpdateComponent } from './components/proveedor/proveedor-update/proveedor-update.component';
+import { CompraReportesComponent } from './components/compra/compra-reportes/compra-reportes.component';
+
+import { EstimacionComponent } from './components/estimacion/estimacion.component';
 
 export const routes: Routes = [
   {
@@ -95,6 +105,21 @@ export const routes: Routes = [
       //COMPRAS
       { path: 'compra', component: CompraListComponent },
       { path: 'compra-create', component: CompraCreateComponent },
+      { path: 'compra-update/:id', component: CompraUpdateComponent },
+      { path: 'compra-detalle/:id/:tipo', component: CompraShowComponent },
+
+      {
+        path: 'compra-material-create',
+        component: CompraMaterialCreateComponent,
+      },
+      { path: 'compra-equipo-create', component: CompraEquipoCreateComponent },
+      {
+        path: 'compra-servicio-create',
+        component: CompraServicioCreateComponent,
+      },
+      //reporte de compra
+      { path: 'compra-reportes', component: CompraReportesComponent },
+
       //USUARIO
       //Backup-Restore
       { path: 'backup-restore', component: BackupComponent },
@@ -160,6 +185,9 @@ export const routes: Routes = [
         path: 'material-reporte/:id_material',
         component: MaterialReporteComponent,
       },
+
+      { path: 'estimacion', component: EstimacionComponent },
+
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],

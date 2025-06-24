@@ -15,9 +15,19 @@
         #nombreCompleto="ngModel"
         class="form-control"
       />
-      <div *ngIf="nombreCompleto.invalid && (nombreCompleto.dirty || nombreCompleto.touched)" class="error-message">
-        <small *ngIf="nombreCompleto.errors?.['required']">Campo obligatorio.</small>
-        <small *ngIf="nombreCompleto.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      <div
+        *ngIf="
+          nombreCompleto.invalid &&
+          (nombreCompleto.dirty || nombreCompleto.touched)
+        "
+        class="error-message"
+      >
+        <small *ngIf="nombreCompleto.errors?.['required']"
+          >Campo obligatorio.</small
+        >
+        <small *ngIf="nombreCompleto.errors?.['minlength']"
+          >Debe tener al menos 2 caracteres.</small
+        >
       </div>
     </div>
 
@@ -33,7 +43,10 @@
         #nitCi="ngModel"
         class="form-control"
       />
-      <div *ngIf="nitCi.invalid && (nitCi.dirty || nitCi.touched)" class="error-message">
+      <div
+        *ngIf="nitCi.invalid && (nitCi.dirty || nitCi.touched)"
+        class="error-message"
+      >
         <small *ngIf="nitCi.errors?.['required']">Campo obligatorio.</small>
       </div>
     </div>
@@ -110,6 +123,32 @@
       />
     </div>
 
+    <!-- Tipos proveedor -->
+    <div class="form-group">
+      <label for="tipoProveedor">Tipo proveedor:</label>
+      <select
+        id="tipoProveedor"
+        [(ngModel)]="proveedor.tipoProveedor"
+        name="tipoProveedor"
+        required
+        #tipoProveedor="ngModel"
+        class="form-control"
+      >
+        <option *ngFor="let e of tiposProveedor" [value]="e">{{ e }}</option>
+      </select>
+      <div
+        *ngIf="
+          tipoProveedor.invalid &&
+          (tipoProveedor.dirty || tipoProveedor.touched)
+        "
+        class="error-message"
+      >
+        <small *ngIf="tipoProveedor.errors?.['required']"
+          >Campo obligatorio.</small
+        >
+      </div>
+    </div>
+
     <!-- Estado -->
     <div class="form-group">
       <label for="estado">Estado:</label>
@@ -123,15 +162,26 @@
       >
         <option *ngFor="let e of estados" [value]="e">{{ e }}</option>
       </select>
-      <div *ngIf="estado.invalid && (estado.dirty || estado.touched)" class="error-message">
+      <div
+        *ngIf="estado.invalid && (estado.dirty || estado.touched)"
+        class="error-message"
+      >
         <small *ngIf="estado.errors?.['required']">Campo obligatorio.</small>
       </div>
     </div>
 
     <!-- Botones -->
     <div class="button-container">
-      <button type="submit" [disabled]="proveedorForm.invalid" class="submit-btn">Actualizar</button>
-      <button type="button" (click)="cancelar()" class="cancel-btn">Cancelar</button>
+      <button
+        type="submit"
+        [disabled]="proveedorForm.invalid"
+        class="submit-btn"
+      >
+        Actualizar
+      </button>
+      <button type="button" (click)="cancelar()" class="cancel-btn">
+        Cancelar
+      </button>
     </div>
   </form>
 </div>

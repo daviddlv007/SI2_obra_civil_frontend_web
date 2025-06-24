@@ -1,7 +1,9 @@
 <!-- Modal de confirmación -->
 <div class="modal" *ngIf="mostrarModal">
   <div class="modal-content animate">
-    <h3><i class="fa fa-exclamation-triangle text-warning"></i> Confirmación</h3>
+    <h3>
+      <i class="fa fa-exclamation-triangle text-warning"></i> Confirmación
+    </h3>
     <p class="modal-message">¿Estás seguro de eliminar este proveedor?</p>
     <div class="modal-buttons">
       <button class="btn-confirmar" (click)="eliminarProveedorConfirmado()">
@@ -46,12 +48,11 @@
     <tr>
       <th>Nombre</th>
       <th>NIT/CI</th>
-      <th>Teléfono</th>
-      <th>Correo</th>
+      <th>Teléfono/Correo</th>
       <th>Dirección</th>
-      <th>Ciudad</th>
-      <th>País</th>
+      <th>Ciudad/País</th>
       <th>Empresa</th>
+      <th>Tipo</th>
       <th>Estado</th>
       <th>Acciones</th>
     </tr>
@@ -60,14 +61,30 @@
     <tr *ngFor="let p of proveedoresPaginados">
       <td>{{ p.nombreCompleto }}</td>
       <td>{{ p.nitCi }}</td>
-      <td>{{ p.telefono || 'N/A' }}</td>
-      <td>{{ p.correo || 'N/A' }}</td>
-      <td>{{ p.direccion || 'N/A' }}</td>
-      <td>{{ p.ciudad || 'N/A' }}</td>
-      <td>{{ p.pais || 'N/A' }}</td>
-      <td>{{ p.empresa || 'N/A' }}</td>
+      <td>{{ p.telefono || "N/A" }}<br />{{ p.correo || "N/A" }}</td>
+      <td>{{ p.direccion || "N/A" }}</td>
+      <td>{{ p.ciudad || "N/A" }}<br />{{ p.pais || "N/A" }}</td>
+      <td>{{ p.empresa || "N/A" }}</td>
       <td>
-        <span [ngClass]="{ 'text-success': p.estado === 'Activo', 'text-danger': p.estado === 'Inactivo' }">
+        <span
+          class="badge rounded-pill"
+          [ngClass]="{
+            'bg-primary text-white': p.tipoProveedor === 'MATERIAL',
+            'bg-info text-dark': p.tipoProveedor === 'EQUIPO',
+            'bg-success text-white': p.tipoProveedor === 'SERVICIO',
+            'bg-secondary text-white': p.tipoProveedor === 'OTROS'
+          }"
+        >
+          {{ p.tipoProveedor?.toLowerCase() }}
+        </span>
+      </td>
+      <td>
+        <span
+          [ngClass]="{
+            'text-success': p.estado === 'Activo',
+            'text-danger': p.estado === 'Inactivo'
+          }"
+        >
           {{ p.estado }}
         </span>
       </td>
@@ -75,7 +92,10 @@
         <button class="btn-editar" (click)="irAEditarProveedor(p.id ?? 0)">
           <i class="fa fa-edit"></i> Editar
         </button>
-        <button class="btn-eliminar" (click)="confirmarEliminarProveedor(p.id ?? 0)">
+        <button
+          class="btn-eliminar"
+          (click)="confirmarEliminarProveedor(p.id ?? 0)"
+        >
           <i class="fa fa-trash"></i> Eliminar
         </button>
       </td>
@@ -85,7 +105,14 @@
 
 <!-- Paginación -->
 <div class="paginacion">
-  <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">← Anterior</button>
+  <button (click)="cambiarPagina('previous')" [disabled]="paginaActual === 1">
+    ← Anterior
+  </button>
   <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
-  <button (click)="cambiarPagina('next')" [disabled]="paginaActual === totalPaginas">Siguiente →</button>
+  <button
+    (click)="cambiarPagina('next')"
+    [disabled]="paginaActual === totalPaginas"
+  >
+    Siguiente →
+  </button>
 </div>
