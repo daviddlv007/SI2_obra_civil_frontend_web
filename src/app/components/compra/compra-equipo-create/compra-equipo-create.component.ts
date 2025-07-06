@@ -333,23 +333,33 @@ export class CompraEquipoCreateComponent {
 
       // Por cada item del carrito, crea una CompraMaterial
       this.carrito.forEach((item) => {
-        const equipo: Equipo = {
+        /*const equipo: Equipo = {
           id: item.id,
-          codigoActivo: item.codigoActivo,
-          nombre: item.nombre,
-          descripcion: item.descripcion,
-          unidadMedida: item.unidadMedida,
-          tipoEquipo: item.tipoEquipo,
-          precioUnitario: item.precioUnitario,
-          fechaAdquisicion: item.fechaAdquisicion,
-        };
+          codigoActivo: item.codigoActivo!,
+          nombre: item.nombre!,
+          descripcion: item.descripcion!,
+          unidadMedida: item.unidadMedida!,
+          tipoEquipo: item.tipoEquipo!,
+          precioUnitario: item.precioUnitario!,
+          fechaAdquisicion: item.fechaAdquisicion!,
+        };*/
 
         const compraEquipo = {
           compra: this.compraNueva,
-          equipo: equipo,
-          precioUnitario: item.precioUnitario,
-          cantidad: item.cantidad,
-          subTotal: item.subtotal,
+          //equipo: equipo,
+          equipo: {
+            id: item.id,
+            codigoActivo: item.codigoActivo!,
+            nombre: item.nombre!,
+            descripcion: item.descripcion,
+            unidadMedida: item.unidadMedida!,
+            tipoEquipo: item.tipoEquipo!,
+            precioUnitario: item.precioUnitario!,
+            fechaAdquisicion: item.fechaAdquisicion!,
+          },
+          precioUnitario: item.precioUnitario!,
+          cantidad: item.cantidad!,
+          subTotal: item.subtotal!,
         };
 
         this.compraEquipoService

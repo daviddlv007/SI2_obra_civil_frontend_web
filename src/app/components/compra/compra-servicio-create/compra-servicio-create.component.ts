@@ -331,18 +331,26 @@ export class CompraServicioCreateComponent {
 
       // Por cada item del carrito, crea una CompraMaterial
       this.carrito.forEach((item) => {
-        const servicio: Servicio = {
+        /*const servicio: Servicio = {
           id: item.id,
           codigoServicio: item.codigoServicio,
           nombre: item.nombre,
           descripcion: item.descripcion,
           precioUnitario: item.precioUnitario,
           duracionEstimada: item.duracionEstimada,
-        };
+        };*/
 
         const compraServicio = {
           compra: this.compraNueva,
-          servicio: servicio,
+          //servicio: servicio,
+          servicio: {
+            id: item.id,
+            codigoServicio: item.codigoServicio,
+            nombre: item.nombre,
+            descripcion: item.descripcion,
+            precioUnitario: item.precioUnitario,
+            duracionEstimada: item.duracionEstimada,
+          },
           precioUnitario: item.precioUnitario,
           cantidad: item.cantidad,
           subTotal: item.subtotal,
